@@ -25,11 +25,11 @@ namespace CefSharp
         {
         private:
             gcroot<RegisterBoundObjectRegistry^> _callbackRegistry;
-            gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
+            gcroot<IDictionary<String^, JavascriptObject^>^> _javascriptObjects;
             gcroot<CefBrowserWrapper^> _browserWrapper;
 
         public:
-            BindObjectAsyncHandler(RegisterBoundObjectRegistry^ callbackRegistery, Dictionary<String^, JavascriptObject^>^ javascriptObjects, CefBrowserWrapper^ browserWrapper)
+            BindObjectAsyncHandler(RegisterBoundObjectRegistry^ callbackRegistery, IDictionary<String^, JavascriptObject^>^ javascriptObjects, CefBrowserWrapper^ browserWrapper)
             {
                 _callbackRegistry = callbackRegistery;
                 _javascriptObjects = javascriptObjects;
