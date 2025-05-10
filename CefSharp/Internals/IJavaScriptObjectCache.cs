@@ -22,7 +22,7 @@ namespace CefSharp.Internals
         /// <param name="browserId">browser Id</param>
         /// <returns>Dictionary of cache <see cref="JavascriptObject"/>'s.</returns>
         /// <exception cref="InvalidOperationException"></exception>
-        Dictionary<string, JavascriptObject> GetCache(int browserId);
+        IDictionary<string, JavascriptObject> GetCache(int browserId);
         /// <summary>
         /// Gets a collection of <see cref="JavascriptObject"/>s
         /// for the given <paramref name="browserId"/>
@@ -37,6 +37,6 @@ namespace CefSharp.Internals
         /// <param name="browserId">browser id</param>
         /// <param name="javascriptObject">JavaScript object</param>
         /// <exception cref="InvalidOperationException"></exception>
-        void InsertOrUpdate(int browserId, IList<JavascriptObject> javascriptObjects);
+        void InsertOrUpdate(int browserId, IReadOnlyCollection<JavascriptObject> javascriptObjects);
     }
 }

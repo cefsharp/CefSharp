@@ -23,7 +23,7 @@ namespace CefSharp.Internals
         }
 
         /// <inheritdoc/>
-        public void InsertOrUpdate(int browserId, IList<JavascriptObject> javascriptObjects)
+        public void InsertOrUpdate(int browserId, IReadOnlyCollection<JavascriptObject> javascriptObjects)
         {
             var dict = GetCacheInternal(browserId);
 
@@ -45,14 +45,14 @@ namespace CefSharp.Internals
         }
 
         /// <inheritdoc/>
-        public Dictionary<string, JavascriptObject> GetCache(int browserId)
+        public IDictionary<string, JavascriptObject> GetCache(int browserId)
         {
             var dict = GetCacheInternal(browserId);
 
             return dict;
         }
 
-        private Dictionary<string, JavascriptObject> GetCacheInternal(int browserId)
+        private IDictionary<string, JavascriptObject> GetCacheInternal(int browserId)
         {
             Dictionary<string, JavascriptObject> dict;
 
