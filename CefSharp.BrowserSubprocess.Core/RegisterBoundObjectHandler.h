@@ -27,10 +27,10 @@ namespace CefSharp
         private class RegisterBoundObjectHandler : public CefV8Handler
         {
         private:
-            gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
+            gcroot<IDictionary<String^, JavascriptObject^>^> _javascriptObjects;
 
         public:
-            RegisterBoundObjectHandler(Dictionary<String^, JavascriptObject^>^ javascriptObjects)
+            RegisterBoundObjectHandler(IDictionary<String^, JavascriptObject^>^ javascriptObjects)
             {
                 _javascriptObjects = javascriptObjects;
             }
