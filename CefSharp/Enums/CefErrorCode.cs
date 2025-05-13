@@ -202,6 +202,11 @@ namespace CefSharp
         NetworkAccessRevoked = -33,
 
         /// <summary>
+        /// The request was blocked by fingerprinting protections.
+        /// </summary>
+        BlockedByFingerprintingProtection = -34,
+
+        /// <summary>
         /// A connection was closed (corresponding to a TCP FIN).
         /// </summary>
         ConnectionClosed = -100,
@@ -789,11 +794,7 @@ namespace CefSharp
         /// </summary>
         CertificateTransparencyRequired = -214,
 
-        /// <summary>
-        /// The certificate chained to a legacy Symantec root that is no longer trusted.
-        /// https://g.co/chrome/symantecpkicerts
-        /// </summary>
-        CertSymantecLegacy = -215,
+        // Error -215 was removed (CERT_SYMANTEC_LEGACY)
 
         // -216 was QUIC_CERT_ROOT_NOT_KNOWN which has been renumbered to not be in the
         // certificate error range.
@@ -807,6 +808,12 @@ namespace CefSharp
         // -218 was SSL_OBSOLETE_VERSION which is not longer used. TLS 1.0/1.1 instead
         // cause SSL_VERSION_OR_CIPHER_MISMATCH now.
 
+        /// <summary>
+        /// The certificate is self signed and it's being used for either an RFC1918 IP
+        /// literal URL, or a url ending in .local.
+        /// </summary>
+        CertSelfSignedLocalNetwork = -219,
+
         // Add new certificate error codes here.
         //
         // Update the value of CERT_END whenever you add a new certificate error
@@ -815,7 +822,7 @@ namespace CefSharp
         /// <summary>
         /// The value immediately past the last certificate error code.
         /// </summary>
-        CertEnd = -219,
+        CertEnd = -220,
 
         /// <summary>
         /// The URL is invalid.
@@ -1104,6 +1111,11 @@ namespace CefSharp
         /// </summary>
         PacScriptTerminated = -367,
 
+        /// <summary>
+        /// Signals that the request requires the IPP proxy.
+        /// </summary>
+        ProxyRequired = -368,
+
         // Obsolete. Kept here to avoid reuse.
         // Request is throttled because of a Backoff header.
         // See: crbug.com/486891.
@@ -1208,9 +1220,7 @@ namespace CefSharp
         DictionaryLoadFailed = -387,
 
         /// <summary>
-        /// The "content-dictionary" response header is unexpected. This is used both
-        /// when there is no "content-dictionary" response header and when the received
-        /// "content-dictionary" response header does not match the expected value.
+        /// The header of dictionary compressed stream does not match the expected value.
         /// </summary>
         UnexpectedContentDictionaryHeader = -388,
 
