@@ -31,10 +31,6 @@ namespace CefSharp
         /// Objects binding is now initiated in Javascript through the CefSharp.BindObjectAsync
         /// function (returns a Promise).
         /// For more detailed examples see https://github.com/cefsharp/CefSharp/issues/2246
-#if !NETCOREAPP
-        /// The equivilient to RegisterJsObject is isAsync = false
-        /// The equivilient RegisterAsyncJsObject is isAsync = true
-#endif
         /// </summary>
         /// <param name="name">object name</param>
         /// <param name="objectToBind">the object that will be bound in javascript</param>
