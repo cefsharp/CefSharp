@@ -31,8 +31,6 @@ namespace CefSharp
         /// Objects binding is now initiated in Javascript through the CefSharp.BindObjectAsync
         /// function (returns a Promise).
         /// For more detailed examples see https://github.com/cefsharp/CefSharp/issues/2246
-        /// The equivilient to RegisterJsObject is isAsync = false
-        /// The equivilient RegisterAsyncJsObject is isAsync = true
         /// </summary>
         /// <param name="name">object name</param>
         /// <param name="objectToBind">the object that will be bound in javascript</param>
@@ -41,8 +39,9 @@ namespace CefSharp
         /// if true the object will be registered for async communication,
         /// only methods will be exposed and when called from javascript will return a Promise to be awaited. 
         /// This method is newer and recommended for everyone starting out as it is faster and more reliable.
-        /// If false then methods and properties will be registered, this method relies on a WCF service to communicate.
-        /// If you are targeting .Net Core then you can only use isAsync = true as Microsoft has chosen not to support WCF.
+        /// If false then methods and properties will be registered, this method relies on a WCF service to communicate,
+        /// which is only available when targeting the .NET Framework.
+        /// This parameter is not available when targeting .NET Core or .NET 5+, where only async binding is supported.
         /// </param>
 #endif
         /// <param name="options">binding options, by default method/property names are camelCased, you can control this
