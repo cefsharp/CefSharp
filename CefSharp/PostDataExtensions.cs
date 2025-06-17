@@ -81,7 +81,7 @@ namespace CefSharp
         public static string GetBody(this IPostDataElement postDataElement, string charSet = null)
         {
             var bytes = postDataElement.Bytes;
-            if (bytes.Length == 0)
+            if (bytes is null || bytes.Length == 0)
             {
                 return null;
             }
