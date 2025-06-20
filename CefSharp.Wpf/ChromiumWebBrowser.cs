@@ -759,7 +759,7 @@ namespace CefSharp.Wpf
                 // is called.
                 LifeSpanHandler = null;
 
-                UnsubsribeInputLanguageChanged();
+                UnsubscribeInputLanguageChanged();
 
                 WpfKeyboardHandler?.Dispose();
                 WpfKeyboardHandler = null;
