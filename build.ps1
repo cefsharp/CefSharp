@@ -3,11 +3,11 @@
 param(
     [ValidateSet("vs2022","vs2019", "nupkg-only", "update-build-version")]
     [Parameter(Position = 0)] 
-    [string] $Target = "vs2019",
+    [string] $Target = "vs2022",
     [Parameter(Position = 1)]
-    [string] $Version = "137.0.100",
+    [string] $Version = "138.0.150",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "137.0.100",
+    [string] $AssemblyVersion = "138.0.150",
     [Parameter(Position = 3)]
     [ValidateSet("NetFramework", "NetCore", "NetFramework462", "NetCore31")]
     [string] $TargetFramework = "NetFramework",

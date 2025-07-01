@@ -285,8 +285,8 @@ namespace CefSharp
             /// </summary>
             virtual property CefState Databases
             {
-                CefState get() { return (CefState)_browserSettings->databases; }
-                void set(CefState value) { _browserSettings->databases = (cef_state_t)value; }
+                CefState get() { return (CefState)_browserSettings->databases_deprecated; }
+                void set(CefState value) { _browserSettings->databases_deprecated = (cef_state_t)value; }
             }
 
             /// <summary>
