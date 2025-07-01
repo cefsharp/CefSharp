@@ -50,6 +50,8 @@ namespace CefSharp.Core
     public sealed partial class Cef
     {
         public Cef() { }
+        public static string ApiHashPlatform { get { throw null; } }
+        public static int ApiVersion { get { throw null; } }
         public static string CefCommitHash { get { throw null; } }
         public static string CefSharpVersion { get { throw null; } }
         public static string CefVersion { get { throw null; } }
@@ -62,6 +64,7 @@ namespace CefSharp.Core
         public static System.Threading.Tasks.TaskFactory UIThreadTaskFactory { get { throw null; } set { } }
         public static bool AddCrossOriginWhitelistEntry(string sourceOrigin, string targetProtocol, string targetDomain, bool allowTargetSubdomains) { throw null; }
         public static void AddDisposable(System.IDisposable item) { }
+        public static string ApiHash(int version, int entry) { throw null; }
         public static bool ClearCrossOriginWhitelist() { throw null; }
         public static bool ClearSchemeHandlerFactories() { throw null; }
         public static uint ColorSetARGB(uint a, uint r, uint g, uint b) { throw null; }
