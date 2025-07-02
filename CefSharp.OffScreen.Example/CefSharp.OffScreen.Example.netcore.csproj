@@ -11,8 +11,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
-        <TargetFrameworks Condition="'$(VisualStudioVersion)'=='17.0'">$(TargetFrameworks);net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
         <RootNamespace>CefSharp.OffScreen.Example</RootNamespace>
         <AssemblyName>CefSharp.OffScreen.Example</AssemblyName>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

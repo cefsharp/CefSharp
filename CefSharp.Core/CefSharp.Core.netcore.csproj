@@ -10,7 +10,7 @@
     <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
     
     <PropertyGroup>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>CefSharp.Core</RootNamespace>
         <AssemblyName>CefSharp.Core</AssemblyName>
         <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
