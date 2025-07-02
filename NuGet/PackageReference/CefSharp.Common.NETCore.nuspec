@@ -13,7 +13,7 @@
     <tags>chrome browser chromium-embedded</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
-	  <group targetFramework="net5.0-windows">
+	  <group targetFramework="net5.0">
 		<dependency id="chromiumembeddedframework.runtime" version="[$RedistVersion$]" include="Runtime,Native,Build,BuildTransitive" />
 	  </group>
     </dependencies>
@@ -31,42 +31,42 @@
 	in lib/net5.0, so it's duplicated below in the x86/x64 folders
 	-->
 	<!-- <file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.dll" target="lib\net5.0"/> -->
-	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.dll" target="runtimes\win-x64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.xml" target="runtimes\win-x64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.dll" target="runtimes\win-x86\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.xml" target="runtimes\win-x86\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.dll" target="runtimes\win-arm64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.xml" target="runtimes\win-arm64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.dll" target="runtimes\win-x64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.xml" target="runtimes\win-x64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.dll" target="runtimes\win-x86\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.xml" target="runtimes\win-x86\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.dll" target="runtimes\win-arm64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.xml" target="runtimes\win-arm64\lib\net5.0-windows"/>
+	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.dll" target="runtimes\win-x64\lib\net5.0"/>
+	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.xml" target="runtimes\win-x64\lib\net5.0"/>
+	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.dll" target="runtimes\win-x86\lib\net5.0"/>
+	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.xml" target="runtimes\win-x86\lib\net5.0"/>
+	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.dll" target="runtimes\win-arm64\lib\net5.0"/>
+	<file src="..\..\CefSharp\bin.netcore\Release\net5.0\CefSharp.xml" target="runtimes\win-arm64\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.dll" target="runtimes\win-x64\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.xml" target="runtimes\win-x64\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.dll" target="runtimes\win-x86\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.xml" target="runtimes\win-x86\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.dll" target="runtimes\win-arm64\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core\bin.netcore\Release\net5.0\CefSharp.Core.xml" target="runtimes\win-arm64\lib\net5.0"/>
 	
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\Ijwhost.dll" target="runtimes\win-x86\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\CefSharp.Core.Runtime.dll" target="runtimes\win-x86\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\CefSharp.Core.Runtime.pdb" target="runtimes\win-x86\lib\net5.0-windows"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\Ijwhost.dll" target="runtimes\win-x86\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\CefSharp.Core.Runtime.dll" target="runtimes\win-x86\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\Win32\Release\CefSharp.Core.Runtime.pdb" target="runtimes\win-x86\lib\net5.0"/>
 	
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\Ijwhost.dll" target="runtimes\win-x64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\CefSharp.Core.Runtime.dll" target="runtimes\win-x64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\CefSharp.Core.Runtime.pdb" target="runtimes\win-x64\lib\net5.0-windows"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\Ijwhost.dll" target="runtimes\win-x64\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\CefSharp.Core.Runtime.dll" target="runtimes\win-x64\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\x64\Release\CefSharp.Core.Runtime.pdb" target="runtimes\win-x64\lib\net5.0"/>
 	
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\arm64\Release\Ijwhost.dll" target="runtimes\win-arm64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\arm64\Release\CefSharp.Core.Runtime.dll" target="runtimes\win-arm64\lib\net5.0-windows"/>
-	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\arm64\Release\CefSharp.Core.Runtime.pdb" target="runtimes\win-arm64\lib\net5.0-windows"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\arm64\Release\Ijwhost.dll" target="runtimes\win-arm64\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\arm64\Release\CefSharp.Core.Runtime.dll" target="runtimes\win-arm64\lib\net5.0"/>
+	<file src="..\..\CefSharp.Core.Runtime\bin.netcore\arm64\Release\CefSharp.Core.Runtime.pdb" target="runtimes\win-arm64\lib\net5.0"/>
 		
 	<!-- Leave the pdb in the lib folder for now, won't be copied, it will be in the package if required https://github.com/cefsharp/CefSharp/issues/3197#issuecomment-758546177 -->
 	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\Win32\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-x86\native"/>
-	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\Win32\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-x86\lib\net5.0-windows"/>
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\Win32\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-x86\lib\net5.0"/>
 	
 	<!-- Leave the pdb in the lib folder for now, won't be copied, it will be in the package if required https://github.com/cefsharp/CefSharp/issues/3197#issuecomment-758546177 -->
 	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\x64\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-x64\native"/>
-	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\x64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-x64\lib\net5.0-windows"/>
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\x64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-x64\lib\net5.0"/>
 	
 	<!-- Leave the pdb in the lib folder for now, won't be copied, it will be in the package if required https://github.com/cefsharp/CefSharp/issues/3197#issuecomment-758546177 -->
 	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\arm64\Release\CefSharp.BrowserSubprocess.Core.dll" target="runtimes\win-arm64\native"/>
-	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\arm64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-arm64\lib\net5.0-windows"/>
+	<file src="..\..\CefSharp.BrowserSubprocess.Core\bin.netcore\arm64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="runtimes\win-arm64\lib\net5.0"/>
 	
 	<!-- These are not actually native, including them in runtimes\win-x64\lib\net5.0 doesn't copy the json files and since it's a runtime only dependency including them in native -->
 	<file src="..\..\CefSharp.BrowserSubprocess\bin.netcore\x86\Release\net5.0-windows\CefSharp.BrowserSubprocess.dll" target="runtimes\win-x86\native"/>
