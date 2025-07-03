@@ -7,11 +7,11 @@
         <BaseOutputPath>bin.netcore\</BaseOutputPath>
     </PropertyGroup>
 
-    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net6.0-windows</TargetFrameworks>
         <RootNamespace>CefSharp.Wpf.Example</RootNamespace>
         <AssemblyName>CefSharp.Wpf.Example</AssemblyName>
         <UseWPF>true</UseWPF>
@@ -62,5 +62,5 @@
     </ItemGroup>
 
     <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.AfterBuild.targets" />
-    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>

@@ -12,7 +12,7 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net6.0-windows</TargetFrameworks>
         <RootNamespace>CefSharp.BrowserSubprocess</RootNamespace>
         <AssemblyName>CefSharp.BrowserSubprocess</AssemblyName>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

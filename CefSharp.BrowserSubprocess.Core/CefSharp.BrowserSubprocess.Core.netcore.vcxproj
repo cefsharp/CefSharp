@@ -36,7 +36,7 @@
     <AssemblyName>CefSharp.BrowserSubprocess.Core</AssemblyName>
     <RootNamespace>CefSharpBrowserSubprocessCore</RootNamespace>
     <Keyword>NetCoreCProj</Keyword>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
   </PropertyGroup>

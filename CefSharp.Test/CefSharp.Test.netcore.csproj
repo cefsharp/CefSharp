@@ -7,10 +7,10 @@
     <BaseOutputPath>bin.netcore\</BaseOutputPath>
   </PropertyGroup>
 
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>CefSharp.Test</RootNamespace>
     <AssemblyName>CefSharp.Test</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
@@ -66,5 +66,5 @@
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.AfterBuild.targets" />
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>

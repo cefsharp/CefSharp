@@ -11,7 +11,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFrameworks>net5.0-windows;net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net6.0-windows</TargetFrameworks>
         <RootNamespace>CefSharp.OffScreen.Example</RootNamespace>
         <AssemblyName>CefSharp.OffScreen.Example</AssemblyName>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
