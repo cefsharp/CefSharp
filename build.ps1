@@ -302,8 +302,8 @@ function Nupkg
                     }
                     else
                     {
-                        # Remove cef.redist dependency
-                        $depNode =  $NupkgXml.package.metadata.dependencies.group.dependency | Where-Object {$_.Attributes["id"].Value.Equals("cef.redist." + $a) };
+                        # Remove chromiumembeddedframework.runtime.win* dependency for arches we are not including
+                        $depNode =  $NupkgXml.package.metadata.dependencies.group.dependency | Where-Object {$_.Attributes["id"].Value.Equals("chromiumembeddedframework.runtime.win-" + $a) };
                         $depNode.ParentNode.RemoveChild($depNode) | Out-Null
                     }
                     
