@@ -286,4 +286,22 @@ QUnit.module('BindingTestAsync', (hooks) =>
         assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
     });
 
+    QUnit.test("Validate BindObjectAsync result object fields:", async (assert) =>
+    {
+        const response = await CefSharp.BindObjectAsync({ NotifyIfAlreadyBound: true, IgnoreCache: true }, "boundAsync2");
+        const keys = Object.getOwnPropertyDescriptors(response);
+
+        assert.equal(!!keys["count"], true, "count");
+        assert.equal(!!keys["Count"], true, "Count");
+
+        assert.equal(!!keys["message"], true, "message");
+        assert.equal(!!keys["Message"], true, "Message");
+
+        assert.equal(!!keys["success"], true, "success");
+        assert.equal(!!keys["Success"], true, "Success");
+
+        assert.equal(true, CefSharp.DeleteBoundObject("boundAsync2"), "Object was unbound");
+        assert.ok(window.boundAsync2 === undefined, "boundAsync2 is now undefined");
+    });
+
 });
