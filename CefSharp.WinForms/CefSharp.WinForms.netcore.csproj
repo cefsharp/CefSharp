@@ -7,10 +7,10 @@
     <BaseOutputPath>bin.netcore\</BaseOutputPath>
   </PropertyGroup>
 
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>CefSharp.WinForms</RootNamespace>
     <AssemblyName>CefSharp.WinForms</AssemblyName>
     <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -20,7 +20,7 @@
     <AssemblyOriginatorKeyFile>..\CefSharp.snk</AssemblyOriginatorKeyFile>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
 	<DefineConstants>WINFORMS</DefineConstants>
-      <LangVersion>9.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -67,5 +67,5 @@
     </PackageReference>
   </ItemGroup>
 
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>

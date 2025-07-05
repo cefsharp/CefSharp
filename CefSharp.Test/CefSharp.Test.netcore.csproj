@@ -7,10 +7,10 @@
     <BaseOutputPath>bin.netcore\</BaseOutputPath>
   </PropertyGroup>
 
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>CefSharp.Test</RootNamespace>
     <AssemblyName>CefSharp.Test</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
@@ -40,6 +40,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,7 +50,10 @@
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
     <PackageReference Include="Xunit.Repeat" Version="1.1.26" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Xunit.StaFact" Version="0.3.18" />
 	<PackageReference Include="Titanium.Web.Proxy" version="3.1.1301" />
   </ItemGroup>
@@ -66,5 +70,5 @@
   </ItemGroup>
 
   <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.AfterBuild.targets" />
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>

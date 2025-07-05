@@ -7,10 +7,10 @@
     <BaseOutputPath>bin.netcore\</BaseOutputPath>
   </PropertyGroup>
 
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RootNamespace>CefSharp.OffScreen</RootNamespace>
     <AssemblyName>CefSharp.OffScreen</AssemblyName>
     <DocumentationFile>$(BaseOutputPath)$(PlatformTarget)\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
@@ -53,5 +53,5 @@
     <Compile Include="..\CefSharp\Internals\Partial\ChromiumWebBrowser.Partial.cs" Link="ChromiumWebBrowser.Partial.cs" />
   </ItemGroup>
 
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>

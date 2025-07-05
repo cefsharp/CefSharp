@@ -7,12 +7,11 @@
         <BaseOutputPath>bin.netcore\</BaseOutputPath>
     </PropertyGroup>
 
-    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+    <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFrameworks>netcoreapp3.1;net5.0-windows</TargetFrameworks>
-        <TargetFrameworks Condition="'$(VisualStudioVersion)'=='17.0'">$(TargetFrameworks);net6.0-windows</TargetFrameworks>
+        <TargetFrameworks>net6.0-windows</TargetFrameworks>
         <RootNamespace>CefSharp.Wpf.HwndHost.Example</RootNamespace>
         <AssemblyName>CefSharp.Wpf.HwndHost.Example</AssemblyName>
         <UseWPF>true</UseWPF>
@@ -20,8 +19,7 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <!-- Builds failing for arm64 on appveyor for some reason-->
-        <!--<Platforms>x86;x64;arm64</Platforms>-->
-        <Platforms>x86;x64</Platforms>
+        <Platforms>x86;x64;arm64</Platforms>
         <!-- Explicitly set the PlatformTarget for arm64, see: https://github.com/dotnet/sdk/issues/15434 -->
         <PlatformTarget Condition="'$(Platform)' == 'arm64'">arm64</PlatformTarget>
         <StartupObject>CefSharp.Wpf.HwndHost.Example.App</StartupObject>
@@ -65,5 +63,5 @@
     </ItemGroup>
 
     <Import Project="$(MSBuildThisFileDirectory)..\CefSharp.AfterBuild.targets" />
-    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
+    <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
 </Project>
