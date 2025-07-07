@@ -15,12 +15,12 @@
       <group targetFramework=".NETFramework4.6.2">
         <dependency id="CefSharp.Wpf" version="[$version$]" exclude="Analyzers" />
       </group>
-      <group targetFramework="net6.0-windows">
+      <group targetFramework="net6.0-windows7.0">
         <dependency id="CefSharp.Wpf.NETCore" version="[$version$]" exclude="Analyzers" />
       </group>
     </dependencies>
     <frameworkReferences>
-      <group targetFramework="net6.0-windows">
+      <group targetFramework="net6.0-windows7.0">
         <frameworkReference name="Microsoft.WindowsDesktop.App.WPF" />
       </group>
       <group targetFramework=".NETFramework4.6.2" />
