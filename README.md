@@ -83,13 +83,16 @@ Every commit on `master` produces a `Nuget` package. Use at your own risk!
 With each release a new branch is created, for example the `92.0.260` release corresponds to the [cefsharp/92](https://github.com/cefsharp/CefSharp/tree/cefsharp/92) branch.
 If you're new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch.
 
-**&ast;** VC++ 2019 is required starting with version 93<br/>
-**&ast;&ast;** For .Net Core Packages .Net Core 3.1 or .Net 5/6/7 are required. 
+**&ast;** VC++ 2022 is required starting with version 138<br/>
+**&ast;&ast;** For .Net Core Packages 6 or greater is required. 
 
 | Branch                                                                | CEF Version  | VC++ Version | .Net Version | Status |
 |-----------------------------------------------------------------------|------|-------|---------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                       | 7049 | 2019* | 4.6.2** | Development     |
-| [cefsharp/135](https://github.com/cefsharp/CefSharp/tree/cefsharp/135)| 7049 | 2019* | 4.6.2** | **Release**     |
+| [master](https://github.com/cefsharp/CefSharp/)                       | 7204 | 2022* | 4.6.2** | Development     |
+| [cefsharp/138](https://github.com/cefsharp/CefSharp/tree/cefsharp/138)| 7204 | 2022* | 4.6.2** | **Release**     |
+| [cefsharp/137](https://github.com/cefsharp/CefSharp/tree/cefsharp/137)| 7151 | 2019* | 4.6.2** | Unsupported     |
+| [cefsharp/136](https://github.com/cefsharp/CefSharp/tree/cefsharp/136)| 7103 | 2019* | 4.6.2** | Unsupported     |
+| [cefsharp/135](https://github.com/cefsharp/CefSharp/tree/cefsharp/135)| 7049 | 2019* | 4.6.2** | Unsupported     |
 | [cefsharp/134](https://github.com/cefsharp/CefSharp/tree/cefsharp/134)| 6998 | 2019* | 4.6.2** | Unsupported     |
 | [cefsharp/133](https://github.com/cefsharp/CefSharp/tree/cefsharp/133)| 6943 | 2019* | 4.6.2** | Unsupported     |
 | [cefsharp/132](https://github.com/cefsharp/CefSharp/tree/cefsharp/132)| 6834 | 2019* | 4.6.2** | Unsupported     |
@@ -165,8 +168,8 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 | [cefsharp/39](https://github.com/cefsharp/CefSharp/tree/cefsharp/39)  | 2171 | 2012  | 4.0     | Unsupported     |
 | [cefsharp/37](https://github.com/cefsharp/CefSharp/tree/cefsharp/37)  | 2062 | 2012  | 4.0     | Unsupported     |
 
-**&ast;** VC++ 2019 is required starting with version 93<br/>
-**&ast;&ast;** For .Net Core Packages .Net Core 3.1/.Net 5.0 or greater is required. 
+**&ast;** VC++ 2022 is required starting with version 138<br/>
+**&ast;&ast;** For .Net Core Packages .Net 6.0 or greater is required. 
 
 ## Financial Support
 
