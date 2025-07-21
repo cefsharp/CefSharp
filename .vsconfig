@@ -26,8 +26,8 @@
     "Microsoft.VisualStudio.Component.VC.CLI.Support",
     "Microsoft.VisualStudio.Component.Windows10SDK.19041",
     "Microsoft.VisualStudio.Workload.NativeDesktop",
-	"Microsoft.NetCore.Component.DevelopmentTools",
-    "Microsoft.NetCore.Component.Runtime.3.1",
+    "Microsoft.NetCore.Component.DevelopmentTools",
+    "Microsoft.NetCore.Component.Runtime.6.0",
     "Microsoft.NetCore.Component.SDK"
   ]
 }

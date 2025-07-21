@@ -9,7 +9,7 @@ namespace CefSharp.BrowserSubprocess
 {
     /// <summary>
     /// When implementing your own BrowserSubprocess
-    /// - For .Net Core use <see cref="BrowserSubprocessExecutable"/> (No WCF Support)
+    /// - For .Net use <see cref="BrowserSubprocessExecutable"/> (No WCF Support)
     /// - Include an app.manifest with the dpi/compatability sections, this is required (this project contains the relevant).
     /// - If you are targeting x86/Win32 then you should set /LargeAddressAware (https://docs.microsoft.com/en-us/cpp/build/reference/largeaddressaware?view=vs-2017)
     /// </summary>
