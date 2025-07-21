@@ -701,6 +701,8 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status, int errorCode, const CefString& errorString)
         {
+            _pendingTaskRepository->CancelPendingTasks();
+
             auto handler = _browserControl->RequestHandler;
 
             if (handler != nullptr)
@@ -1382,9 +1384,13 @@ namespace CefSharp
                 //we get here, only continue if we have a valid frame reference
                 if (frame.get() && frame->IsValid())
                 {
+                    auto frameId = StringUtils::ToClr(frame->GetIdentifier());
+
+                    _pendingTaskRepository->CancelPendingTasks(frameId);
+
                     if (frame->IsMain())
                     {
-                        _browserControl->SetCanExecuteJavascriptOnMainFrame(StringUtils::ToClr(frame->GetIdentifier()), false);
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(frameId, false);
                     }
 
                     auto handler = _browserControl->RenderProcessMessageHandler;
@@ -1475,14 +1481,16 @@ namespace CefSharp
                     return true;
                 }
 
+                auto frameId = StringUtils::ToClr(frame->GetIdentifier());
+
                 auto callbackFactory = browserAdapter->JavascriptCallbackFactory;
 
                 auto success = argList->GetBool(0);
                 auto callbackId = GetInt64(argList, 1);
 
                 auto pendingTask = name == kEvaluateJavascriptResponse ?
-                    _pendingTaskRepository->RemovePendingTask(callbackId) :
-                    _pendingTaskRepository->RemoveJavascriptCallbackPendingTask(callbackId);
+                    _pendingTaskRepository->RemovePendingTask(frameId, callbackId) :
+                    _pendingTaskRepository->RemoveJavascriptCallbackPendingTask(frameId, callbackId);
 
                 if (pendingTask != nullptr)
                 {

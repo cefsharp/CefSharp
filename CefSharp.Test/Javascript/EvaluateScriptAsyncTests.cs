@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Bogus;
+using CefSharp.Example;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Repeat;
@@ -24,6 +25,61 @@ namespace CefSharp.Test.Javascript
         {
             this.output = output;
             this.collectionFixture = collectionFixture;
+        }
+
+        [Fact]
+        public async Task V8Context()
+        {
+            Task evaluateCancelAfterDisposeTask;
+            using (var browser = new CefSharp.OffScreen.ChromiumWebBrowser(automaticallyCreateBrowser: false))
+            {
+                await browser.CreateBrowserAsync();
+
+                // no V8 context
+                await Assert.ThrowsAsync<Exception>(() => browser.EvaluateScriptAsync("1+1"));
+
+                Task evaluateWithoutV8ContextCancelTask;
+                Task<int> evaluateWithoutV8ContextTask;
+                using (var frame = browser.GetMainFrame())
+                {
+                    evaluateWithoutV8ContextTask = frame.EvaluateScriptAsync<int>("1+2");
+                    evaluateWithoutV8ContextCancelTask = frame.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
+                }
+
+                // V8 context
+                await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
+                var evaluateCancelAfterV8ContextChangeTask = browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
+
+                Assert.Equal(3, await evaluateWithoutV8ContextTask);
+                Assert.Equal(4, await browser.EvaluateScriptAsync<int>("1+3"));
+
+                // change V8 context
+                await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
+                evaluateCancelAfterDisposeTask = browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
+
+                Assert.Equal(5, await browser.EvaluateScriptAsync<int>("1+4"));
+
+                await Assert.ThrowsAsync<TaskCanceledException>(() => evaluateCancelAfterV8ContextChangeTask);
+                await Assert.ThrowsAsync<TaskCanceledException>(() => evaluateWithoutV8ContextCancelTask);
+            }
+            await Assert.ThrowsAsync<TaskCanceledException>(() => evaluateCancelAfterDisposeTask);
+        }
+
+        [Fact]
+        public async Task CancelEvaluateOnOOM()
+        {
+            await Assert.ThrowsAsync<TaskCanceledException>(() => Browser.EvaluateScriptAsync(
+                @"
+                let array1 = [];
+                for (let i = 0; i < 10000000; i++) {
+                    let array2 = [];
+                    for (let j = 0; j < 10000000; j++) {
+                        array2.push('a'.repeat(100000000));
+                    }
+                    array1.push(array2);
+                }
+                "
+            ));
         }
 
         [Theory]
@@ -264,7 +320,7 @@ namespace CefSharp.Test.Javascript
 
             var randomizer = new Randomizer();
 
-            var expected = randomizer.Utf16String(minLength: iteration, maxLength:iteration);
+            var expected = randomizer.Utf16String(minLength: iteration, maxLength: iteration);
             var expectedBytes = Encoding.UTF8.GetBytes(expected);
 
             var javascriptResponse = await Browser.EvaluateScriptAsync($"new TextEncoder().encode('{expected}').buffer");
