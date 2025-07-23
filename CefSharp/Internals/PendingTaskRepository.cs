@@ -180,13 +180,13 @@ namespace CefSharp.Internals
             {
                 foreach (var tcs in PendingTasks.Values)
                 {
-                    tcs.SetCanceled();
+                    tcs.TrySetCanceled();
                 }
                 PendingTasks.Clear();
 
                 foreach (var tcs in CallbackPendingTasks.Values)
                 {
-                    tcs.SetCanceled();
+                    tcs.TrySetCanceled();
                 }
                 CallbackPendingTasks.Clear();
             }
