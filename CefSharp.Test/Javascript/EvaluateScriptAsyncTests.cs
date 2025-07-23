@@ -66,20 +66,11 @@ namespace CefSharp.Test.Javascript
         }
 
         [Fact]
-        public async Task CancelEvaluateOnOOM()
+        public async Task CancelEvaluateOnCrash()
         {
-            await Assert.ThrowsAsync<TaskCanceledException>(() => Browser.EvaluateScriptAsync(
-                @"
-                let array1 = [];
-                for (let i = 0; i < 10000000; i++) {
-                    let array2 = [];
-                    for (let j = 0; j < 10000000; j++) {
-                        array2.push('a'.repeat(100000000));
-                    }
-                    array1.push(array2);
-                }
-                "
-            ));
+            var task = Browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
+            await Browser.LoadUrlAsync("chrome://crash");
+            await Assert.ThrowsAsync<TaskCanceledException>(() => task);
         }
 
         [Theory]
