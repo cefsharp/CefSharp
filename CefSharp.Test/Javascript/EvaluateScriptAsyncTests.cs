@@ -36,31 +36,29 @@ namespace CefSharp.Test.Javascript
                 await browser.CreateBrowserAsync();
 
                 // no V8 context
-                await Assert.ThrowsAsync<Exception>(() => browser.EvaluateScriptAsync("1+1"));
+                var withoutV8ContextException = await Assert.ThrowsAsync<Exception>(() => browser.EvaluateScriptAsync("1+1"));
+                Assert.StartsWith("Unable to execute javascript at this time", withoutV8ContextException.Message);
 
-                Task evaluateWithoutV8ContextCancelTask;
-                Task<int> evaluateWithoutV8ContextTask;
+                Task<JavascriptResponse> evaluateWithoutV8ContextTask;
                 using (var frame = browser.GetMainFrame())
                 {
-                    evaluateWithoutV8ContextTask = frame.EvaluateScriptAsync<int>("1+2");
-                    evaluateWithoutV8ContextCancelTask = frame.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
+                    evaluateWithoutV8ContextTask = frame.EvaluateScriptAsync("1+2");
                 }
 
                 // V8 context
                 await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
-                var evaluateCancelAfterV8ContextChangeTask = browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
+                var evaluateWithoutV8ContextResponse = await evaluateWithoutV8ContextTask;
+                Assert.True(evaluateWithoutV8ContextResponse.Success);
+                Assert.Equal(3, evaluateWithoutV8ContextResponse.Result);
 
-                Assert.Equal(3, await evaluateWithoutV8ContextTask);
-                Assert.Equal(4, await browser.EvaluateScriptAsync<int>("1+3"));
+                var evaluateCancelAfterV8ContextChangeTask = browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
 
                 // change V8 context
                 await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
-                evaluateCancelAfterDisposeTask = browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
-
-                Assert.Equal(5, await browser.EvaluateScriptAsync<int>("1+4"));
 
                 await Assert.ThrowsAsync<TaskCanceledException>(() => evaluateCancelAfterV8ContextChangeTask);
-                await Assert.ThrowsAsync<TaskCanceledException>(() => evaluateWithoutV8ContextCancelTask);
+
+                evaluateCancelAfterDisposeTask = browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
             }
             await Assert.ThrowsAsync<TaskCanceledException>(() => evaluateCancelAfterDisposeTask);
         }
@@ -68,6 +66,8 @@ namespace CefSharp.Test.Javascript
         [Fact]
         public async Task CancelEvaluateOnCrash()
         {
+            AssertInitialLoadComplete();
+
             var task = Browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
             await Browser.LoadUrlAsync("chrome://crash");
             await Assert.ThrowsAsync<TaskCanceledException>(() => task);
