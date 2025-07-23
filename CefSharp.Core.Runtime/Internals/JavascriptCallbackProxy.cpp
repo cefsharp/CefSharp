@@ -27,7 +27,7 @@ namespace CefSharp
             auto browser = GetBrowser();
             if (browser == nullptr)
             {
-                return Task::FromException<JavascriptResponse^>(gcnew InvalidOperationException("Browser instance is null. Check CanExecute before calling this method."));
+                throw gcnew InvalidOperationException("Browser instance is null. Check CanExecute before calling this method.");
             }
 
             auto browserWrapper = static_cast<CefBrowserWrapper^>(browser);
