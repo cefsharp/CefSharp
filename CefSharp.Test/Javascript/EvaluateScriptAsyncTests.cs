@@ -64,7 +64,7 @@ namespace CefSharp.Test.Javascript
         }
 
         [Fact]
-        public async Task CancelEvaluateOnCrash()
+        public async Task ShouldCancelOnCrash()
         {
             AssertInitialLoadComplete();
 
