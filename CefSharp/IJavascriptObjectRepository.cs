@@ -41,7 +41,7 @@ namespace CefSharp
         /// This method is newer and recommended for everyone starting out as it is faster and more reliable.
         /// If false then methods and properties will be registered, this method relies on a WCF service to communicate,
         /// which is only available when targeting the .NET Framework.
-        /// This parameter is not available when targeting .NET Core or .NET 5+, where only async binding is supported.
+        /// This parameter is not available when targeting .NET 6+, where only async binding is supported.
         /// </param>
 #endif
         /// <param name="options">binding options, by default method/property names are camelCased, you can control this

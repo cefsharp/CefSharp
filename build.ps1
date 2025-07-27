@@ -1,4 +1,4 @@
-#requires -Version 5
+﻿#requires -Version 5
 
 param(
     [ValidateSet("vs2022","vs2019", "nupkg-only", "update-build-version")]
@@ -9,7 +9,7 @@ param(
     [Parameter(Position = 2)]
     [string] $AssemblyVersion = "138.0.330",
     [Parameter(Position = 3)]
-    [ValidateSet("NetFramework", "NetCore", "NetFramework462", "NetCore31")]
+    [ValidateSet("NetFramework", "NetCore")]
     [string] $TargetFramework = "NetFramework",
     [Parameter(Position = 4)]
     [string] $BuildArches = "x86 x64 arm64"
@@ -34,21 +34,21 @@ function Invoke-BatchFile
 {
    param(
         [Parameter(Position = 0, Mandatory = $true, ValueFromPipeline = $true)]
-        [string]$Path, 
+        [string]$Path,
         [Parameter(Position = 1, Mandatory = $true, ValueFromPipeline = $true)]
         [string]$Parameters
    )
 
-   $tempFile = [IO.Path]::GetTempFileName()  
+   $tempFile = [IO.Path]::GetTempFileName()
 
-   cmd.exe /c " `"$Path`" $Parameters && set > `"$tempFile`" " 
+   cmd.exe /c " `"$Path`" $Parameters && set > `"$tempFile`" "
 
-   Get-Content $tempFile | Foreach-Object {   
-       if ($_ -match "^(.*?)=(.*)$")  
-       { 
-           Set-Content "env:\$($matches[1])" $matches[2]  
-       } 
-   }  
+   Get-Content $tempFile | Foreach-Object {
+       if ($_ -match "^(.*?)=(.*)$")
+       {
+           Set-Content "env:\$($matches[1])" $matches[2]
+       }
+   }
 
    Remove-Item $tempFile
 }
@@ -65,7 +65,7 @@ function Die
     exit 1
 }
 
-function Warn 
+function Warn
 {
     param(
         [Parameter(Position = 0, ValueFromPipeline = $true)]
@@ -77,16 +77,16 @@ function Warn
     Write-Host
 }
 
-function BuildSolution 
+function BuildSolution
 {
     param(
         [ValidateSet('v142','v143')]
         [Parameter(Position = 0, ValueFromPipeline = $true)]
-        [string] $Toolchain, 
+        [string] $Toolchain,
 
         [Parameter(Position = 1, ValueFromPipeline = $true)]
         [ValidateSet('Debug', 'Release')]
-        [string] $Configuration, 
+        [string] $Configuration,
 
         [Parameter(Position = 2, ValueFromPipeline = $true)]
         [ValidateSet('x86', 'x64', 'arm64')]
@@ -104,8 +104,8 @@ function BuildSolution
         $Arch="win32";
     }
 
-	# Restore Nuget packages
-	&msbuild /nologo /verbosity:minimal /t:restore /p:Platform=$Arch /p:Configuration=Release $CefSln
+    # Restore Nuget packages
+    &msbuild /nologo /verbosity:minimal /t:restore /p:Platform=$Arch /p:Configuration=Release $CefSln
 
     $Arguments = @(
         "$CefSln",
@@ -167,9 +167,9 @@ function VSX
     $VS_PRE = ""
 
     switch -Exact ($Toolchain)
-	{
+    {
         'v142'
-		{
+        {
             $VS_VER = 16;
             $VS_OFFICIAL_VER = 2019;
         }
@@ -194,7 +194,7 @@ function VSX
         $ErrorActionPreference="SilentlyContinue"
         $VSInstallPath = & $VSwherePath -version $versionSearchStr -property installationPath $VS_PRE -products 'Microsoft.VisualStudio.Product.BuildTools'
         $ErrorActionPreference="Stop"
-		Write-Diagnostic "BuildTools $($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
+        Write-Diagnostic "BuildTools $($VS_OFFICIAL_VER)InstallPath: $VSInstallPath"
 
         if( -not $VSInstallPath -or -not (Test-Path $VSInstallPath))
         {
@@ -454,14 +454,14 @@ function WriteVersionToNugetTargets
     $Filename = Join-Path $WorkingDir NuGet\PackageReference\CefSharp.Common.NETCore.targets
     
     Write-Diagnostic  "Write Version ($RedistVersion) to $Filename"
-	
-	$RunTimeJsonData = Get-Content -Encoding UTF8 $Filename
+
+    $RunTimeJsonData = Get-Content -Encoding UTF8 $Filename
 
     $Regex1  = '" Version=".*"';
     $Replace = '" Version="' + $RedistVersion + '"';
     $NewString = $RunTimeJsonData -replace $Regex1, $Replace
-	
-	$Regex1  = '" VersionOverride=".*"';
+
+    $Regex1  = '" VersionOverride=".*"';
     $Replace = '" VersionOverride="' + $RedistVersion + '"';
     $NewString = $NewString -replace $Regex1, $Replace
     
@@ -584,15 +584,14 @@ switch -Exact ($Target)
     }
     "vs2022"
     {
-
         VSX v143
         Nupkg $NupkgFiles
     }
-	"update-build-version"
-	{
-		Write-Diagnostic "Updated Version to $Version"
-		Write-Diagnostic "Updated AssemblyVersion to $AssemblyVersion"
-	}
+    "update-build-version"
+    {
+        Write-Diagnostic "Updated Version to $Version"
+        Write-Diagnostic "Updated AssemblyVersion to $AssemblyVersion"
+    }
 }
 
 Pop-Location
