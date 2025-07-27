@@ -84,6 +84,22 @@ namespace CefSharp
 
             extraInfo->SetBool("JavascriptBindingApiEnabled", objectRepositorySettings->JavascriptBindingApiEnabled);
 
+            auto hasJavascriptBindingApiAllowOrigins = objectRepositorySettings->HasJavascriptBindingApiAllowOrigins();
+
+            extraInfo->SetBool("JavascriptBindingApiHasAllowOrigins", hasJavascriptBindingApiAllowOrigins);
+
+            if (hasJavascriptBindingApiAllowOrigins)
+            {
+                auto allowOriginList = CefListValue::Create();
+
+                for (int i = 0; i < objectRepositorySettings->JavascriptBindingApiAllowOrigins->Length; i++)
+                {
+                    allowOriginList->SetString(i, StringUtils::ToNative(objectRepositorySettings->JavascriptBindingApiAllowOrigins[i]));
+                }
+
+                extraInfo->SetList("JavascriptBindingApiAllowOrigins", allowOriginList);
+            }
+
             CefRefPtr<CefRequestContext> requestCtx;
 
             if (requestContext != nullptr)
