@@ -84,7 +84,7 @@ With each release a new branch is created, for example the `92.0.260` release co
 If you're new to `CefSharp` and are downloading the source to check it out, please use a **Release** branch.
 
 **&ast;** VC++ 2022 is required starting with version 138<br/>
-**&ast;&ast;** For .Net Packages 6 or greater is required. 
+**&ast;&ast;** For NetCore packages .Net 6 or greater is required.
 
 | Branch                                                                | CEF Version  | VC++ Version | .Net Version | Status |
 |-----------------------------------------------------------------------|------|-------|---------|-----------------|
@@ -169,7 +169,7 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 | [cefsharp/37](https://github.com/cefsharp/CefSharp/tree/cefsharp/37)  | 2062 | 2012  | 4.0     | Unsupported     |
 
 **&ast;** VC++ 2022 is required starting with version 138<br/>
-**&ast;&ast;** For .Net Packages .Net 6 or greater is required. 
+**&ast;&ast;** For NetCore packages .Net 6 or greater is required.
 
 ## Financial Support
 

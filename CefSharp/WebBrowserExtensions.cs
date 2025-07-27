@@ -444,9 +444,6 @@ namespace CefSharp
                 chromiumWebBrowser.LoadError -= loadErrorHandler;
                 chromiumWebBrowser.LoadingStateChanged -= loadingStateChangeHandler;
 
-                //Ensure our continuation is executed on the ThreadPool
-                //For the .Net implementation we could use
-                //TaskCreationOptions.RunContinuationsAsynchronously
                 tcs.TrySetResult(new LoadUrlAsyncResponse(args.ErrorCode, -1));
             };
 
@@ -475,9 +472,6 @@ namespace CefSharp
                         statusCode = -1;
                     }
 
-                    //Ensure our continuation is executed on the ThreadPool
-                    //For the .Net implementation we could use
-                    //TaskCreationOptions.RunContinuationsAsynchronously
                     tcs.TrySetResult(new LoadUrlAsyncResponse(statusCode == -1 ? CefErrorCode.Failed : CefErrorCode.None, statusCode));
                 }
             };
@@ -540,9 +534,6 @@ namespace CefSharp
                 chromiumWebBrowser.LoadError -= loadErrorHandler;
                 chromiumWebBrowser.LoadingStateChanged -= loadingStateChangeHandler;
 
-                //Ensure our continuation is executed on the ThreadPool
-                //For the .Net implementation we could use
-                //TaskCreationOptions.RunContinuationsAsynchronously
                 tcs.TrySetResult(new WaitForNavigationAsyncResponse(args.ErrorCode, -1));
             };
 
@@ -571,9 +562,6 @@ namespace CefSharp
                         statusCode = -1;
                     }
 
-                    //Ensure our continuation is executed on the ThreadPool
-                    //For the .Net implementation we could use
-                    //TaskCreationOptions.RunContinuationsAsynchronously
                     tcs.TrySetResult(new WaitForNavigationAsyncResponse(statusCode == -1 ? CefErrorCode.Failed : CefErrorCode.None, statusCode));
                 }
             };

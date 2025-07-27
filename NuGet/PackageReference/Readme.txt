@@ -1,4 +1,4 @@
-CefSharp .Net Core/.Net 6.0+ Nuget Package
+CefSharp .Net 6.0+ Nuget Package
 
 Background:
   CefSharp is a .Net wrapping library for CEF (Chromium Embedded Framework) https://bitbucket.org/chromiumembedded/cef
