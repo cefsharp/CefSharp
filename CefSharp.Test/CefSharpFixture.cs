@@ -66,6 +66,8 @@ namespace CefSharp.Test
                 //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
                 //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
                 settings.SetOffScreenRenderingBestPerformanceArgs();
+                settings.CefCommandLineArgs.Add("use-gl", "angle");
+                settings.CefCommandLineArgs.Add("use-angle", "swiftshader");
 
                 var success = Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
 
