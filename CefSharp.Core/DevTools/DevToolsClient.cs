@@ -331,7 +331,7 @@ namespace CefSharp.DevTools
 
         /// <summary>
         /// Deserialize the JSON stream into a .Net object.
-        /// For .Net Core/.Net 5.0 uses System.Text.Json
+        /// For .Net 6.0 uses System.Text.Json
         /// for .Net 4.6.2 uses System.Runtime.Serialization.Json
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
@@ -358,7 +358,7 @@ namespace CefSharp.DevTools
 
         /// <summary>
         /// Deserialize the JSON stream into a .Net object.
-        /// For .Net Core/.Net 5.0 uses System.Text.Json
+        /// For .Net 6.0 uses System.Text.Json
         /// for .Net 4.6.2 uses System.Runtime.Serialization.Json
         /// </summary>
         /// <typeparam name="T">Object type</typeparam>
@@ -373,7 +373,7 @@ namespace CefSharp.DevTools
         private static readonly System.Text.Json.JsonSerializerOptions DefaultJsonSerializerOptions = new System.Text.Json.JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
-            IgnoreNullValues = true,
+            DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull,
             Converters = { new CefSharp.Internals.Json.JsonEnumConverterFactory() },
         };
 #else
@@ -385,7 +385,7 @@ namespace CefSharp.DevTools
 
         /// <summary>
         /// Deserialize the JSON stream into a .Net object.
-        /// For .Net Core/.Net 5.0 uses System.Text.Json
+        /// For .Net 6.0 uses System.Text.Json
         /// for .Net 4.6.2 uses System.Runtime.Serialization.Json
         /// </summary>
         /// <param name="type">Object type</param>
@@ -394,11 +394,7 @@ namespace CefSharp.DevTools
         private static object DeserializeJson(Type type, Stream stream)
         {
 #if NETCOREAPP
-            // TODO: use synchronus Deserialize<T>(Stream) when System.Text.Json gets updated
-            var memoryStream = new MemoryStream((int)stream.Length);
-            stream.CopyTo(memoryStream);
-
-            return System.Text.Json.JsonSerializer.Deserialize(memoryStream.ToArray(), type, DefaultJsonSerializerOptions);
+            return System.Text.Json.JsonSerializer.Deserialize(stream, type, DefaultJsonSerializerOptions);
 #else
             var dcs = new System.Runtime.Serialization.Json.DataContractJsonSerializer(type, DefaultJsonSerializerSettings);
             return dcs.ReadObject(stream);
