@@ -25,7 +25,7 @@ namespace CefSharp.Test.Javascript
         }
 
         [Fact]
-        public async Task V8Context()
+        public async Task ShouldCancelAfterV8ContextChange()
         {
             IJavascriptCallback callbackExecuteCancelAfterDisposeCallback;
             Task callbackExecuteCancelAfterDisposeTask;
