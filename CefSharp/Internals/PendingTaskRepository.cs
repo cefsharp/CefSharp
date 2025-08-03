@@ -46,7 +46,7 @@ namespace CefSharp.Internals
 #else
             framePendingTasks.AddOrUpdate(
                 frameId,
-                (key) => { var value = new FramePendingTaskRepository(); value.PendingTasks.TryAdd(id, taskCompletionSource); return value; },
+                (key) => { var value = new FramePendingTaskRepository<TResult>(); value.PendingTasks.TryAdd(id, taskCompletionSource); return value; },
                 (key, value) => { value.PendingTasks.TryAdd(id, taskCompletionSource); return value; }
             );
 #endif
@@ -81,7 +81,7 @@ namespace CefSharp.Internals
 #else
             framePendingTasks.AddOrUpdate(
                 frameId,
-                (key) => { var value = new FramePendingTaskRepository(); value.CallbackPendingTasks.TryAdd(id, taskCompletionSource); return value; },
+                (key) => { var value = new FramePendingTaskRepository<TResult>(); value.CallbackPendingTasks.TryAdd(id, taskCompletionSource); return value; },
                 (key, value) => { value.CallbackPendingTasks.TryAdd(id, taskCompletionSource); return value; }
             );
 #endif
