@@ -28,7 +28,7 @@ namespace CefSharp.Test.Javascript
         }
 
         [Fact]
-        public async Task V8Context()
+        public async Task ShouldCancelAfterV8ContextChange()
         {
             Task evaluateCancelAfterDisposeTask;
             using (var browser = new CefSharp.OffScreen.ChromiumWebBrowser(automaticallyCreateBrowser: false))
