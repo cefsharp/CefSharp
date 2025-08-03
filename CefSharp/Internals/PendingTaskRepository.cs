@@ -19,8 +19,8 @@ namespace CefSharp.Internals
     /// <typeparam name="TResult">The type of the result produced by the tasks held.</typeparam>
     public sealed class PendingTaskRepository<TResult>
     {
-        private readonly ConcurrentDictionary<string, FramePendingTaskRepository> framePendingTasks =
-            new ConcurrentDictionary<string, FramePendingTaskRepository>();
+        private readonly ConcurrentDictionary<string, FramePendingTaskRepository<TResult>> framePendingTasks =
+            new ConcurrentDictionary<string, FramePendingTaskRepository<TResult>>();
         //should only be accessed by Interlocked.Increment
         private long lastId;
 
@@ -39,7 +39,7 @@ namespace CefSharp.Internals
 #if NETCOREAPP
             framePendingTasks.AddOrUpdate(
                 frameId,
-                (key, state) => { var value = new FramePendingTaskRepository(); value.PendingTasks.TryAdd(state.Key, state.Value); return value; },
+                (key, state) => { var value = new FramePendingTaskRepository<TResult>(); value.PendingTasks.TryAdd(state.Key, state.Value); return value; },
                 (key, value, state) => { value.PendingTasks.TryAdd(state.Key, state.Value); return value; },
                 result
             );
@@ -74,7 +74,7 @@ namespace CefSharp.Internals
 #if NETCOREAPP
             framePendingTasks.AddOrUpdate(
                 frameId,
-                (key, state) => { var value = new FramePendingTaskRepository(); value.CallbackPendingTasks.TryAdd(state.Key, state.Value); return value; },
+                (key, state) => { var value = new FramePendingTaskRepository<TResult>(); value.CallbackPendingTasks.TryAdd(state.Key, state.Value); return value; },
                 (key, value, state) => { value.CallbackPendingTasks.TryAdd(state.Key, state.Value); return value; },
                 result
             );
@@ -106,7 +106,7 @@ namespace CefSharp.Internals
         /// </returns>
         public TaskCompletionSource<TResult> RemovePendingTask(string frameId, long id)
         {
-            FramePendingTaskRepository repository;
+            FramePendingTaskRepository<TResult> repository;
             if (framePendingTasks.TryGetValue(frameId, out repository))
             {
                 TaskCompletionSource<TResult> result;
@@ -131,7 +131,7 @@ namespace CefSharp.Internals
         /// </returns>
         public TaskCompletionSource<TResult> RemoveJavascriptCallbackPendingTask(string frameId, long id)
         {
-            FramePendingTaskRepository repository;
+            FramePendingTaskRepository<TResult> repository;
             if (framePendingTasks.TryGetValue(frameId, out repository))
             {
                 TaskCompletionSource<TResult> result;
@@ -150,7 +150,7 @@ namespace CefSharp.Internals
         /// <param name="frameId">The frame id.</param>
         public void CancelPendingTasks(string frameId)
         {
-            FramePendingTaskRepository repository;
+            FramePendingTaskRepository<TResult> repository;
             if (framePendingTasks.TryRemove(frameId, out repository))
             {
                 repository.Dispose();
@@ -167,29 +167,6 @@ namespace CefSharp.Internals
                 repository.Dispose();
             }
             framePendingTasks.Clear();
-        }
-
-        private sealed class FramePendingTaskRepository : IDisposable
-        {
-            public ConcurrentDictionary<long, TaskCompletionSource<TResult>> PendingTasks { get; } =
-                new ConcurrentDictionary<long, TaskCompletionSource<TResult>>();
-            public ConcurrentDictionary<long, TaskCompletionSource<TResult>> CallbackPendingTasks { get; } =
-                new ConcurrentDictionary<long, TaskCompletionSource<TResult>>();
-
-            public void Dispose()
-            {
-                foreach (var tcs in PendingTasks.Values)
-                {
-                    tcs.TrySetCanceled();
-                }
-                PendingTasks.Clear();
-
-                foreach (var tcs in CallbackPendingTasks.Values)
-                {
-                    tcs.TrySetCanceled();
-                }
-                CallbackPendingTasks.Clear();
-            }
         }
     }
 }
