@@ -34,6 +34,10 @@ namespace CefSharp.Wpf
             // Browser not correctly refreshing on Resize
             // https://github.com/cefsharp/CefSharp/issues/4953
             CefCommandLineArgs.Add("disable-gpu-compositing");
+
+            // Disable the back-forward cache
+            // https://github.com/cefsharp/CefSharp/issues/4621
+            CefCommandLineArgs.Add("disable-back-forward-cache");
         }
     }
 }

@@ -23,6 +23,10 @@ namespace CefSharp.WinForms
             // Disable "Restore pages" popup after incorrect shutdown
             // https://github.com/chromiumembedded/cef/issues/3767
             CefCommandLineArgs.Add("hide-crash-restore-bubble");
+
+            // Disable the back-forward cache
+            // https://github.com/cefsharp/CefSharp/issues/4621
+            CefCommandLineArgs.Add("disable-back-forward-cache");
         }
     }
 }
