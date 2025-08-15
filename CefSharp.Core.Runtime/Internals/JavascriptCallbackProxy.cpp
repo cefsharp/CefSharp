@@ -31,26 +31,27 @@ namespace CefSharp
             }
 
             auto browserWrapper = static_cast<CefBrowserWrapper^>(browser);
-            auto javascriptNameConverter = GetJavascriptNameConverter();
-
-            auto doneCallback = _pendingTasks->CreateJavascriptCallbackPendingTask(_callback->Id, timeout);
-
-            auto callbackMessage = CefProcessMessage::Create(kJavascriptCallbackRequest);
-            auto argList = callbackMessage->GetArgumentList();
-            SetInt64(argList, 0, doneCallback.Key);
-            SetInt64(argList, 1, _callback->Id);
-            auto paramList = CefListValue::Create();
-            for (int i = 0; i < parameters->Length; i++)
-            {
-                auto param = parameters[i];
-                SerializeV8Object(paramList, i, param, javascriptNameConverter);
-            }
-            argList->SetList(2, paramList);
 
             auto frame = browserWrapper->Browser->GetFrameByIdentifier(StringUtils::ToNative(_callback->FrameId));
 
             if (frame.get() && frame->IsValid())
             {
+                auto javascriptNameConverter = GetJavascriptNameConverter();
+
+                auto doneCallback = _pendingTasks->CreateJavascriptCallbackPendingTask(_callback->FrameId, _callback->Id, timeout);
+
+                auto callbackMessage = CefProcessMessage::Create(kJavascriptCallbackRequest);
+                auto argList = callbackMessage->GetArgumentList();
+                SetInt64(argList, 0, doneCallback.Key);
+                SetInt64(argList, 1, _callback->Id);
+                auto paramList = CefListValue::Create();
+                for (int i = 0; i < parameters->Length; i++)
+                {
+                    auto param = parameters[i];
+                    SerializeV8Object(paramList, i, param, javascriptNameConverter);
+                }
+                argList->SetList(2, paramList);
+
                 frame->SendProcessMessage(CefProcessId::PID_RENDERER, callbackMessage);
 
                 return doneCallback.Value->Task;

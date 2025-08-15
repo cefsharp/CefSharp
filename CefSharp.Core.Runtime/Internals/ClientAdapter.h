@@ -70,8 +70,7 @@ namespace CefSharp
 
                 CloseAllPopups(true);
 
-                //this will dispose the repository and cancel all pending tasks
-                delete _pendingTaskRepository;
+                _pendingTaskRepository->CancelPendingTasks();
 
                 _browser = nullptr;
                 _browserControl = nullptr;
@@ -80,6 +79,7 @@ namespace CefSharp
                 _tooltip = nullptr;
                 _browserAdapter = nullptr;
                 _popupBrowsers = nullptr;
+                _pendingTaskRepository = nullptr;
             }
 
             HWND GetBrowserHwnd() { return _browserHwnd; }
