@@ -30,6 +30,10 @@ namespace CefSharp.Wpf
             // Disable "Restore pages" popup after incorrect shutdown
             // https://github.com/chromiumembedded/cef/issues/3767
             CefCommandLineArgs.Add("hide-crash-restore-bubble");
+
+            // Browser not correctly refreshing on Resize
+            // https://github.com/cefsharp/CefSharp/issues/4953
+            CefCommandLineArgs.Add("disable-gpu-compositing");
         }
     }
 }
