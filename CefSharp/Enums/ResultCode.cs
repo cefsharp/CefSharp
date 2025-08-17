@@ -87,7 +87,21 @@ namespace CefSharp.Enums
         /// </summary>
         SystemResourceExhausted = 37,
 
-        ChromeLast = 39,
+        /// <summary>
+        /// The browser process exited because it was re-launched without elevation.
+        /// </summary>
+        /// <remarks>
+        /// See https://github.com/chromiumembedded/cef/issues/3960
+        /// </remarks>
+        NormalExitAutoDeElevated = 38,
+
+        /// <summary>
+        /// Upon encountering a commit failure in a process, PartitionAlloc terminated
+        /// another process deemed less important.
+        /// </summary>
+        TerminatedByOtherProcessOnCommitFailure = 39,
+
+        ChromeLast = 40,
 
         // The following values should be kept in sync with Chromium's
         // sandbox::TerminationCodes type.
