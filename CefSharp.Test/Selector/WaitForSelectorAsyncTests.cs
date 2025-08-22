@@ -155,9 +155,9 @@ namespace CefSharp.Test.Selector
         }
 
         [Fact]
-        public async Task ShouldTimeoutIfNavigationOccurs()
+        public async Task ShouldCancelIfNavigationOccurs()
         {
-            const string expected = "The operation has timed out.";
+            const string expected = "A task was canceled.";
             const string url = CefExample.HelloWorldUrl;
 
             using (var browser = new ChromiumWebBrowser(CefExample.DefaultUrl, useLegacyRenderHandler: false))
@@ -166,7 +166,7 @@ namespace CefSharp.Test.Selector
 
                 Assert.True(response.Success);
 
-                var exception = await Assert.ThrowsAnyAsync<TimeoutException>(async () =>
+                var exception = await Assert.ThrowsAnyAsync<TaskCanceledException>(async () =>
                 {
                     var navigationTask = browser.WaitForSelectorAsync("non-existant");
                     var evaluateTask = browser.EvaluateScriptAsync($"setTimeout(() => window.location.href = '{url}', 100);");
@@ -175,7 +175,6 @@ namespace CefSharp.Test.Selector
                 });
 
                 Assert.Contains(expected, exception.Message);
-                Assert.Contains(url, browser.GetMainFrame().Url);
 
                 output.WriteLine("Exception {0}", exception.Message);
             }

@@ -237,7 +237,7 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
     //If we're unable to get the underlying browser/browserhost then return null
     if (!browser.get() || !host.get())
     {
-        return nullptr;
+        return Task::FromException<JavascriptResponse^>(gcnew InvalidOperationException("Browser host not available"));
     }
 
     auto client = static_cast<ClientAdapter*>(host->GetClient().get());
@@ -245,7 +245,7 @@ Task<JavascriptResponse^>^ CefFrameWrapper::EvaluateScriptAsync(String^ script, 
     auto pendingTaskRepository = client->GetPendingTaskRepository();
 
     //create a new taskcompletionsource
-    auto idAndComplectionSource = pendingTaskRepository->CreatePendingTask(timeout);
+    auto idAndComplectionSource = pendingTaskRepository->CreatePendingTask(Identifier, timeout);
 
     if (useImmediatelyInvokedFuncExpression)
     {
