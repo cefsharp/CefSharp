@@ -38,7 +38,7 @@
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
         <ProjectReference Include="..\CefSharp.OffScreen\CefSharp.OffScreen.netcore.csproj" />
         <ProjectReference Include="..\CefSharp\CefSharp.netcore.csproj" />
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="139.0.23" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="139.0.28" />
         <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
