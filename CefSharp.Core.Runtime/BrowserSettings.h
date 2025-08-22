@@ -301,6 +301,24 @@ namespace CefSharp
             }
 
             /// <summary>
+            /// Controls whether the Chrome status bubble will be used. Only supported with Chrome style.
+            /// </summary>
+            virtual property CefState ChromeStatusBubble
+            {
+                CefState get() { return (CefState)_browserSettings->chrome_status_bubble; }
+                void set(CefState value) { _browserSettings->chrome_status_bubble = (cef_state_t)value; }
+            }
+
+            /// <summary>
+            /// Controls whether the Chrome zoom bubble will be shown when zooming. Only supported with Chrome style.
+            /// </summary>
+            virtual property CefState ChromeZoomBubble
+            {
+                CefState get() { return (CefState)_browserSettings->chrome_zoom_bubble; }
+                void set(CefState value) { _browserSettings->chrome_zoom_bubble = (cef_state_t)value; }
+            }
+
+            /// <summary>
             /// Background color used for the browser before a document is loaded and when no document color
             /// is specified. The alpha component must be either fully opaque (0xFF) or fully transparent (0x00).
             /// If the alpha component is fully opaque then the RGB components will be used as the background

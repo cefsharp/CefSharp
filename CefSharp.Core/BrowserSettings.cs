@@ -179,6 +179,20 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
+        public CefState ChromeStatusBubble
+        {
+            get { return settings.ChromeStatusBubble; }
+            set { settings.ChromeStatusBubble = value; }
+        }
+
+        /// <inheritdoc/>
+        public CefState ChromeZoomBubble
+        {
+            get { return settings.ChromeZoomBubble; }
+            set { settings.ChromeZoomBubble = value; }
+        }
+
+        /// <inheritdoc/>
         public uint BackgroundColor
         {
             get { return settings.BackgroundColor; }
