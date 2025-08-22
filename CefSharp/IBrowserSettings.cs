@@ -147,6 +147,16 @@ namespace CefSharp
         CefState WebGl { get; set; }
 
         /// <summary>
+        /// Controls whether the Chrome status bubble will be used. Only supported with Chrome style.
+        /// </summary>
+        CefState ChromeStatusBubble { get; set; }
+
+        /// <summary>
+        /// Controls whether the Chrome zoom bubble will be shown when zooming. Only supported with Chrome style.
+        /// </summary>
+        CefState ChromeZoomBubble { get; set; }
+
+        /// <summary>
         /// Opaque background color used for the browser before a document is loaded
         /// and when no document color is specified. By default the background color
         /// will be the same as CefSettings.BackgroundColor. Only the RGB compontents
