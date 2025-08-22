@@ -6,6 +6,7 @@ using System;
 using System.Dynamic;
 using System.Globalization;
 using System.Threading.Tasks;
+using CefSharp.Example;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -21,6 +22,74 @@ namespace CefSharp.Test.Javascript
         {
             this.output = output;
             this.collectionFixture = collectionFixture;
+        }
+
+        [Fact]
+        public async Task ShouldCancelAfterV8ContextChange()
+        {
+            IJavascriptCallback callbackExecuteCancelAfterDisposeCallback;
+            Task callbackExecuteCancelAfterDisposeTask;
+            using (var browser = new CefSharp.OffScreen.ChromiumWebBrowser(automaticallyCreateBrowser: false))
+            {
+                await browser.CreateBrowserAsync();
+
+                // no V8 context
+                var withoutV8ContextException = await Assert.ThrowsAsync<Exception>(() => browser.EvaluateScriptAsync("(function() { return 1+1; })"));
+                Assert.StartsWith("Unable to execute javascript at this time", withoutV8ContextException.Message);
+
+                Task<JavascriptResponse> callbackExecuteWithoutV8ContextTask;
+                using (var frame = browser.GetMainFrame())
+                {
+                    callbackExecuteWithoutV8ContextTask = frame.EvaluateScriptAsync("(function() { return 1+2; })");
+                }
+
+                // V8 context
+                await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
+
+                var callbackExecuteWithoutV8ContextResponse = await callbackExecuteWithoutV8ContextTask;
+                Assert.True(callbackExecuteWithoutV8ContextResponse.Success);
+                var callbackExecuteWithoutV8ContextCallback = (IJavascriptCallback)callbackExecuteWithoutV8ContextResponse.Result;
+                var callbackExecuteWithoutV8ContextExecuteResponse = await callbackExecuteWithoutV8ContextCallback.ExecuteAsync();
+                Assert.True(callbackExecuteWithoutV8ContextExecuteResponse.Success);
+                Assert.Equal(3, callbackExecuteWithoutV8ContextExecuteResponse.Result);
+
+                var callbackExecuteCancelAfterV8ContextResponse = await browser.EvaluateScriptAsync("(function() { return new Promise(resolve => setTimeout(resolve, 1000)); })");
+                Assert.True(callbackExecuteCancelAfterV8ContextResponse.Success);
+                var callbackExecuteCancelAfterV8ContextCallback = (IJavascriptCallback)callbackExecuteCancelAfterV8ContextResponse.Result;
+                var callbackExecuteCancelAfterV8ContextTask = callbackExecuteCancelAfterV8ContextCallback.ExecuteAsync();
+
+                // change V8 context
+                await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
+
+                await Assert.ThrowsAsync<TaskCanceledException>(() => callbackExecuteCancelAfterV8ContextTask);
+                var callbackExecuteCancelAfterV8ContextResult = await callbackExecuteCancelAfterV8ContextCallback.ExecuteAsync();
+                Assert.False(callbackExecuteCancelAfterV8ContextResult.Success);
+                Assert.StartsWith("Unable to find JavascriptCallback with Id " + callbackExecuteCancelAfterV8ContextCallback.Id, callbackExecuteCancelAfterV8ContextResult.Message);
+
+                var callbackExecuteCancelAfterDisposeResponse = await browser.EvaluateScriptAsync("(function() { return new Promise(resolve => setTimeout(resolve, 1000)); })");
+                Assert.True(callbackExecuteCancelAfterDisposeResponse.Success);
+                callbackExecuteCancelAfterDisposeCallback = (IJavascriptCallback)callbackExecuteCancelAfterDisposeResponse.Result;
+                callbackExecuteCancelAfterDisposeTask = callbackExecuteCancelAfterDisposeCallback.ExecuteAsync();
+            }
+            Assert.False(callbackExecuteCancelAfterDisposeCallback.CanExecute);
+            await Assert.ThrowsAsync<TaskCanceledException>(() => callbackExecuteCancelAfterDisposeTask);
+            await Assert.ThrowsAsync<InvalidOperationException>(() => callbackExecuteCancelAfterDisposeCallback.ExecuteAsync());
+        }
+
+        [Fact]
+        public async Task ShouldCancelOnCrash()
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync("(function() { return new Promise(resolve => setTimeout(resolve, 1000)); })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+
+            var task = callback.ExecuteAsync();
+
+            await Browser.LoadUrlAsync("chrome://crash");
+            await Assert.ThrowsAsync<TaskCanceledException>(() => task);
         }
 
         [Theory]
@@ -232,6 +301,24 @@ namespace CefSharp.Test.Javascript
             Assert.Equal(expectedDateTime, actualDateTime, TimeSpan.FromMilliseconds(10));
 
             output.WriteLine("Expected {0} : Actual {1}", expectedDateTime, actualDateTime);
+        }
+
+        [Fact]
+        public async Task ShouldWorkWhenExecutedMultipleTimes()
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync("(function() { return 42; })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+
+            for (var i = 0; i < 3; i++)
+            {
+                var callbackResponse = await callback.ExecuteAsync();
+                Assert.True(callbackResponse.Success);
+                Assert.Equal(42, callbackResponse.Result);
+            }
         }
     }
 }
