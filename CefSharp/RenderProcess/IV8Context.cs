@@ -2,6 +2,8 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
+
 namespace CefSharp.RenderProcess
 {
     /// <summary>
@@ -24,5 +26,11 @@ namespace CefSharp.RenderProcess
         /// <param name="exception">Is the exception if any.</param>
         /// <returns>On success the function will return true. On failure <paramref name="exception"/> will be set to the exception, if any, and the function will return false.</returns>
         bool Execute(string code, string scriptUrl, int startLine, out V8Exception exception);
+
+        /// <summary>
+        /// Gets a pointer to the native V8 context that this class represents. The native CefV8Context can be used to interact with the javascript context directly through the CEF V8 API.
+        /// </summary>
+        /// <returns>A pointer to the underlying native CefV8Context</returns>
+        IntPtr GetNativeV8Context();
     }
 }

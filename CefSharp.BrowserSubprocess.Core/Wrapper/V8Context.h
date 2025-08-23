@@ -59,6 +59,10 @@ namespace CefSharp
 
                 return false;
             }
+
+            virtual IntPtr GetNativeV8Context() {
+                return IntPtr(_context.get());
+            }
         };
     }
 }
