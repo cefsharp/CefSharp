@@ -50,7 +50,7 @@ namespace CefSharp
                 }
                 else
                 {
-                    auto certSerial = cert->SerialNumber;
+                    auto certThumbprint = cert->Thumbprint;
 
                     std::vector<CefRefPtr<CefX509Certificate>>::const_iterator it =
                         _certificateList.begin();
@@ -81,9 +81,9 @@ namespace CefSharp
 
                         bytes->GetData(static_cast<void*>(src), byteSize, 0);
                         auto newcert = gcnew System::Security::Cryptography::X509Certificates::X509Certificate2(bufferByte);
-                        auto serialStr = newcert->SerialNumber;
+                        auto thumbprintStr = newcert->Thumbprint;
 
-                        if (certSerial == serialStr)
+                        if (String::Equals(certThumbprint, thumbprintStr, StringComparison::OrdinalIgnoreCase))
                         {
                             _callback->Select(*it);
                             break;
