@@ -2,7 +2,7 @@ version: 142.0.100-CI{build}
 
 clone_depth: 10
 
-image: Previous Visual Studio 2022
+image: Visual Studio 2022
 
 configuration: Release
 
