@@ -57,9 +57,9 @@ namespace CefSharp
 
         public:
 #ifdef NETCOREAPP
-            JavascriptRootObjectWrapper(int browserId)
+            JavascriptRootObjectWrapper()
 #else
-            JavascriptRootObjectWrapper(int browserId, IBrowserProcess^ browserProcess)
+            JavascriptRootObjectWrapper(IBrowserProcess^ browserProcess)
 #endif
             {
 #ifndef NETCOREAPP
@@ -67,7 +67,7 @@ namespace CefSharp
                 _wrappedObjects = gcnew List<JavascriptObjectWrapper^>();
 #endif
                 _wrappedAsyncObjects = gcnew List<JavascriptAsyncObjectWrapper^>();
-                _callbackRegistry = gcnew JavascriptCallbackRegistry(browserId);
+                _callbackRegistry = gcnew JavascriptCallbackRegistry();
                 _methodCallbacks = gcnew Dictionary<int64_t, JavascriptAsyncMethodCallback^>();
             }
 

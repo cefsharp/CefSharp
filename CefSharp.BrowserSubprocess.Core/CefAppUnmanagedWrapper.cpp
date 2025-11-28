@@ -319,9 +319,9 @@ namespace CefSharp
             if (!rootObjectWrappers->TryGetValue(frameIdClr, rootObject))
             {
 #ifdef NETCOREAPP
-                rootObject = gcnew JavascriptRootObjectWrapper(browserId);
+                rootObject = gcnew JavascriptRootObjectWrapper();
 #else
-                rootObject = gcnew JavascriptRootObjectWrapper(browserId, browserWrapper->BrowserProcess);
+                rootObject = gcnew JavascriptRootObjectWrapper(browserWrapper->BrowserProcess);
 #endif
                 rootObjectWrappers->TryAdd(frameIdClr, rootObject);
             }
@@ -426,9 +426,9 @@ namespace CefSharp
                     if (rootObjectWrapper == nullptr)
                     {
 #ifdef NETCOREAPP
-                        rootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier());
+                        rootObjectWrapper = gcnew JavascriptRootObjectWrapper();
 #else
-                        rootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
+                        rootObjectWrapper = gcnew JavascriptRootObjectWrapper(browserWrapper->BrowserProcess);
 #endif
 
                         browserWrapper->JavascriptRootObjectWrappers->TryAdd(frameId, rootObjectWrapper);
