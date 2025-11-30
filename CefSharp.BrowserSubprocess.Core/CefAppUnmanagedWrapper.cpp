@@ -314,12 +314,7 @@ namespace CefSharp
 #else
                 auto browserWrapper = FindBrowserWrapper(browserId);
 
-                if (browserWrapper == nullptr)
-                {
-                    return nullptr;
-                }
-
-                rootObject = gcnew JavascriptRootObjectWrapper(browserWrapper->BrowserProcess);
+                rootObject = gcnew JavascriptRootObjectWrapper(browserWrapper == nullptr ? nullptr : browserWrapper->BrowserProcess);
 #endif
                 rootObjectWrappers->TryAdd(frameIdClr, rootObject);
             }
@@ -370,31 +365,13 @@ namespace CefSharp
                 auto frameId = StringUtils::ToClr(frame->GetIdentifier());
                 int64_t callbackId = GetInt64(argList, 0);
 
+                //NOTE: In the rare case when when OnContextCreated hasn't been called we need to manually create the rootObjectWrapper
+                //It appears that OnContextCreated is only called for pages that have javascript on them, which makes sense
+                //as without javascript there is no need for a context.
+                JavascriptRootObjectWrapper^ rootObjectWrapper = GetJsRootObjectWrapper(browser->GetIdentifier(), frame->GetIdentifier());
+
                 if (name == kEvaluateJavascriptRequest)
                 {
-                    JavascriptRootObjectWrapper^ rootObjectWrapper;
-                    _jsRootObjectWrappersByFrameId->TryGetValue(frameId, rootObjectWrapper);
-
-                    //NOTE: In the rare case when when OnContextCreated hasn't been called we need to manually create the rootObjectWrapper
-                    //It appears that OnContextCreated is only called for pages that have javascript on them, which makes sense
-                    //as without javascript there is no need for a context.
-                    if (rootObjectWrapper == nullptr)
-                    {
-#ifdef NETCOREAPP
-                        rootObjectWrapper = gcnew JavascriptRootObjectWrapper();
-#else
-                        auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
-
-                        // If we cannot find the browserWrapper then we'll pass in nullptr which will disable
-                        // the use of sync bound objects (async will still work).
-                        rootObjectWrapper = gcnew JavascriptRootObjectWrapper(browserWrapper == nullptr ? nullptr : browserWrapper->BrowserProcess);
-#endif
-
-                        _jsRootObjectWrappersByFrameId->TryAdd(frameId, rootObjectWrapper);
-                    }
-
-                    auto callbackRegistry = rootObjectWrapper->CallbackRegistry;
-
                     auto script = argList->GetString(1);
                     auto scriptUrl = argList->GetString(2);
                     auto startLine = argList->GetInt(3);
@@ -439,6 +416,8 @@ namespace CefSharp
                                     }
                                     else
                                     {
+                                        auto callbackRegistry = rootObjectWrapper->CallbackRegistry;
+
                                         auto responseArgList = response->GetArgumentList();
                                         SerializeV8Object(result, responseArgList, 2, callbackRegistry);
                                     }
@@ -465,8 +444,6 @@ namespace CefSharp
                 }
                 else
                 {
-                    JavascriptRootObjectWrapper^ rootObjectWrapper;
-                    _jsRootObjectWrappersByFrameId->TryGetValue(frameId, rootObjectWrapper);
                     auto callbackRegistry = rootObjectWrapper == nullptr ? nullptr : rootObjectWrapper->CallbackRegistry;
                     if (callbackRegistry == nullptr)
                     {
