@@ -304,6 +304,12 @@ namespace CefSharp
         JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, CefString& frameId)
         {
             auto rootObjectWrappers = _jsRootObjectWrappersByFrameId;
+
+            if (Object::ReferenceEquals(rootObjectWrappers, nullptr))
+            {
+                return nullptr;
+            }
+
             auto frameIdClr = StringUtils::ToClr(frameId);
 
             JavascriptRootObjectWrapper^ rootObject;
@@ -416,7 +422,7 @@ namespace CefSharp
                                     }
                                     else
                                     {
-                                        auto callbackRegistry = rootObjectWrapper->CallbackRegistry;
+                                        auto callbackRegistry = rootObjectWrapper == nullptr ? nullptr : rootObjectWrapper->CallbackRegistry;
 
                                         auto responseArgList = response->GetArgumentList();
                                         SerializeV8Object(result, responseArgList, 2, callbackRegistry);

@@ -72,7 +72,7 @@ namespace CefSharp
 
                 if (!Object::ReferenceEquals(_jsRootObjectWrappersByFrameId, nullptr))
                 {
-                    for each (JavascriptRootObjectWrapper^ rootObject in Enumerable::OfType<JavascriptRootObjectWrapper^>(_browserWrappers))
+                    for each (JavascriptRootObjectWrapper^ rootObject in Enumerable::OfType<JavascriptRootObjectWrapper^>(_jsRootObjectWrappersByFrameId))
                     {
                         delete rootObject;
                     }
