@@ -94,8 +94,10 @@ namespace CefSharp.Test.JavascriptBinding
         [InlineData("cefSharp.isObjectCached('doesntexist')")]
         public async Task ShouldFailWhenIsObjectCachedCalledWithInvalidObjectName(string script)
         {
-            AssertInitialLoadComplete();
+            var loadResponse = await Browser.LoadUrlAsync(CefExample.BindingApiCustomObjectNameTestUrl);
 
+            Assert.True(loadResponse.Success);
+            
             var response = await Browser.EvaluateScriptAsync(script);
 
             Assert.True(response.Success);
