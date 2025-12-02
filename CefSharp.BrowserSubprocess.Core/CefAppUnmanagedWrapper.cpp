@@ -424,8 +424,15 @@ namespace CefSharp
                                     {
                                         auto callbackRegistry = rootObjectWrapper == nullptr ? nullptr : rootObjectWrapper->CallbackRegistry;
 
-                                        auto responseArgList = response->GetArgumentList();
-                                        SerializeV8Object(result, responseArgList, 2, callbackRegistry);
+                                        if (callbackRegistry == nullptr)
+                                        {
+                                            errorMessage = StringUtils::ToNative("The callback registry for Frame " + frameId + " is no longer available.");
+                                        }
+                                        else
+                                        {
+                                            auto responseArgList = response->GetArgumentList();
+                                            SerializeV8Object(result, responseArgList, 2, callbackRegistry);
+                                        }
                                     }
                                 }
                                 else
