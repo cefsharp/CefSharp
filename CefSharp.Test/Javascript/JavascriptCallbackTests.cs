@@ -57,6 +57,7 @@ namespace CefSharp.Test.Javascript
                 Assert.True(callbackExecuteCancelAfterV8ContextResponse.Success);
                 var callbackExecuteCancelAfterV8ContextCallback = (IJavascriptCallback)callbackExecuteCancelAfterV8ContextResponse.Result;
                 var callbackExecuteCancelAfterV8ContextTask = callbackExecuteCancelAfterV8ContextCallback.ExecuteAsync();
+                var frameId = browser.GetMainFrame().Identifier;
 
                 // change V8 context
                 await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
@@ -64,7 +65,7 @@ namespace CefSharp.Test.Javascript
                 await Assert.ThrowsAsync<TaskCanceledException>(() => callbackExecuteCancelAfterV8ContextTask);
                 var callbackExecuteCancelAfterV8ContextResult = await callbackExecuteCancelAfterV8ContextCallback.ExecuteAsync();
                 Assert.False(callbackExecuteCancelAfterV8ContextResult.Success);
-                Assert.StartsWith("Unable to find JavascriptCallback with Id " + callbackExecuteCancelAfterV8ContextCallback.Id, callbackExecuteCancelAfterV8ContextResult.Message);
+                Assert.StartsWith($"Frame with Id:{frameId}", callbackExecuteCancelAfterV8ContextResult.Message);
 
                 var callbackExecuteCancelAfterDisposeResponse = await browser.EvaluateScriptAsync("(function() { return new Promise(resolve => setTimeout(resolve, 1000)); })");
                 Assert.True(callbackExecuteCancelAfterDisposeResponse.Success);

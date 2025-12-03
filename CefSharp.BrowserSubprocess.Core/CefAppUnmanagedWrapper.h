@@ -26,6 +26,7 @@ namespace CefSharp
             gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
             gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
             gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
+            gcroot<ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>^> _jsRootObjectWrappersByFrameId;
             bool _focusedNodeChangedEnabled;
             bool _legacyBindingEnabled;
             bool _jsBindingApiEnabled = true;
@@ -48,6 +49,7 @@ namespace CefSharp
                 _onBrowserCreated = onBrowserCreated;
                 _onBrowserDestroyed = onBrowserDestroyed;
                 _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
+                _jsRootObjectWrappersByFrameId = gcnew ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>();
                 _focusedNodeChangedEnabled = enableFocusedNodeChanged;
                 _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();
                 _registerBoundObjectRegistry = gcnew RegisterBoundObjectRegistry();
@@ -67,6 +69,17 @@ namespace CefSharp
 
                     _browserWrappers = nullptr;
                 }
+
+                if (!Object::ReferenceEquals(_jsRootObjectWrappersByFrameId, nullptr))
+                {
+                    for each (JavascriptRootObjectWrapper^ rootObject in Enumerable::OfType<JavascriptRootObjectWrapper^>(_jsRootObjectWrappersByFrameId))
+                    {
+                        delete rootObject;
+                    }
+
+                    _jsRootObjectWrappersByFrameId = nullptr;
+                }
+
                 delete _onBrowserCreated;
                 delete _onBrowserDestroyed;
             }

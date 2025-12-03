@@ -156,7 +156,7 @@ namespace CefSharp
 
                 //TODO: JSB: Split functions into their own classes
                 //Browser wrapper is only used for BindObjectAsync
-                auto bindObjAsyncFunction = CefV8Value::CreateFunction(kBindObjectAsync, new BindObjectAsyncHandler(_registerBoundObjectRegistry, _javascriptObjects, browserWrapper));
+                auto bindObjAsyncFunction = CefV8Value::CreateFunction(kBindObjectAsync, new BindObjectAsyncHandler(_registerBoundObjectRegistry, _javascriptObjects, rootObject));
                 auto unBindObjFunction = CefV8Value::CreateFunction(kDeleteBoundObject, new RegisterBoundObjectHandler(_javascriptObjects));
                 auto removeObjectFromCacheFunction = CefV8Value::CreateFunction(kRemoveObjectFromCache, new RegisterBoundObjectHandler(_javascriptObjects));
                 auto isObjectCachedFunction = CefV8Value::CreateFunction(kIsObjectCached, new RegisterBoundObjectHandler(_javascriptObjects));
@@ -220,15 +220,13 @@ namespace CefSharp
 
             frame->SendProcessMessage(CefProcessId::PID_BROWSER, contextReleasedMessage);
 
-            auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
+            auto rootObjectWrappers = _jsRootObjectWrappersByFrameId;
 
-            //If we no longer have a browser wrapper reference then there's nothing we can do
-            if (browserWrapper == nullptr)
+            //If we no longer have a _jsRootObjectWrappersByFrameId reference then there's nothing we can do
+            if (Object::ReferenceEquals(rootObjectWrappers, nullptr))
             {
                 return;
             }
-
-            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
 
             JavascriptRootObjectWrapper^ wrapper;
             if (rootObjectWrappers->TryRemove(StringUtils::ToClr(frame->GetIdentifier()), wrapper))
@@ -305,23 +303,24 @@ namespace CefSharp
 
         JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, CefString& frameId)
         {
-            auto browserWrapper = FindBrowserWrapper(browserId);
+            auto rootObjectWrappers = _jsRootObjectWrappersByFrameId;
 
-            if (browserWrapper == nullptr)
+            if (Object::ReferenceEquals(rootObjectWrappers, nullptr))
             {
                 return nullptr;
             }
 
-            auto rootObjectWrappers = browserWrapper->JavascriptRootObjectWrappers;
             auto frameIdClr = StringUtils::ToClr(frameId);
 
             JavascriptRootObjectWrapper^ rootObject;
             if (!rootObjectWrappers->TryGetValue(frameIdClr, rootObject))
             {
 #ifdef NETCOREAPP
-                rootObject = gcnew JavascriptRootObjectWrapper(browserId);
+                rootObject = gcnew JavascriptRootObjectWrapper();
 #else
-                rootObject = gcnew JavascriptRootObjectWrapper(browserId, browserWrapper->BrowserProcess);
+                auto browserWrapper = FindBrowserWrapper(browserId);
+
+                rootObject = gcnew JavascriptRootObjectWrapper(browserWrapper == nullptr ? nullptr : browserWrapper->BrowserProcess);
 #endif
                 rootObjectWrappers->TryAdd(frameIdClr, rootObject);
             }
@@ -350,49 +349,6 @@ namespace CefSharp
             auto name = message->GetName();
             auto argList = message->GetArgumentList();
 
-            auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
-            //Error handling for missing/closed browser
-            if (browserWrapper == nullptr)
-            {
-                if (name == kJavascriptCallbackDestroyRequest ||
-                    name == kJavascriptRootObjectResponse ||
-                    name == kJavascriptAsyncMethodCallResponse)
-                {
-                    //If we can't find the browser wrapper then we'll just
-                    //ignore this as it's likely already been disposed of
-                    return true;
-                }
-
-                CefString responseName;
-                if (name == kEvaluateJavascriptRequest)
-                {
-                    responseName = kEvaluateJavascriptResponse;
-                }
-                else if (name == kJavascriptCallbackRequest)
-                {
-                    responseName = kJavascriptCallbackResponse;
-                }
-                else
-                {
-                    //TODO: Should be throw an exception here? It's likely that only a CefSharp developer would see this
-                    // when they added a new message and haven't yet implemented the render process functionality.
-                    throw gcnew Exception("Unsupported message type");
-                }
-
-                auto callbackId = GetInt64(argList, 0);
-                auto response = CefProcessMessage::Create(responseName);
-                auto responseArgList = response->GetArgumentList();
-                auto errorMessage = String::Format("Request BrowserId : {0} not found it's likely the browser is already closed", browser->GetIdentifier());
-
-                //success: false
-                responseArgList->SetBool(0, false);
-                SetInt64(responseArgList, 1, callbackId);
-                responseArgList->SetString(2, StringUtils::ToNative(errorMessage));
-                frame->SendProcessMessage(sourceProcessId, response);
-
-                return true;
-            }
-
             //these messages are roughly handled the same way
             if (name == kEvaluateJavascriptRequest || name == kJavascriptCallbackRequest)
             {
@@ -415,27 +371,13 @@ namespace CefSharp
                 auto frameId = StringUtils::ToClr(frame->GetIdentifier());
                 int64_t callbackId = GetInt64(argList, 0);
 
+                //NOTE: In the rare case when when OnContextCreated hasn't been called we need to manually create the rootObjectWrapper
+                //It appears that OnContextCreated is only called for pages that have javascript on them, which makes sense
+                //as without javascript there is no need for a context.
+                JavascriptRootObjectWrapper^ rootObjectWrapper = GetJsRootObjectWrapper(browser->GetIdentifier(), frame->GetIdentifier());
+
                 if (name == kEvaluateJavascriptRequest)
                 {
-                    JavascriptRootObjectWrapper^ rootObjectWrapper;
-                    browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
-
-                    //NOTE: In the rare case when when OnContextCreated hasn't been called we need to manually create the rootObjectWrapper
-                    //It appears that OnContextCreated is only called for pages that have javascript on them, which makes sense
-                    //as without javascript there is no need for a context.
-                    if (rootObjectWrapper == nullptr)
-                    {
-#ifdef NETCOREAPP
-                        rootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier());
-#else
-                        rootObjectWrapper = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), browserWrapper->BrowserProcess);
-#endif
-
-                        browserWrapper->JavascriptRootObjectWrappers->TryAdd(frameId, rootObjectWrapper);
-                    }
-
-                    auto callbackRegistry = rootObjectWrapper->CallbackRegistry;
-
                     auto script = argList->GetString(1);
                     auto scriptUrl = argList->GetString(2);
                     auto startLine = argList->GetInt(3);
@@ -480,8 +422,17 @@ namespace CefSharp
                                     }
                                     else
                                     {
-                                        auto responseArgList = response->GetArgumentList();
-                                        SerializeV8Object(result, responseArgList, 2, callbackRegistry);
+                                        auto callbackRegistry = rootObjectWrapper == nullptr ? nullptr : rootObjectWrapper->CallbackRegistry;
+
+                                        if (callbackRegistry == nullptr)
+                                        {
+                                            errorMessage = StringUtils::ToNative("The callback registry for Frame " + frameId + " is no longer available.");
+                                        }
+                                        else
+                                        {
+                                            auto responseArgList = response->GetArgumentList();
+                                            SerializeV8Object(result, responseArgList, 2, callbackRegistry);
+                                        }
                                     }
                                 }
                                 else
@@ -506,8 +457,6 @@ namespace CefSharp
                 }
                 else
                 {
-                    JavascriptRootObjectWrapper^ rootObjectWrapper;
-                    browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
                     auto callbackRegistry = rootObjectWrapper == nullptr ? nullptr : rootObjectWrapper->CallbackRegistry;
                     if (callbackRegistry == nullptr)
                     {
@@ -616,7 +565,7 @@ namespace CefSharp
                 {
                     auto jsCallbackId = GetInt64(argList, 0);
                     JavascriptRootObjectWrapper^ rootObjectWrapper;
-                    browserWrapper->JavascriptRootObjectWrappers->TryGetValue(StringUtils::ToClr(frame->GetIdentifier()), rootObjectWrapper);
+                    _jsRootObjectWrappersByFrameId->TryGetValue(StringUtils::ToClr(frame->GetIdentifier()), rootObjectWrapper);
                     if (rootObjectWrapper != nullptr && rootObjectWrapper->CallbackRegistry != nullptr)
                     {
                         rootObjectWrapper->CallbackRegistry->Deregister(jsCallbackId);
@@ -728,7 +677,7 @@ namespace CefSharp
                     auto callbackId = GetInt64(argList, 0);
 
                     JavascriptRootObjectWrapper^ rootObjectWrapper;
-                    browserWrapper->JavascriptRootObjectWrappers->TryGetValue(frameId, rootObjectWrapper);
+                    _jsRootObjectWrappersByFrameId->TryGetValue(frameId, rootObjectWrapper);
 
                     if (rootObjectWrapper != nullptr)
                     {
