@@ -29,6 +29,7 @@ namespace CefSharp
         //   600-699 <Obsolete: FTP errors>
         //   700-799 Certificate manager errors
         //   800-899 DNS resolver errors
+        //   900-999 Blob errors
 
         /// <summary>
         /// An asynchronous IO operation is not yet complete.  This usually does not
@@ -185,10 +186,8 @@ namespace CefSharp
         /// </summary>
         BlockedByCsp = -30,
 
-        /// <summary>
-        /// The request was blocked because of no H/2 or QUIC session.
-        /// </summary>
-        H2OrQuicRequired = -31,
+        // NET_ERROR(H2_OR_QUIC_REQUIRED, -31) was removed. It was:
+        // The request was blocked because of no H/2 or QUIC session.
 
         /// <summary>
         /// The request was blocked by CORB or ORB.
@@ -265,7 +264,8 @@ namespace CefSharp
         SslClientAuthCertNeeded = -110,
 
         /// <summary>
-        /// A tunnel connection through the proxy could not be established.
+        /// A tunnel connection through the proxy could not be established. For more info
+        /// see the comment on PROXY_UNABLE_TO_CONNECT_TO_DESTINATION.
         /// </summary>
         TunnelConnectionFailed = -111,
 
@@ -658,6 +658,37 @@ namespace CefSharp
         /// and additionally did not present a certificate valid for the public name.
         /// </summary>
         EchFallbackCertificateInvalid = -184,
+
+        // Error -185 was removed (PROXY_TUNNEL_REQUEST_FAILED).
+
+        /// <summary>
+        /// An attempt to proxy a request failed because the proxy wasn't able to
+        /// successfully connect to the destination. This likely indicates an issue with
+        /// the request itself (for instance, the hostname failed to resolve to an IP
+        /// address or the destination server refused the connection). This error code
+        /// is used to indicate that the error is outside the control of the proxy server
+        /// and thus the proxy chain should not be marked as bad. This is in contrast to
+        /// ERR_TUNNEL_CONNECTION_FAILED which is used for general purpose errors
+        /// connecting to the proxy and by the proxy request response handling when a
+        /// proxy delegate doesn't indicate via a different error code whether proxy
+        /// fallback should occur. Note that for IP Protection proxies this error code
+        /// causes the proxy to be marked as bad since the preference is to fail open for
+        /// general purpose errors, but for other proxies this error does not cause the
+        /// proxy to be marked as bad.
+        /// </summary>
+        ProxyUnableToConnectToDestination = -186,
+
+        /// <summary>
+        /// Some implementations of ProxyDelegate query a separate entity to know whether
+        /// it should cancel tunnel prior to:
+        /// - The HTTP CONNECT requests being sent out
+        /// - The HTTP CONNECT response being parsed by //net
+        /// An example is CronetProxyDelegate: Cronet allows developers to decide whether
+        /// the tunnel being established should be canceled.
+        /// </summary>
+        ProxyDelegateCanceledConnectRequest = -187,
+
+        ProxyDelegateCanceledConnectResponse = -188,
 
         // Certificate error codes
         //
@@ -1202,12 +1233,12 @@ namespace CefSharp
         /// The IP address space of the cached remote endpoint is blocked by private
         /// network access check.
         /// </summary>
-        CachedIpAddressSpaceBlockedByPrivateNetworkAccessPolicy = -384,
+        CachedIpAddressSpaceBlockedByLocalNetworkAccessPolicy = -384,
 
         /// <summary>
         /// The connection is blocked by private network access checks.
         /// </summary>
-        BlockedByPrivateNetworkAccessChecks = -385,
+        BlockedByLocalNetworkAccessChecks = -385,
 
         /// <summary>
         /// Content decoding failed due to the zstd window size being too big (over 8MB).
@@ -1512,5 +1543,54 @@ namespace CefSharp
         /// requested probe record either had no answer or was invalid.
         /// </summary>
         DnsSecureProbeRecordInvalid = -814,
+
+        /// <summary>
+        /// Returned when DNS cache invalidation is in progress. This is a
+        /// transient error. Callers may want to retry later.
+        /// </summary>
+        DnsCacheInvalidationInProgress = -815,
+
+        // The following errors are for mapped from a subset of invalid
+        // storage::BlobStatus.
+
+        /// <summary>
+        /// The construction arguments are invalid. This is considered a bad IPC.
+        /// </summary>
+        BlobInvalidConstructionArguments = -900,
+
+        /// <summary>
+        /// We don't have enough memory for the blob.
+        /// </summary>
+        BlobOutOfMemory = -901,
+
+        /// <summary>
+        /// We couldn't create or write to a file. File system error, like a full disk.
+        /// </summary>
+        BlobFileWriteFailed = -902,
+
+        /// <summary>
+        /// The renderer was destroyed while data was in transit.
+        /// </summary>
+        BlobSourceDiedInTransit = -903,
+
+        /// <summary>
+        /// The renderer destructed the blob before it was done transferring, and there
+        /// were no outstanding references (no one is waiting to read) to keep the
+        /// blob alive.
+        /// </summary>
+        BlobDereferencedWhileBuilding = -904,
+
+        /// <summary>
+        /// A blob that we referenced during construction is broken, or a browser-side
+        /// builder tries to build a blob with a blob reference that isn't finished
+        /// constructing.
+        /// </summary>
+        BlobReferencedBlobBroken = -905,
+
+        /// <summary>
+        /// A file that we referenced during construction is not accessible to the
+        /// renderer trying to create the blob.
+        /// </summary>
+        BlobReferencedFileUnavailable = -906,
     };
 }
