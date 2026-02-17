@@ -20,7 +20,7 @@
                 <!-- Add the codebase section if missing. -->
                 <codeBase xdt:Transform="InsertIfMissing"/>
                 <!-- Ensure the codeBase version and href are set to the correct values. -->
-                <codeBase version="144.0.120.0" href="x64/CefSharp.Core.Runtime.dll" xdt:Transform="Replace"/>
+                <codeBase version="145.0.240.0" href="x64/CefSharp.Core.Runtime.dll" xdt:Transform="Replace"/>
             </dependentAssembly>
         </assemblyBinding>
     </runtime>

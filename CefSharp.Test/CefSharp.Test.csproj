@@ -36,7 +36,7 @@
     <ItemGroup>
         <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
         <PackageReference Include="Bogus" Version="35.4.1" />
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="144.0.12" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="145.0.24" />
         <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -35,7 +35,7 @@
     <ProjectReference Include="..\CefSharp.Wpf\CefSharp.Wpf.netcore.csproj" />
     <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.netcore.csproj" />
     <PackageReference Include="Bogus" Version="35.4.1" />
-    <PackageReference Include="chromiumembeddedframework.runtime" Version="144.0.12" />
+    <PackageReference Include="chromiumembeddedframework.runtime" Version="145.0.24" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
