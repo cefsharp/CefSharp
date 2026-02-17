@@ -206,6 +206,12 @@ namespace CefSharp
         BlockedByFingerprintingProtection = -34,
 
         /// <summary>
+        /// The request was blocked by the Incognito Mode URL block list configured by
+        /// the domain administrator.
+        /// </summary>
+        BlockedInIncognitoByAdministrator = -35,
+
+        /// <summary>
         /// A connection was closed (corresponding to a TCP FIN).
         /// </summary>
         ConnectionClosed = -100,
@@ -269,10 +275,8 @@ namespace CefSharp
         /// </summary>
         TunnelConnectionFailed = -111,
 
-        /// <summary>
-        /// No SSL protocol versions are enabled.
-        /// </summary>
-        NoSslVersionsEnabled = -112,
+        // Obsolete:
+        // NET_ERROR(NO_SSL_VERSIONS_ENABLED, -112)
 
         /// <summary>
         /// The client and server don't support a common SSL protocol version or
@@ -410,15 +414,9 @@ namespace CefSharp
         /// </summary>
         TemporarilyThrottled = -139,
 
-        /// <summary>
-        /// A request to create an SSL tunnel connection through the HTTPS proxy
-        /// received a 302 (temporary redirect) response.  The response body might
-        /// include a description of why the request failed.
-        ///
-        /// TODO(crbug.com/40093955): This is deprecated and should not be used by
-        /// new code.
-        /// </summary>
-        HttpsProxyTunnelResponseRedirect = -140,
+        // Obsolete, since we now use the catch-all ERR_TUNNEL_CONNECTION_FAILED when a
+        // proxy tried to redirect a request.
+        // NET_ERROR(HTTPS_PROXY_TUNNEL_RESPONSE_REDIRECT, -140)
 
         /// <summary>
         /// We were unable to sign the CertificateVerify data of an SSL client auth
@@ -454,15 +452,9 @@ namespace CefSharp
         /// </summary>
         AddressInUse = -147,
 
-        /// <summary>
-        /// An operation failed because the SSL handshake has not completed.
-        /// </summary>
-        SslHandshakeNotCompleted = -148,
-
-        /// <summary>
-        /// SSL peer's public key is invalid.
-        /// </summary>
-        SslBadPeerPublicKey = -149,
+        // Obsolete:
+        // NET_ERROR(SSL_HANDSHAKE_NOT_COMPLETED, -148)
+        // NET_ERROR(SSL_BAD_PEER_PUBLIC_KEY, -149)
 
         /// <summary>
         /// The certificate didn't match the built-in public key pins for the host name.
@@ -954,22 +946,14 @@ namespace CefSharp
         /// </summary>
         NetworkIoSuspended = -331,
 
-        /// <summary>
-        /// FLIP data received without receiving a SYN_REPLY on the stream.
-        /// </summary>
-        SynReplyNotReceived = -332,
+        // Obsolete. This was in earlier SPDY implementations.
+        // NET_ERROR(SYN_REPLY_NOT_RECEIVED, -332)
 
-        /// <summary>
-        /// Converting the response to target encoding failed.
-        /// </summary>
-        EncodingConversionFailed = -333,
+        // Obsolete. These were both used for FTP, which is no longer supported.
+        // NET_ERROR(ENCODING_CONVERSION_FAILED, -333)
+        // NET_ERROR(UNRECOGNIZED_FTP_DIRECTORY_LISTING_FORMAT, -334)
 
-        /// <summary>
-        /// The server sent an FTP directory listing in a format we do not understand.
-        /// </summary>
-        UnrecognizedFtpDirectoryListingFormat = -334,
-
-        // Obsolete.  Was only logged in NetLog when an HTTP/2 pushed stream expired.
+        // Obsolete. Was only logged in NetLog when an HTTP/2 pushed stream expired.
         // NET_ERROR(INVALID_SPDY_STREAM, -335)
 
         /// <summary>
@@ -1377,6 +1361,20 @@ namespace CefSharp
         /// </summary>
         TrustTokenOperationSuccessWithoutSendingRequest = -507,
 
+        /// <summary>
+        /// This is a placeholder value that should never be used within //net.
+        ///
+        /// When Cronet APIs are being backed by HttpEngine (i.e., HttpEngineProvider is
+        /// being used), org.chromium.net.NetworkException#getCronetInternalErrorCode is
+        /// not supported (android.net.http.NetworkException#getCronetInternalErrorCode
+        /// does not exist). In this scenario, getCronetInternalErrorCode will always
+        /// return this error. This is a first step towards the deprecation of
+        /// getCronetInternalErrorCode.
+        ///
+        /// Temporarily terminate, then restart, ITTT to avoid unsupported nesting.
+        /// </summary>
+        HttpEngineProviderInUse = -508,
+
         // *** Code -600 is reserved (was FTP_PASV_COMMAND_FAILED). ***
         // *** Code -601 is reserved (was FTP_FAILED). ***
         // *** Code -602 is reserved (was FTP_SERVICE_UNAVAILABLE). ***
@@ -1474,18 +1472,7 @@ namespace CefSharp
         /// </summary>
         DnsServerRequiresTcp = -801,
 
-        /// <summary>
-        /// DNS server failed.  This error is returned for all of the following
-        /// error conditions:
-        /// 1 - Format error - The name server was unable to interpret the query.
-        /// 2 - Server failure - The name server was unable to process this query
-        ///     due to a problem with the name server.
-        /// 4 - Not Implemented - The name server does not support the requested
-        ///     kind of query.
-        /// 5 - Refused - The name server refuses to perform the specified
-        ///     operation for policy reasons.
-        /// </summary>
-        DnsServerFailed = -802,
+        // Error -802 was removed (DNS_SERVER_FAILED)
 
         /// <summary>
         /// DNS transaction timed out.
@@ -1549,6 +1536,39 @@ namespace CefSharp
         /// transient error. Callers may want to retry later.
         /// </summary>
         DnsCacheInvalidationInProgress = -815,
+
+        /// <summary>
+        /// The DNS server responded with a format error response code.
+        /// </summary>
+        DnsFormatError = -816,
+
+        /// <summary>
+        /// The DNS server responded with a server failure response code.
+        /// </summary>
+        DnsServerFailure = -817,
+
+        /// <summary>
+        /// The DNS server responded that the query type is not implemented.
+        /// </summary>
+        DnsNotImplemented = -818,
+
+        /// <summary>
+        /// The DNS server responded that the request was refused.
+        /// </summary>
+        DnsRefused = -819,
+
+        /// <summary>
+        /// The DNS server responded with an rcode indicating that the request failed,
+        /// but the rcode is not one that we have a specific error code for. In other
+        /// words, the rcode was not one of the following:
+        /// - NOERR
+        /// - FORMERR
+        /// - SERVFAIL
+        /// - NXDOMAIN
+        /// - NOTIMP
+        /// - REFUSED
+        /// </summary>
+        DnsOtherFailure = -820,
 
         // The following errors are for mapped from a subset of invalid
         // storage::BlobStatus.

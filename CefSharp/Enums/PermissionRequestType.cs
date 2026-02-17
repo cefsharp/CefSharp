@@ -41,5 +41,7 @@ namespace CefSharp
         WindowManagement = 1 << 23,
         FileSystemAccess = 1 << 24,
         LocalNetworkAccess = 1 << 25,
+        LocalNetwork = 1 << 26,
+        LoopbackNetwork = 1 << 27,
     }
 }
