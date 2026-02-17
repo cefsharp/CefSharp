@@ -1373,7 +1373,7 @@ namespace CefSharp
         ///
         /// Temporarily terminate, then restart, ITTT to avoid unsupported nesting.
         /// </summary>
-        HttpengineProviderInUse = -508,
+        HttpEngineProviderInUse = -508,
 
         // *** Code -600 is reserved (was FTP_PASV_COMMAND_FAILED). ***
         // *** Code -601 is reserved (was FTP_FAILED). ***
