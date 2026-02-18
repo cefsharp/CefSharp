@@ -16,6 +16,8 @@ namespace CefSharp.Core
         public BrowserSettings(bool autoDispose) { }
         public virtual bool AutoDispose { get { throw null; } }
         public virtual uint BackgroundColor { get { throw null; } set { } }
+        public virtual CefSharp.CefState ChromeStatusBubble { get { throw null; } set { } }
+        public virtual CefSharp.CefState ChromeZoomBubble { get { throw null; } set { } }
         public virtual string CursiveFontFamily { get { throw null; } set { } }
         public virtual CefSharp.CefState Databases { get { throw null; } set { } }
         public virtual string DefaultEncoding { get { throw null; } set { } }
@@ -40,8 +42,6 @@ namespace CefSharp.Core
         public virtual CefSharp.CefState TabToLinks { get { throw null; } set { } }
         public virtual CefSharp.CefState TextAreaResize { get { throw null; } set { } }
         public virtual CefSharp.CefState WebGl { get { throw null; } set { } }
-        public virtual CefSharp.CefState ChromeStatusBubble { get { throw null; } set { } }
-        public virtual CefSharp.CefState ChromeZoomBubble { get { throw null; } set { } }
         public virtual int WindowlessFrameRate { get { throw null; } set { } }
         public void Dispose() { }
         protected virtual void Dispose(bool A_0) { }

@@ -85,7 +85,7 @@ namespace CefSharp
             }
 
             CefBrowserWrapper^ FindBrowserWrapper(int browserId);
-            JavascriptRootObjectWrapper^ GetJsRootObjectWrapper(int browserId, CefString& frameId);
+            JavascriptRootObjectWrapper^ GetJsRootObjectWrapper(int browserId, CefString frameId);
 
             virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;
             virtual DECL void OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extraInfo) override;

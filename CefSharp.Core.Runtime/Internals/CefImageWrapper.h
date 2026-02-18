@@ -21,7 +21,7 @@ namespace CefSharp
         internal:
             MCefRefPtr<CefImage> _image;
 
-            CefImageWrapper::CefImageWrapper(CefRefPtr<CefImage> &image)
+            CefImageWrapper(const CefRefPtr<CefImage> &image)
                 : _image(image)
             {
             }
