@@ -30,7 +30,7 @@ namespace CefSharp
             MCefRefPtr<CefBrowser> _cefBrowser;
 
         public:
-            CefBrowserWrapper(CefRefPtr<CefBrowser> cefBrowser)
+            CefBrowserWrapper(const CefRefPtr<CefBrowser> &cefBrowser)
             {
                 _cefBrowser = cefBrowser.get();
                 BrowserId = cefBrowser->GetIdentifier();
