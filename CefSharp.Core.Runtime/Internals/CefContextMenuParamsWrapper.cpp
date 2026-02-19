@@ -111,7 +111,7 @@ namespace CefSharp
         {
             ThrowIfDisposed();
 
-            std::vector<CefString> dictionarySuggestions = std::vector<CefString>();
+            std::vector<CefString> dictionarySuggestions;
             bool result = _wrappedInfo->GetDictionarySuggestions(dictionarySuggestions);
 
             return StringUtils::ToClr(dictionarySuggestions);
