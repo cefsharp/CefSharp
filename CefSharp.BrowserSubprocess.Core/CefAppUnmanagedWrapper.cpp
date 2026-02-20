@@ -301,7 +301,7 @@ namespace CefSharp
             frame->SendProcessMessage(CefProcessId::PID_BROWSER, uncaughtExceptionMessage);
         }
 
-        JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, CefString frameId)
+        JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, const CefString& frameId)
         {
             auto rootObjectWrappers = _jsRootObjectWrappersByFrameId;
 
@@ -638,15 +638,17 @@ namespace CefSharp
 
                                 auto boundObjects = CefListValue::Create();
 
-                                for (auto i = 0; i < javascriptObjects->Count; i++)
+                                auto i = 0;
+
+                                for each (auto jsObject in javascriptObjects)
                                 {
                                     auto dict = CefDictionaryValue::Create();
-                                    auto objectName = javascriptObjects[i]->JavascriptName;
+                                    auto objectName = jsObject->JavascriptName;
                                     dict->SetString("Name", StringUtils::ToNative(objectName));
                                     dict->SetBool("IsCached", false);
                                     dict->SetBool("AlreadyBound", false);
 
-                                    boundObjects->SetDictionary(i, dict);
+                                    boundObjects->SetDictionary(i++, dict);
                                 }
 
                                 args->SetList(0, boundObjects);
