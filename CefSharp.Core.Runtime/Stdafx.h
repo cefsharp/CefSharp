@@ -10,6 +10,8 @@
 #define DECL __declspec(dllimport)
 #endif
 
+#define NOMINMAX
+
 #include <vector>
 #include <list>
 

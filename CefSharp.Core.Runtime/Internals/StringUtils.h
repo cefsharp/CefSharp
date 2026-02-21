@@ -26,7 +26,7 @@ namespace CefSharp
             /// <param name="cefStr">The string that should be converted.</param>
             /// <returns>A .NET string.</returns>
             [DebuggerStepThrough]
-            static String^ StringUtils::ToClr(const cef_string_t& cefStr)
+            static String^ ToClr(const cef_string_t& cefStr)
             {
                 auto str = reinterpret_cast<wchar_t*>(cefStr.str);
 
@@ -39,7 +39,7 @@ namespace CefSharp
             /// <param name="cefStr">The string that should be converted.</param>
             /// <returns>A .NET string.</returns>
             [DebuggerStepThrough]
-            static String^ StringUtils::ToClr(const CefString& cefStr)
+            static String^ ToClr(const CefString& cefStr)
             {
                 auto str = reinterpret_cast<const wchar_t*>(cefStr.c_str());
 
@@ -112,7 +112,7 @@ namespace CefSharp
             /// <param name="cefStr">The cef_string_t that should be updated.</param>
             /// <param name="str">The .NET string whose value should be used to update cefStr.</param>
             [DebuggerStepThrough]
-            static void StringUtils::AssignNativeFromClr(cef_string_t& cefStr, String^ str)
+            static void AssignNativeFromClr(cef_string_t& cefStr, String^ str)
             {
                 cef_string_clear(&cefStr);
 

@@ -42,7 +42,7 @@ namespace CefSharp
             RequestContextSettings^ _settings;
 
         internal:
-            RequestContext(CefRefPtr<CefRequestContext>& context)
+            RequestContext(const CefRefPtr<CefRequestContext>& context)
             {
                 _requestContext = context.get();
                 _settings = nullptr;

@@ -301,7 +301,7 @@ namespace CefSharp
             frame->SendProcessMessage(CefProcessId::PID_BROWSER, uncaughtExceptionMessage);
         }
 
-        JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, CefString& frameId)
+        JavascriptRootObjectWrapper^ CefAppUnmanagedWrapper::GetJsRootObjectWrapper(int browserId, CefString frameId)
         {
             auto rootObjectWrappers = _jsRootObjectWrappersByFrameId;
 

@@ -20,7 +20,7 @@ namespace CefSharp
             IBrowserHost^ _browserHost;
 
         internal:
-            CefBrowserWrapper::CefBrowserWrapper(CefRefPtr<CefBrowser> &browser)
+            CefBrowserWrapper(const CefRefPtr<CefBrowser> &browser)
                 : _browser(browser), _browserHost(nullptr)
             {
             }
