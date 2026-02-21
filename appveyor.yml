@@ -1,4 +1,4 @@
-version: 145.0.260-CI{build}
+version: 145.0.260-RCI{build}
 
 clone_depth: 10
 
