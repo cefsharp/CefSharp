@@ -35,16 +35,6 @@ namespace CefSharp
 {
     namespace BrowserSubprocess
     {
-        const CefString CefAppUnmanagedWrapper::kPromiseCreatorScript = ""
-            "(function()"
-            "{"
-            "   var result = {};"
-            "   var promise = new Promise(function(resolve, reject) {"
-            "       result.res = resolve; result.rej = reject;"
-            "   });"
-            "   result.p = promise;"
-            "   return result;"
-            "})();";
 
         const CefString kRenderProcessId = CefString("RenderProcessId");
         const CefString kRenderProcessIdCamelCase = CefString("renderProcessId");
@@ -611,23 +601,15 @@ namespace CefSharp
 
                             if (_registerBoundObjectRegistry->TryGetAndRemoveMethodCallback(callbackId, callback))
                             {
-                                //Response object has no Accessor or Interceptor
-                                auto response = CefV8Value::CreateObject(nullptr, nullptr);
-
-                                response->SetValue("Count", CefV8Value::CreateInt(javascriptObjects->Count), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
 
                                 if (javascriptObjects->Count > 0)
                                 {
                                     //TODO: JSB Should we include a list of successfully bound object names?
-                                    response->SetValue("Success", CefV8Value::CreateBool(true), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                    response->SetValue("Message", CefV8Value::CreateString("OK"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                    callback->Success(response);
+                                    callback->Success(BindObjectAsyncHandler::CreateResultObject(javascriptObjects->Count, "OK", true));
                                 }
                                 else
                                 {
-                                    response->SetValue("Success", CefV8Value::CreateBool(false), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                    response->SetValue("Message", CefV8Value::CreateString("Zero objects bounds"), CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
-                                    callback->Success(response);
+                                    callback->Success(BindObjectAsyncHandler::CreateResultObject(javascriptObjects->Count, "Zero objects bounds", false));
                                 }
 
                                 //Send message notifying Browser Process of which objects were bound

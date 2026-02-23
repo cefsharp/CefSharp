@@ -154,54 +154,17 @@ namespace CefSharp
                                     rootObject->Bind(cachedObjects, context->GetGlobal());
 
                                     //Objects already bound or ignore cache
-                                    CefRefPtr<CefV8Value> promiseResolve;
-                                    CefRefPtr<CefV8Exception> promiseException;
-
-                                    auto promiseResolveScript = StringUtils::ToNative("Promise.resolve({Success:true, Count:" + cachedObjects->Count + ", Message:'OK'});");
-
-                                    if (context->Eval(promiseResolveScript, CefString(), 0, promiseResolve, promiseException))
-                                    {
-                                        retval = promiseResolve;
-                                    }
-                                    else
-                                    {
-                                        exception = promiseException->GetMessage();
-
-                                        return true;
-                                    }
+                                    auto promiseResolve = CefV8Value::CreatePromise();
+                                    promiseResolve->ResolvePromise(CreateResultObject(cachedObjects->Count, "OK", true));
+                                    retval = promiseResolve;
 
                                     NotifyObjectBound(frame, objectNamesWithBoundStatus);
                                 }
                                 else
                                 {
-                                    CefRefPtr<CefV8Value> promiseData;
-                                    CefRefPtr<CefV8Exception> promiseException;
-                                    //this will create a promise and give us the reject/resolve functions {p: Promise, res: resolve(), rej: reject()}
-                                    if (!context->Eval(CefAppUnmanagedWrapper::kPromiseCreatorScript, CefString(), 0, promiseData, promiseException))
-                                    {
-                                        exception = promiseException->GetMessage();
-
-                                        return true;
-                                    }
-
-                                    //when refreshing the browser this is sometimes null, in this case return true and log message
-                                    //https://github.com/cefsharp/CefSharp/pull/2446
-                                    if (promiseData == nullptr)
-                                    {
-                                        LOG(WARNING) << "BindObjectAsyncHandler::Execute promiseData returned nullptr";
-
-                                        return true;
-                                    }
-
-                                    //return the promose
-                                    retval = promiseData->GetValue("p");
-
-                                    //References to the promise resolve and reject methods
-                                    auto resolve = promiseData->GetValue("res");
-                                    auto reject = promiseData->GetValue("rej");
-
-                                    auto callback = gcnew JavascriptAsyncMethodCallback(context, resolve, reject);
-
+                                    CefRefPtr<CefV8Value> promise = CefV8Value::CreatePromise();
+                                    retval = promise;
+                                    auto callback = gcnew JavascriptAsyncMethodCallback(context, promise);
                                     auto request = CefProcessMessage::Create(kJavascriptRootObjectRequest);
                                     auto argList = request->GetArgumentList();
 
@@ -217,23 +180,13 @@ namespace CefSharp
                             else
                             {
                                 //Objects already bound or ignore cache
-                                CefRefPtr<CefV8Value> promiseResolve;
-                                CefRefPtr<CefV8Exception> promiseException;
+                                auto promiseResolve = CefV8Value::CreatePromise();
+                                promiseResolve->ResolvePromise(CreateResultObject(0, "Object(s) already bound", false));
+                                retval = promiseResolve;
 
-                                auto promiseResolveScript = CefString("Promise.resolve({Success:false, Count:0, Message:'Object(s) already bound'});");
-
-                                if (context->Eval(promiseResolveScript, CefString(), 0, promiseResolve, promiseException))
+                                if (notifyIfAlreadyBound)
                                 {
-                                    retval = promiseResolve;
-
-                                    if (notifyIfAlreadyBound)
-                                    {
-                                        NotifyObjectBound(frame, objectNamesWithBoundStatus);
-                                    }
-                                }
-                                else
-                                {
-                                    exception = promiseException->GetMessage();
+                                    NotifyObjectBound(frame, objectNamesWithBoundStatus);
                                 }
                             }
                         }
@@ -254,6 +207,25 @@ namespace CefSharp
 
 
                 return true;
+            }
+
+            static CefRefPtr<CefV8Value> CreateResultObject(int count, String^ message, bool isSuccess)
+            {
+                auto response = CefV8Value::CreateObject(nullptr, nullptr);
+
+                const auto countResult = CefV8Value::CreateInt(count);
+                const auto messageResult = CefV8Value::CreateString(StringUtils::ToNative(message));
+                const auto successResult = CefV8Value::CreateBool(isSuccess);
+
+                response->SetValue("Count", countResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("Message", messageResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("Success", successResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+
+                response->SetValue("count", countResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("message", messageResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+                response->SetValue("success", successResult, CefV8Value::PropertyAttribute::V8_PROPERTY_ATTRIBUTE_READONLY);
+
+                return response;
             }
 
         private:
