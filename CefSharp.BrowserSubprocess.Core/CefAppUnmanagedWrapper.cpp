@@ -356,7 +356,15 @@ namespace CefSharp
 
             if (CefParseURL(frameUrl, frameUrlParts))
             {
-                auto frameUrlOrigin = CefString(frameUrlParts.origin.str, frameUrlParts.origin.length);
+                auto originStr = frameUrlParts.origin.str;
+                auto originLen = frameUrlParts.origin.length;
+
+                if (originLen > 0 && originStr[originLen - 1] == L'/')
+                {
+                    originLen--;
+                }
+
+                auto frameUrlOrigin = CefString(originStr, originLen);
 
                 auto size = static_cast<int>(browserWrapper->JavascriptBindingApiAllowOrigins->GetSize());
 
