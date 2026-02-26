@@ -41,11 +41,17 @@ namespace CefSharp
                 IsPopup = cefBrowser->IsPopup();
 
                 JavascriptRootObjectWrappers = gcnew ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>();
+
+                JavascriptBindingApiEnabled = true;
+                JavascriptBindingApiHasAllowOrigins = false;
+                JavascriptBindingApiAllowOrigins = nullptr;
             }
 
             !CefBrowserWrapper()
             {
                 _cefBrowser = nullptr;
+
+                JavascriptBindingApiAllowOrigins = nullptr;
             }
 
             ~CefBrowserWrapper()
@@ -65,6 +71,9 @@ namespace CefSharp
 
             property int BrowserId;
             property bool IsPopup;
+            property bool JavascriptBindingApiEnabled;
+            property bool JavascriptBindingApiHasAllowOrigins;
+            property CefRefPtr<CefListValue> JavascriptBindingApiAllowOrigins;
 
 #ifndef NETCOREAPP
             // This allows us to create the WCF proxies back to our parent process.
