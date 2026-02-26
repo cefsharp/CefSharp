@@ -371,12 +371,15 @@ namespace CefSharp
                 for (int i = 0; i < size; i++)
                 {
                     auto origin = browserWrapper->JavascriptBindingApiAllowOrigins->GetString(i);
+                    auto frameOriginPtr = reinterpret_cast<const wchar_t*>(frameUrlOrigin.c_str());
+                    auto allowedOriginPtr = reinterpret_cast<const wchar_t*>(origin.c_str());
 
-                    if (_wcsicmp(
-                            reinterpret_cast<const wchar_t*>(frameUrlOrigin.c_str()), 
-                            reinterpret_cast<const wchar_t*>(origin.c_str())) == 0)
+                    if (frameOriginPtr != nullptr && allowedOriginPtr != nullptr)
                     {
-                        return true;
+                        if (_wcsicmp(frameOriginPtr, allowedOriginPtr) == 0)
+                        {
+                            return true;
+                        }
                     }
                 }
             }
