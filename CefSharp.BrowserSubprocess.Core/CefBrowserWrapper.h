@@ -28,6 +28,7 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefBrowser> _cefBrowser;
+            MCefRefPtr<CefListValue> _javascriptBindingApiAllowOrigins;
 
         internal:
             //Frame Identifier is used as Key
@@ -51,7 +52,7 @@ namespace CefSharp
             {
                 _cefBrowser = nullptr;
 
-                JavascriptBindingApiAllowOrigins = nullptr;
+                _javascriptBindingApiAllowOrigins = nullptr;
             }
 
             ~CefBrowserWrapper()
@@ -73,7 +74,11 @@ namespace CefSharp
             property bool IsPopup;
             property bool JavascriptBindingApiEnabled;
             property bool JavascriptBindingApiHasAllowOrigins;
-            property CefRefPtr<CefListValue> JavascriptBindingApiAllowOrigins;
+            property CefRefPtr<CefListValue> JavascriptBindingApiAllowOrigins
+            {
+                CefRefPtr<CefListValue> get() { return _javascriptBindingApiAllowOrigins.get(); }
+                void set(CefRefPtr<CefListValue> value) { _javascriptBindingApiAllowOrigins = value.get(); }
+            }
 
 #ifndef NETCOREAPP
             // This allows us to create the WCF proxies back to our parent process.
