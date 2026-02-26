@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using CefSharp.Internals;
+using System;
 
 namespace CefSharp.JavascriptBinding
 {
@@ -48,8 +49,17 @@ namespace CefSharp.JavascriptBinding
             set
             {
                 ThrowIfFrozen();
-
-                javascriptBindingApiAllowOrigins = value;
+                if (value != null)
+                {
+                    javascriptBindingApiAllowOrigins = Array.ConvertAll(
+                        value,
+                        origin => origin.EndsWith("/") ? origin.Substring(0, origin.Length - 1) : origin
+                    );
+                }
+                else
+                {
+                    javascriptBindingApiAllowOrigins = null;
+                }
             }
         }
 
