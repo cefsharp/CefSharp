@@ -320,5 +320,292 @@ namespace CefSharp.Test.Javascript
                 Assert.Equal(42, callbackResponse.Result);
             }
         }
+
+        [Fact]
+        public async Task ShouldHandleCallbackAfterMultipleContextChanges()
+        {
+            AssertInitialLoadComplete();
+
+            // Test that callbacks are properly cleaned up after multiple context changes
+            var javascriptResponse1 = await Browser.EvaluateScriptAsync("(function() { return Promise.resolve(42); })");
+            Assert.True(javascriptResponse1.Success);
+            var callback1 = (IJavascriptCallback)javascriptResponse1.Result;
+
+            // Change context
+            await Browser.LoadUrlAsync(CefExample.HelloWorldUrl);
+
+            var javascriptResponse2 = await Browser.EvaluateScriptAsync("(function() { return Promise.resolve(84); })");
+            Assert.True(javascriptResponse2.Success);
+            var callback2 = (IJavascriptCallback)javascriptResponse2.Result;
+
+            // Execute the new callback - should work
+            var callbackResponse2 = await callback2.ExecuteAsync();
+            Assert.True(callbackResponse2.Success);
+            Assert.Equal(84, callbackResponse2.Result);
+
+            // Old callback should fail gracefully
+            var callbackResponse1 = await callback1.ExecuteAsync();
+            Assert.False(callbackResponse1.Success);
+            Assert.Contains("Frame with Id:", callbackResponse1.Message);
+        }
+
+        [Fact]
+        public async Task ShouldProperlyCleanupCallbacksOnFrameDestruction()
+        {
+            using (var browser = new CefSharp.OffScreen.ChromiumWebBrowser(automaticallyCreateBrowser: false))
+            {
+                await browser.CreateBrowserAsync();
+                await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
+
+                var javascriptResponse = await browser.EvaluateScriptAsync("(function() { return Promise.resolve('test'); })");
+                Assert.True(javascriptResponse.Success);
+                var callback = (IJavascriptCallback)javascriptResponse.Result;
+                var frameId = browser.GetMainFrame().Identifier;
+
+                // Execute callback successfully first
+                var result1 = await callback.ExecuteAsync();
+                Assert.True(result1.Success);
+                Assert.Equal("test", result1.Result);
+
+                // Load new page to destroy frame
+                await browser.LoadUrlAsync("about:blank");
+
+                // Callback should now fail with frame-specific error
+                var result2 = await callback.ExecuteAsync();
+                Assert.False(result2.Success);
+                Assert.Contains($"Frame with Id:{frameId}", result2.Message);
+            }
+        }
+
+        [Fact]
+        public async Task ShouldHandleCallbacksFromDifferentFrames()
+        {
+            using (var browser = new CefSharp.OffScreen.ChromiumWebBrowser(automaticallyCreateBrowser: false))
+            {
+                await browser.CreateBrowserAsync();
+                
+                // Load a page with iframe
+                await browser.LoadHtmlAsync(@"
+                    <html>
+                        <body>
+                            <h1>Main Frame</h1>
+                            <iframe id='testFrame' src='about:blank'></iframe>
+                        </body>
+                    </html>");
+
+                // Create callback in main frame
+                var mainFrameResponse = await browser.EvaluateScriptAsync("(function() { return Promise.resolve('main'); })");
+                Assert.True(mainFrameResponse.Success);
+                var mainCallback = (IJavascriptCallback)mainFrameResponse.Result;
+
+                // Execute main frame callback
+                var mainResult = await mainCallback.ExecuteAsync();
+                Assert.True(mainResult.Success);
+                Assert.Equal("main", mainResult.Result);
+            }
+        }
+
+        [Theory]
+        [InlineData("(function() { return Promise.resolve(null); })", null)]
+        [InlineData("(function() { return Promise.resolve(undefined); })", null)]
+        public async Task ShouldHandleNullAndUndefinedCallbackResults(string script, object expected)
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync(script);
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+            var callbackResponse = await callback.ExecuteAsync();
+
+            Assert.True(callbackResponse.Success);
+            Assert.Equal(expected, callbackResponse.Result);
+        }
+
+        [Fact]
+        public async Task ShouldHandleNestedCallbackExecution()
+        {
+            AssertInitialLoadComplete();
+
+            // Create a callback that returns another function
+            var javascriptResponse = await Browser.EvaluateScriptAsync(@"
+                (function() {
+                    return function(x) {
+                        return Promise.resolve(x * 2);
+                    };
+                })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+            
+            // Execute with parameter
+            var callbackResponse = await callback.ExecuteAsync(21);
+            Assert.True(callbackResponse.Success);
+            Assert.Equal(42, callbackResponse.Result);
+        }
+
+        [Fact]
+        public async Task ShouldHandleCallbackExecutionWithComplexObjects()
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync(@"
+                (function(obj) {
+                    return Promise.resolve({
+                        doubled: obj.value * 2,
+                        message: 'Result: ' + obj.value
+                    });
+                })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+            
+            var inputObj = new { value = 42 };
+            var callbackResponse = await callback.ExecuteAsync(inputObj);
+            
+            Assert.True(callbackResponse.Success);
+            dynamic result = callbackResponse.Result;
+            Assert.Equal(84, (int)result.doubled);
+            Assert.Equal("Result: 42", (string)result.message);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(5)]
+        [InlineData(10)]
+        public async Task ShouldHandleMultipleSequentialCallbackExecutions(int executionCount)
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync(@"
+                (function(x) {
+                    return Promise.resolve(x + 1);
+                })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+
+            for (var i = 0; i < executionCount; i++)
+            {
+                var callbackResponse = await callback.ExecuteAsync(i);
+                Assert.True(callbackResponse.Success);
+                Assert.Equal(i + 1, callbackResponse.Result);
+            }
+        }
+
+        [Fact]
+        public async Task ShouldHandleCallbackWithLongRunningOperation()
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync(@"
+                (function() {
+                    return new Promise(resolve => {
+                        setTimeout(() => resolve('completed'), 2000);
+                    });
+                })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+            
+            var callbackResponse = await callback.ExecuteAsync();
+            Assert.True(callbackResponse.Success);
+            Assert.Equal("completed", callbackResponse.Result);
+        }
+
+        [Fact]
+        public async Task ShouldHandleCallbackErrorsGracefully()
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync(@"
+                (function() {
+                    return Promise.reject(new Error('Custom error message'));
+                })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+            var callbackResponse = await callback.ExecuteAsync();
+
+            Assert.False(callbackResponse.Success);
+            Assert.Contains("Custom error message", callbackResponse.Message);
+        }
+
+        [Fact]
+        public async Task ShouldVerifyCallbackRegistryCleanup()
+        {
+            // Test that callbacks are properly cleaned up when context is released
+            using (var browser = new CefSharp.OffScreen.ChromiumWebBrowser(automaticallyCreateBrowser: false))
+            {
+                await browser.CreateBrowserAsync();
+                await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
+
+                var callbacks = new List<IJavascriptCallback>();
+                
+                // Create multiple callbacks
+                for (int i = 0; i < 5; i++)
+                {
+                    var response = await browser.EvaluateScriptAsync($"(function() {{ return Promise.resolve({i}); }})");
+                    Assert.True(response.Success);
+                    callbacks.Add((IJavascriptCallback)response.Result);
+                }
+
+                // Verify all callbacks work
+                for (int i = 0; i < callbacks.Count; i++)
+                {
+                    var result = await callbacks[i].ExecuteAsync();
+                    Assert.True(result.Success);
+                    Assert.Equal(i, result.Result);
+                }
+
+                // Destroy context
+                await browser.LoadUrlAsync("about:blank");
+
+                // Verify all callbacks are now invalid
+                foreach (var callback in callbacks)
+                {
+                    var result = await callback.ExecuteAsync();
+                    Assert.False(result.Success);
+                }
+            }
+        }
+
+        [Fact]
+        public async Task ShouldHandleCallbackWithArrayParameter()
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync(@"
+                (function(arr) {
+                    return Promise.resolve(arr.reduce((a, b) => a + b, 0));
+                })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+            var callbackResponse = await callback.ExecuteAsync(new[] { 1, 2, 3, 4, 5 });
+
+            Assert.True(callbackResponse.Success);
+            Assert.Equal(15, callbackResponse.Result);
+        }
+
+        [Fact]
+        public async Task ShouldHandleCallbackReturningArray()
+        {
+            AssertInitialLoadComplete();
+
+            var javascriptResponse = await Browser.EvaluateScriptAsync(@"
+                (function() {
+                    return Promise.resolve([1, 2, 3, 4, 5]);
+                })");
+            Assert.True(javascriptResponse.Success);
+
+            var callback = (IJavascriptCallback)javascriptResponse.Result;
+            var callbackResponse = await callback.ExecuteAsync();
+
+            Assert.True(callbackResponse.Success);
+            var resultArray = callbackResponse.Result as object[];
+            Assert.NotNull(resultArray);
+            Assert.Equal(5, resultArray.Length);
+        }
     }
 }
