@@ -4,6 +4,13 @@
 
 #pragma once
 
+#include <intrin.h>
+
+#ifdef _M_ARM64
+extern "C" unsigned __int64 __cdecl _CountOneBits64(unsigned __int64);
+#pragma intrinsic(_CountOneBits64)
+#endif
+
 #ifdef EXPORT
 #define DECL __declspec(dllexport)
 #else
