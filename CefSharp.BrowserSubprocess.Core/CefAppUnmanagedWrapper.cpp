@@ -99,8 +99,15 @@ namespace CefSharp
                         }
                     }
                 }
+            }
 
+            if (extraInfo->HasKey("JavascriptBindingApiEnabled"))
+            {
                 wrapper->JavascriptBindingApiEnabled = extraInfo->GetBool("JavascriptBindingApiEnabled");
+            }
+
+            if (extraInfo->HasKey("JavascriptBindingApiHasAllowOrigins"))
+            {
                 wrapper->JavascriptBindingApiHasAllowOrigins = extraInfo->GetBool("JavascriptBindingApiHasAllowOrigins");
 
                 if (wrapper->JavascriptBindingApiHasAllowOrigins)
@@ -111,13 +118,13 @@ namespace CefSharp
                         wrapper->JavascriptBindingApiAllowOrigins = allowOrigins->Copy();
                     }
                 }
+            }
 
-                if (extraInfo->HasKey("JsBindingPropertyName") || extraInfo->HasKey("JsBindingPropertyNameCamelCase"))
-                {
-                    //TODO: Create constant for these and legacy binding strings above
-                    _jsBindingPropertyName = extraInfo->GetString("JsBindingPropertyName");
-                    _jsBindingPropertyNameCamelCase = extraInfo->GetString("JsBindingPropertyNameCamelCase");
-                }
+            if (extraInfo->HasKey("JsBindingPropertyName") || extraInfo->HasKey("JsBindingPropertyNameCamelCase"))
+            {
+                //TODO: Create constant for these and legacy binding strings above
+                _jsBindingPropertyName = extraInfo->GetString("JsBindingPropertyName");
+                _jsBindingPropertyNameCamelCase = extraInfo->GetString("JsBindingPropertyNameCamelCase");
             }
         }
 
