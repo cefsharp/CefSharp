@@ -357,6 +357,12 @@ namespace CefSharp
                 return true;
             }
 
+            auto allowOrigins = browserWrapper->JavascriptBindingApiAllowOrigins;
+            if (!allowOrigins.get())
+            {
+                return false;
+            }
+
             auto frameUrl = frame->GetURL();
 
             CefURLParts frameUrlParts;
@@ -373,11 +379,11 @@ namespace CefSharp
 
                 auto frameUrlOrigin = CefString(originStr, originLen);
 
-                auto size = static_cast<int>(browserWrapper->JavascriptBindingApiAllowOrigins->GetSize());
+                auto size = static_cast<int>(allowOrigins->GetSize());
 
                 for (int i = 0; i < size; i++)
                 {
-                    auto origin = browserWrapper->JavascriptBindingApiAllowOrigins->GetString(i);
+                    auto origin = allowOrigins->GetString(i);
                     auto frameOriginPtr = reinterpret_cast<const wchar_t*>(frameUrlOrigin.c_str());
                     auto allowedOriginPtr = reinterpret_cast<const wchar_t*>(origin.c_str());
 
