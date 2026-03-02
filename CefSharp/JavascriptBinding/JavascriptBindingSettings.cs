@@ -53,7 +53,7 @@ namespace CefSharp.JavascriptBinding
                 {
                     javascriptBindingApiAllowOrigins = Array.ConvertAll(
                         value,
-                        origin => origin.EndsWith("/") ? origin.Substring(0, origin.Length - 1) : origin
+                        origin => origin?.TrimEnd('/')
                     );
                 }
                 else
