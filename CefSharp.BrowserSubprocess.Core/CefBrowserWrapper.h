@@ -22,12 +22,13 @@ namespace CefSharp
 {
     namespace BrowserSubprocess
     {
-        // "Master class" for wrapping everything that the Cef Subprocess needs 
+        // "Master class" for wrapping everything that the Cef Subprocess needs
         // for ONE CefBrowser.
         public ref class CefBrowserWrapper
         {
         private:
             MCefRefPtr<CefBrowser> _cefBrowser;
+            MCefRefPtr<CefListValue> _javascriptBindingApiAllowOrigins;
 
         public:
             CefBrowserWrapper(const CefRefPtr<CefBrowser> &cefBrowser)
@@ -35,11 +36,17 @@ namespace CefSharp
                 _cefBrowser = cefBrowser.get();
                 BrowserId = cefBrowser->GetIdentifier();
                 IsPopup = cefBrowser->IsPopup();
+
+                JavascriptBindingApiEnabled = true;
+                JavascriptBindingApiHasAllowOrigins = false;
+                JavascriptBindingApiAllowOrigins = nullptr;
             }
 
             !CefBrowserWrapper()
             {
                 _cefBrowser = nullptr;
+
+                _javascriptBindingApiAllowOrigins = nullptr;
             }
 
             ~CefBrowserWrapper()
@@ -49,6 +56,13 @@ namespace CefSharp
 
             property int BrowserId;
             property bool IsPopup;
+            property bool JavascriptBindingApiEnabled;
+            property bool JavascriptBindingApiHasAllowOrigins;
+            property CefRefPtr<CefListValue> JavascriptBindingApiAllowOrigins
+            {
+                CefRefPtr<CefListValue> get() { return _javascriptBindingApiAllowOrigins.get(); }
+                void set(CefRefPtr<CefListValue> value) { _javascriptBindingApiAllowOrigins = value.get(); }
+            }
 
 #ifndef NETCOREAPP
             // This allows us to create the WCF proxies back to our parent process.

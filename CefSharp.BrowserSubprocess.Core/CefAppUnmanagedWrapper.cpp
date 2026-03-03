@@ -23,6 +23,7 @@
 #include "Wrapper\Browser.h"
 #include "..\CefSharp.Core.Runtime\Internals\Messaging\Messages.h"
 #include "..\CefSharp.Core.Runtime\Internals\Serialization\Primitives.h"
+#include <include/cef_parser.h>
 
 using namespace System;
 using namespace System::Diagnostics;
@@ -87,7 +88,7 @@ namespace CefSharp
                             //Using LegacyBinding with multiple ChromiumWebBrowser instances that share the same
                             //render process and using LegacyBinding will cause problems for the limited caching implementation
                             //that exists at the moment, for now we'll remove an object if already exists, same behaviour
-                            //as the new binding method. 
+                            //as the new binding method.
                             //TODO: This should be removed when https://github.com/cefsharp/CefSharp/issues/2306
                             //Is complete as objects will be stored at the browser level
                             if (_javascriptObjects->ContainsKey(obj->JavascriptName))
@@ -98,15 +99,32 @@ namespace CefSharp
                         }
                     }
                 }
+            }
 
-                _jsBindingApiEnabled = extraInfo->GetBool("JavascriptBindingApiEnabled");
+            if (extraInfo->HasKey("JavascriptBindingApiEnabled"))
+            {
+                wrapper->JavascriptBindingApiEnabled = extraInfo->GetBool("JavascriptBindingApiEnabled");
+            }
 
-                if (extraInfo->HasKey("JsBindingPropertyName") || extraInfo->HasKey("JsBindingPropertyNameCamelCase"))
+            if (extraInfo->HasKey("JavascriptBindingApiHasAllowOrigins"))
+            {
+                wrapper->JavascriptBindingApiHasAllowOrigins = extraInfo->GetBool("JavascriptBindingApiHasAllowOrigins");
+
+                if (wrapper->JavascriptBindingApiHasAllowOrigins)
                 {
-                    //TODO: Create constant for these and legacy binding strings above
-                    _jsBindingPropertyName = extraInfo->GetString("JsBindingPropertyName");
-                    _jsBindingPropertyNameCamelCase = extraInfo->GetString("JsBindingPropertyNameCamelCase");
+                    auto allowOrigins = extraInfo->GetList("JavascriptBindingApiAllowOrigins");
+                    if (allowOrigins.get() && allowOrigins->IsValid())
+                    {
+                        wrapper->JavascriptBindingApiAllowOrigins = allowOrigins->Copy();
+                    }
                 }
+            }
+
+            if (extraInfo->HasKey("JsBindingPropertyName") || extraInfo->HasKey("JsBindingPropertyNameCamelCase"))
+            {
+                //TODO: Create constant for these and legacy binding strings above
+                _jsBindingPropertyName = extraInfo->GetString("JsBindingPropertyName");
+                _jsBindingPropertyNameCamelCase = extraInfo->GetString("JsBindingPropertyNameCamelCase");
             }
         }
 
@@ -147,11 +165,12 @@ namespace CefSharp
                 }
             }
 
-            if (_jsBindingApiEnabled)
+            auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
+
+            if (browserWrapper != nullptr && browserWrapper->JavascriptBindingApiEnabled && IsJavascriptBindingApiAllowed(frame))
             {
                 //TODO: Look at adding some sort of javascript mapping layer to reduce the code duplication
                 auto global = context->GetGlobal();
-                auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
                 auto processId = System::Diagnostics::Process::GetCurrentProcess()->Id;
 
                 //TODO: JSB: Split functions into their own classes
@@ -326,6 +345,58 @@ namespace CefSharp
             }
 
             return rootObject;
+        }
+
+        bool CefAppUnmanagedWrapper::IsJavascriptBindingApiAllowed(CefRefPtr<CefFrame> frame)
+        {
+            auto browserWrapper = FindBrowserWrapper(frame->GetBrowser()->GetIdentifier());
+
+            if (browserWrapper == nullptr || !browserWrapper->JavascriptBindingApiHasAllowOrigins)
+            {
+                return true;
+            }
+
+            auto allowOrigins = browserWrapper->JavascriptBindingApiAllowOrigins;
+            if (!allowOrigins.get())
+            {
+                return false;
+            }
+
+            auto frameUrl = frame->GetURL();
+
+            CefURLParts frameUrlParts;
+
+            if (CefParseURL(frameUrl, frameUrlParts))
+            {
+                auto originStr = frameUrlParts.origin.str;
+                auto originLen = frameUrlParts.origin.length;
+
+                if (originLen > 0 && originStr[originLen - 1] == L'/')
+                {
+                    originLen--;
+                }
+
+                auto frameUrlOrigin = CefString(originStr, originLen);
+
+                auto size = static_cast<int>(allowOrigins->GetSize());
+
+                for (int i = 0; i < size; i++)
+                {
+                    auto origin = allowOrigins->GetString(i);
+                    auto frameOriginPtr = reinterpret_cast<const wchar_t*>(frameUrlOrigin.c_str());
+                    auto allowedOriginPtr = reinterpret_cast<const wchar_t*>(origin.c_str());
+
+                    if (frameOriginPtr != nullptr && allowedOriginPtr != nullptr)
+                    {
+                        if (_wcsicmp(frameOriginPtr, allowedOriginPtr) == 0)
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
         CefBrowserWrapper^ CefAppUnmanagedWrapper::FindBrowserWrapper(int browserId)
