@@ -130,14 +130,17 @@ namespace CefSharp.Test.JavascriptBinding
             }
         }
 
-        [Fact]
-        public async Task ShouldDisableJsBindingApiForOrigin()
+        [Theory]
+        [InlineData("notallowed")]
+        [InlineData("notallowed", "alsonotallowed")]
+        [InlineData("notallowed", "alsonotallowed", "stillnotallowed")]
+        public async Task ShouldDisableJsBindingApiForOrigin(params string[] origins)
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
             {
                 var settings = browser.JavascriptObjectRepository.Settings;
                 settings.JavascriptBindingApiEnabled = true;
-                settings.JavascriptBindingApiAllowOrigins = new string[] { "notallowed" };
+                settings.JavascriptBindingApiAllowOrigins = origins;
 
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
@@ -157,9 +160,67 @@ namespace CefSharp.Test.JavascriptBinding
             }
         }
 
+        [Fact]
+        public async Task ShouldEnableJsBindingApiWhenOriginsListIsEmpty()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
+            {
+                var settings = browser.JavascriptObjectRepository.Settings;
+                settings.JavascriptBindingApiEnabled = true;
+                settings.JavascriptBindingApiAllowOrigins = new string[0];
+
+                //To modify the settings we need to defer browser creation slightly
+                browser.CreateBrowser();
+
+                var loadResponse = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(loadResponse.Success);
+
+                var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+                var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+
+                Assert.True(response1.Success);
+                Assert.False((bool)response1.Result);
+
+                Assert.True(response2.Success);
+                Assert.False((bool)response2.Result);
+            }
+        }
+
+        [Theory]
+        [InlineData(CefExample.BaseUrl)]
+        [InlineData(CefExample.BaseUrl + "/")]
+        public async Task ShouldEnableJsBindingApiForOriginWithOrWithoutTrailingSlash(string configuredOrigin)
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
+            {
+                var settings = browser.JavascriptObjectRepository.Settings;
+                settings.JavascriptBindingApiEnabled = true;
+                settings.JavascriptBindingApiAllowOrigins = new string[] { configuredOrigin };
+
+                //To modify the settings we need to defer browser creation slightly
+                browser.CreateBrowser();
+
+                var loadResponse = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(loadResponse.Success);
+
+                var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+                var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+
+                Assert.True(response1.Success);
+                Assert.False((bool)response1.Result);
+
+                Assert.True(response2.Success);
+                Assert.False((bool)response2.Result);
+            }
+        }
         [Theory]
         [InlineData(CefExample.BaseUrl + "/")]
         [InlineData("someorigin", CefExample.BaseUrl + "/")]
+        [InlineData(CefExample.BaseUrl + "/", "someorigin")]
+        [InlineData("firstorigin", "secondorigin", CefExample.BaseUrl + "/")]
+        [InlineData("firstorigin", CefExample.BaseUrl + "/", "secondorigin")]
         public async Task ShouldEnableJsBindingApiForOrigin(params string[] origins)
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
@@ -171,7 +232,9 @@ namespace CefSharp.Test.JavascriptBinding
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
-                await browser.WaitForInitialLoadAsync();
+                var loadResponse = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(loadResponse.Success);
 
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
@@ -195,7 +258,9 @@ namespace CefSharp.Test.JavascriptBinding
                 //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
 
-                await browser.WaitForInitialLoadAsync();
+                var loadResponse = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(loadResponse.Success);
 
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
