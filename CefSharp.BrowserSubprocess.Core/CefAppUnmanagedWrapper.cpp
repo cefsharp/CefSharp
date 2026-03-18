@@ -381,15 +381,10 @@ namespace CefSharp
                 for (int i = 0; i < size; i++)
                 {
                     auto origin = allowOrigins->GetString(i);
-                    auto frameOriginPtr = reinterpret_cast<const wchar_t*>(frameUrlOrigin.c_str());
-                    auto allowedOriginPtr = reinterpret_cast<const wchar_t*>(origin.c_str());
 
-                    if (frameOriginPtr != nullptr && allowedOriginPtr != nullptr)
+                    if (_wcsicmp(frameUrlOrigin.ToWString().c_str(), origin.ToWString().c_str()) == 0)
                     {
-                        if (_wcsicmp(frameOriginPtr, allowedOriginPtr) == 0)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
