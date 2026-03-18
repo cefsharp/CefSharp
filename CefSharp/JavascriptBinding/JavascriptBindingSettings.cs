@@ -127,9 +127,9 @@ namespace CefSharp.JavascriptBinding
         }
 
         /// <summary>
-        /// HasJavascriptBindingApiAllowOrigins 
+        /// Indicates whether <see cref="JavascriptBindingApiAllowOrigins"/> has been set with zero or more origins.
         /// </summary>
-        /// <returns>bool true if <see cref="JavascriptBindingApiAllowOrigins"/> is non empty collection.</returns>
+        /// <returns>true if <see cref="JavascriptBindingApiAllowOrigins"/> is a non-empty collection, otherwise false.</returns>
         public bool HasJavascriptBindingApiAllowOrigins()
         {
             if (javascriptBindingApiAllowOrigins == null)
