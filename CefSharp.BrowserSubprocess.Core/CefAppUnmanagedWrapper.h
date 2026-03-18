@@ -38,7 +38,7 @@ namespace CefSharp
             gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
 
             gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
-            bool IsJavascriptBindingApiAllowed(CefRefPtr<CefFrame> frame);
+            bool IsJavascriptBindingApiAllowed(CefBrowserWrapper^ browserWrapper, CefRefPtr<CefFrame> frame);
 
         public:
             static const CefString kPromiseCreatorScript;
