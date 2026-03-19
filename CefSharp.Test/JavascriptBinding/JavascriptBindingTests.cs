@@ -355,5 +355,67 @@ namespace CefSharp.Test.JavascriptBinding
             Assert.NotNull(evt);
             Assert.Equal("second", evt.Arguments.ObjectName);
         }
+
+        [Fact]
+        public async Task ShouldDisableJsBindingApiAfterCrossOriginNavigationToDisallowedOrigin()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
+            {
+                var settings = browser.JavascriptObjectRepository.Settings;
+                settings.JavascriptBindingApiEnabled = true;
+                settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl };
+
+                browser.CreateBrowser();
+
+                var loadResponse = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(loadResponse.Success);
+
+                // Binding API should be present on the allowed origin
+                var response1 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+                Assert.True(response1.Success);
+                Assert.False((bool)response1.Result);
+
+                // Navigate to a different origin that is not in the allow list
+                var crossOriginLoad = await browser.LoadUrlAsync("https://www.google.com");
+                Assert.True(crossOriginLoad.Success);
+
+                // Binding API should no longer be present on the disallowed origin
+                var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+                Assert.True(response2.Success);
+                Assert.True((bool)response2.Result);
+            }
+        }
+
+        [Fact]
+        public async Task ShouldKeepJsBindingApiEnabledAfterCrossOriginNavigationToAllowedOrigin()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
+            {
+                var settings = browser.JavascriptObjectRepository.Settings;
+                settings.JavascriptBindingApiEnabled = true;
+                settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl, "https://www.google.com" };
+
+                browser.CreateBrowser();
+
+                var loadResponse = await browser.WaitForInitialLoadAsync();
+
+                Assert.True(loadResponse.Success);
+
+                // Binding API should be present on the first allowed origin
+                var response1 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+                Assert.True(response1.Success);
+                Assert.False((bool)response1.Result);
+
+                // Navigate to a second origin that is also in the allow list
+                var crossOriginLoad = await browser.LoadUrlAsync("https://www.google.com");
+                Assert.True(crossOriginLoad.Success);
+
+                // Binding API should still be present on the second allowed origin
+                var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+                Assert.True(response2.Success);
+                Assert.False((bool)response2.Result);
+            }
+        }
     }
 }
