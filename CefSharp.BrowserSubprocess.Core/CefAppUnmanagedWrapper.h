@@ -29,7 +29,6 @@ namespace CefSharp
             gcroot<ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>^> _jsRootObjectWrappersByFrameId;
             bool _focusedNodeChangedEnabled;
             bool _legacyBindingEnabled;
-            bool _jsBindingApiEnabled = true;
 
             // The property names used to call bound objects
             CefString _jsBindingPropertyName;
@@ -39,6 +38,7 @@ namespace CefSharp
             gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
 
             gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
+            bool IsJavascriptBindingApiAllowed(CefBrowserWrapper^ browserWrapper, CefRefPtr<CefFrame> frame);
 
         public:
             static const CefString kPromiseCreatorScript;
