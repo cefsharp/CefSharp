@@ -369,6 +369,15 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// The Chrome policy ID. This value is used to configure chrome enterprise policies.
+        /// </summary>
+        public string ChromePolicyId
+        {
+            get { return settings.ChromePolicyId; }
+            set { settings.ChromePolicyId = value; }
+        }
+
+        /// <summary>
         /// Registers a custom scheme using the provided settings.
         /// </summary>
         /// <param name="scheme">The CefCustomScheme which provides the details about the scheme.</param>
