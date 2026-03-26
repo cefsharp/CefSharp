@@ -56,6 +56,10 @@ namespace CefSharp.Test.Javascript
                 // change V8 context
                 await browser.LoadUrlAsync(CefExample.HelloWorldUrl);
 
+                // Wait for 100ms so the message from the render process has time to arrive, this
+                // wasn't previously nessicary, timing is different starting in M146
+                await Task.Delay(100);
+
                 await Assert.ThrowsAsync<TaskCanceledException>(() => evaluateCancelAfterV8ContextChangeTask);
 
                 evaluateCancelAfterDisposeTask = browser.EvaluateScriptAsync("new Promise(resolve => setTimeout(resolve, 1000))");
