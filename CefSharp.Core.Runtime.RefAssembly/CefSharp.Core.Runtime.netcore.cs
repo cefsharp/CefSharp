@@ -109,6 +109,7 @@ namespace CefSharp.Core
         public string CachePath { get { throw null; } set { } }
         public CefSharp.Internals.CommandLineArgDictionary CefCommandLineArgs { get { throw null; } }
         public System.Collections.Generic.IEnumerable<CefSharp.CefCustomScheme> CefCustomSchemes { get { throw null; } }
+        public string ChromePolicyId { get { throw null; } set { } }
         public bool CommandLineArgsDisabled { get { throw null; } set { } }
         public bool CookieableSchemesExcludeDefaults { get { throw null; } set { } }
         public string CookieableSchemesList { get { throw null; } set { } }

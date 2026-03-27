@@ -360,6 +360,15 @@ namespace CefSharp
             }
 
             /// <summary>
+            /// The Chrome policy ID. This value is used to configure managed policies.
+            /// </summary>
+            property String^ ChromePolicyId
+            {
+                String^ get() { return StringUtils::ToClr(_cefSettings->chrome_policy_id); }
+                void set(String^ value) { StringUtils::AssignNativeFromClr(_cefSettings->chrome_policy_id, value); }
+            }
+
+            /// <summary>
             /// Registers a custom scheme using the provided settings.
             /// </summary>
             /// <param name="cefCustomScheme">The CefCustomScheme which provides the details about the scheme.</param>
