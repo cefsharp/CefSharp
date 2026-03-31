@@ -167,7 +167,7 @@ namespace CefSharp
 
             auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
 
-            if (browserWrapper != nullptr && browserWrapper->JavascriptBindingApiEnabled && IsJavascriptBindingApiAllowed(browserWrapper, frame))
+            if (IsJavascriptBindingApiAllowed(browserWrapper, frame))
             {
                 //TODO: Look at adding some sort of javascript mapping layer to reduce the code duplication
                 auto global = context->GetGlobal();
@@ -349,7 +349,17 @@ namespace CefSharp
 
         bool CefAppUnmanagedWrapper::IsJavascriptBindingApiAllowed(CefBrowserWrapper^ browserWrapper, CefRefPtr<CefFrame> frame)
         {
-            if (browserWrapper == nullptr || !browserWrapper->JavascriptBindingApiHasAllowOrigins)
+            if (browserWrapper == nullptr)
+            {
+                return true;
+            }
+
+            if (!browserWrapper->JavascriptBindingApiEnabled)
+            {
+                return false;
+            }
+
+            if (!browserWrapper->JavascriptBindingApiHasAllowOrigins)
             {
                 return true;
             }
