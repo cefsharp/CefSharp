@@ -278,6 +278,7 @@
     <ClCompile Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.cpp" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="JavascriptBindingSettings.h" />
     <ClInclude Include="JavascriptRootObjectWrapper.h" />
     <ClInclude Include="SubProcessApp.h" />
     <ClInclude Include="Async\JavascriptAsyncMethodCallback.h" />

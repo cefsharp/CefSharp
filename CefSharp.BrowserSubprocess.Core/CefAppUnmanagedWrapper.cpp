@@ -62,7 +62,11 @@ namespace CefSharp
             _onBrowserCreated->Invoke(wrapper);
 
             //Multiple CefBrowserWrappers created when opening popups
-            _browserWrappers->TryAdd(browser->GetIdentifier(), wrapper);
+            auto browserId = browser->GetIdentifier();
+            _browserWrappers->TryAdd(browserId, wrapper);
+
+            auto javascriptBindingSettings = gcnew JavascriptBindingSettings();
+            _browserJavascriptBindingSettings->TryAdd(browserId, javascriptBindingSettings);
 
             if (!extraInfo.get())
             {
@@ -103,19 +107,19 @@ namespace CefSharp
 
             if (extraInfo->HasKey("JavascriptBindingApiEnabled"))
             {
-                wrapper->JavascriptBindingApiEnabled = extraInfo->GetBool("JavascriptBindingApiEnabled");
+                javascriptBindingSettings->JavascriptBindingApiEnabled = extraInfo->GetBool("JavascriptBindingApiEnabled");
             }
 
             if (extraInfo->HasKey("JavascriptBindingApiHasAllowOrigins"))
             {
-                wrapper->JavascriptBindingApiHasAllowOrigins = extraInfo->GetBool("JavascriptBindingApiHasAllowOrigins");
+                javascriptBindingSettings->JavascriptBindingApiHasAllowOrigins = extraInfo->GetBool("JavascriptBindingApiHasAllowOrigins");
 
-                if (wrapper->JavascriptBindingApiHasAllowOrigins)
+                if (javascriptBindingSettings->JavascriptBindingApiHasAllowOrigins)
                 {
                     auto allowOrigins = extraInfo->GetList("JavascriptBindingApiAllowOrigins");
                     if (allowOrigins.get() && allowOrigins->IsValid())
                     {
-                        wrapper->JavascriptBindingApiAllowOrigins = allowOrigins->Copy();
+                        javascriptBindingSettings->JavascriptBindingApiAllowOrigins = allowOrigins->Copy();
                     }
                 }
             }
@@ -136,6 +140,9 @@ namespace CefSharp
                 _onBrowserDestroyed->Invoke(wrapper);
                 delete wrapper;
             }
+
+            // Don't remove javascript settings because cef is unreliable in calling OnBrowserCreated/OnBrowserDestroyed consistently:
+            // https://github.com/cefsharp/CefSharp/issues/5228
         };
 
         void CefAppUnmanagedWrapper::OnContextCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context)
@@ -165,9 +172,10 @@ namespace CefSharp
                 }
             }
 
-            auto browserWrapper = FindBrowserWrapper(browser->GetIdentifier());
+            JavascriptBindingSettings^ javascriptBindingSettings = nullptr;
+            _browserJavascriptBindingSettings->TryGetValue(browser->GetIdentifier(), javascriptBindingSettings);
 
-            if (IsJavascriptBindingApiAllowed(browserWrapper, frame))
+            if (IsJavascriptBindingApiAllowed(javascriptBindingSettings, frame))
             {
                 //TODO: Look at adding some sort of javascript mapping layer to reduce the code duplication
                 auto global = context->GetGlobal();
@@ -347,24 +355,24 @@ namespace CefSharp
             return rootObject;
         }
 
-        bool CefAppUnmanagedWrapper::IsJavascriptBindingApiAllowed(CefBrowserWrapper^ browserWrapper, CefRefPtr<CefFrame> frame)
+        bool CefAppUnmanagedWrapper::IsJavascriptBindingApiAllowed(JavascriptBindingSettings^ javascriptBindingSettings, CefRefPtr<CefFrame> frame)
         {
-            if (browserWrapper == nullptr)
-            {
-                return true;
-            }
-
-            if (!browserWrapper->JavascriptBindingApiEnabled)
+            if (javascriptBindingSettings == nullptr)
             {
                 return false;
             }
 
-            if (!browserWrapper->JavascriptBindingApiHasAllowOrigins)
+            if (!javascriptBindingSettings->JavascriptBindingApiEnabled)
+            {
+                return false;
+            }
+
+            if (!javascriptBindingSettings->JavascriptBindingApiHasAllowOrigins)
             {
                 return true;
             }
 
-            auto allowOrigins = browserWrapper->JavascriptBindingApiAllowOrigins;
+            auto allowOrigins = javascriptBindingSettings->JavascriptBindingApiAllowOrigins;
             if (!allowOrigins.get())
             {
                 return false;
