@@ -65,7 +65,7 @@ namespace CefSharp
             {
                 if (!Object::ReferenceEquals(_browserWrappers, nullptr))
                 {
-                    for each (CefBrowserWrapper ^ browser in Enumerable::OfType<CefBrowserWrapper^>(_browserWrappers))
+                    for each (CefBrowserWrapper ^ browser in _browserWrappers->Values)
                     {
                         delete browser;
                     }
@@ -75,7 +75,7 @@ namespace CefSharp
 
                 if (!Object::ReferenceEquals(_browserJavascriptBindingSettings, nullptr))
                 {
-                    for each (JavascriptBindingSettings ^ javascriptBindingSettings in Enumerable::OfType<JavascriptBindingSettings^>(_browserJavascriptBindingSettings))
+                    for each (JavascriptBindingSettings ^ javascriptBindingSettings in _browserJavascriptBindingSettings->Values)
                     {
                         delete javascriptBindingSettings;
                     }
@@ -85,7 +85,7 @@ namespace CefSharp
 
                 if (!Object::ReferenceEquals(_jsRootObjectWrappersByFrameId, nullptr))
                 {
-                    for each (JavascriptRootObjectWrapper^ rootObject in Enumerable::OfType<JavascriptRootObjectWrapper^>(_jsRootObjectWrappersByFrameId))
+                    for each (JavascriptRootObjectWrapper^ rootObject in _jsRootObjectWrappersByFrameId->Values)
                     {
                         delete rootObject;
                     }
