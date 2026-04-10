@@ -21,9 +21,9 @@ namespace CefSharp
             JavascriptBindingSettings()
             {
                 LegacyBindingEnabled = false;
+                JavascriptBindingApiEnabled = true;
                 JavascriptBindingPropertyName = "CefSharp";
                 JavascriptBindingPropertyNameCamelCase = "cefSharp";
-                JavascriptBindingApiEnabled = true;
                 JavascriptBindingApiHasAllowOrigins = false;
                 JavascriptBindingApiAllowOrigins = nullptr;
             }
@@ -39,11 +39,11 @@ namespace CefSharp
             }
 
             property bool LegacyBindingEnabled;
+            property bool JavascriptBindingApiEnabled;
 
             property String^ JavascriptBindingPropertyName;
             property String^ JavascriptBindingPropertyNameCamelCase;
 
-            property bool JavascriptBindingApiEnabled;
             property bool JavascriptBindingApiHasAllowOrigins;
             property CefRefPtr<CefListValue> JavascriptBindingApiAllowOrigins
             {

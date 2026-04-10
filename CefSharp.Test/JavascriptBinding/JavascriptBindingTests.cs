@@ -107,18 +107,51 @@ namespace CefSharp.Test.JavascriptBinding
             await browser2.WaitForInitialLoadAsync();
             await browser3.WaitForInitialLoadAsync();
 
-            var result1 = await browser1.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
-            var result2 = await browser2.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
-            var result3 = await browser3.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+            // Assert browser1
+            {
+                var result1 = await browser1.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
+                var result2 = await browser1.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
+                var result3 = await browser1.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
 
-            Assert.True(result1.Success, result1.Message);
-            Assert.False((bool)result1.Result);
+                Assert.True(result1.Success, result1.Message);
+                Assert.False((bool)result1.Result);
 
-            Assert.True(result2.Success, result2.Message);
-            Assert.False((bool)result2.Result);
+                Assert.True(result2.Success, result2.Message);
+                Assert.True((bool)result2.Result);
 
-            Assert.True(result3.Success, result3.Message);
-            Assert.False((bool)result3.Result);
+                Assert.True(result3.Success, result3.Message);
+                Assert.True((bool)result3.Result);
+            }
+            // Assert browser2
+            {
+                var result1 = await browser2.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
+                var result2 = await browser2.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
+                var result3 = await browser2.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+
+                Assert.True(result1.Success, result1.Message);
+                Assert.True((bool)result1.Result);
+
+                Assert.True(result2.Success, result2.Message);
+                Assert.False((bool)result2.Result);
+
+                Assert.True(result3.Success, result3.Message);
+                Assert.True((bool)result3.Result);
+            }
+            // Assert browser3
+            {
+                var result1 = await browser3.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
+                var result2 = await browser3.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
+                var result3 = await browser3.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+
+                Assert.True(result1.Success, result1.Message);
+                Assert.True((bool)result1.Result);
+
+                Assert.True(result2.Success, result2.Message);
+                Assert.True((bool)result2.Result);
+
+                Assert.True(result3.Success, result3.Message);
+                Assert.False((bool)result3.Result);
+            }
         }
 
         [Theory]
