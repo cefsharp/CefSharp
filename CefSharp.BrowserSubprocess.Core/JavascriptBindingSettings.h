@@ -20,6 +20,9 @@ namespace CefSharp
         public:
             JavascriptBindingSettings()
             {
+                LegacyBindingEnabled = false;
+                JavascriptBindingPropertyName = "CefSharp";
+                JavascriptBindingPropertyNameCamelCase = "cefSharp";
                 JavascriptBindingApiEnabled = true;
                 JavascriptBindingApiHasAllowOrigins = false;
                 JavascriptBindingApiAllowOrigins = nullptr;
@@ -34,6 +37,11 @@ namespace CefSharp
             {
                 this->!JavascriptBindingSettings();
             }
+
+            property bool LegacyBindingEnabled;
+
+            property String^ JavascriptBindingPropertyName;
+            property String^ JavascriptBindingPropertyNameCamelCase;
 
             property bool JavascriptBindingApiEnabled;
             property bool JavascriptBindingApiHasAllowOrigins;
