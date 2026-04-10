@@ -9,6 +9,7 @@
 
 #include "SubProcessApp.h"
 #include "CefBrowserWrapper.h"
+#include "JavascriptBindingSettings.h"
 #include "RegisterBoundObjectRegistry.h"
 
 using namespace System::Collections::Generic;
@@ -26,6 +27,7 @@ namespace CefSharp
             gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
             gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
             gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
+            gcroot<ConcurrentDictionary<int, JavascriptBindingSettings^>^> _browserJavascriptBindingSettings;
             gcroot<ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>^> _jsRootObjectWrappersByFrameId;
             bool _focusedNodeChangedEnabled;
             bool _legacyBindingEnabled;
@@ -38,7 +40,7 @@ namespace CefSharp
             gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
 
             gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
-            bool IsJavascriptBindingApiAllowed(CefBrowserWrapper^ browserWrapper, CefRefPtr<CefFrame> frame);
+            bool IsJavascriptBindingApiAllowed(JavascriptBindingSettings^ javascriptBindingSettings, CefRefPtr<CefFrame> frame);
 
         public:
             static const CefString kPromiseCreatorScript;
@@ -49,6 +51,7 @@ namespace CefSharp
                 _onBrowserCreated = onBrowserCreated;
                 _onBrowserDestroyed = onBrowserDestroyed;
                 _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
+                _browserJavascriptBindingSettings = gcnew ConcurrentDictionary<int, JavascriptBindingSettings^>();
                 _jsRootObjectWrappersByFrameId = gcnew ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>();
                 _focusedNodeChangedEnabled = enableFocusedNodeChanged;
                 _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();
@@ -62,7 +65,7 @@ namespace CefSharp
             {
                 if (!Object::ReferenceEquals(_browserWrappers, nullptr))
                 {
-                    for each (CefBrowserWrapper ^ browser in Enumerable::OfType<CefBrowserWrapper^>(_browserWrappers))
+                    for each (CefBrowserWrapper ^ browser in _browserWrappers->Values)
                     {
                         delete browser;
                     }
@@ -70,9 +73,19 @@ namespace CefSharp
                     _browserWrappers = nullptr;
                 }
 
+                if (!Object::ReferenceEquals(_browserJavascriptBindingSettings, nullptr))
+                {
+                    for each (JavascriptBindingSettings ^ javascriptBindingSettings in _browserJavascriptBindingSettings->Values)
+                    {
+                        delete javascriptBindingSettings;
+                    }
+
+                    _browserJavascriptBindingSettings = nullptr;
+                }
+
                 if (!Object::ReferenceEquals(_jsRootObjectWrappersByFrameId, nullptr))
                 {
-                    for each (JavascriptRootObjectWrapper^ rootObject in Enumerable::OfType<JavascriptRootObjectWrapper^>(_jsRootObjectWrappersByFrameId))
+                    for each (JavascriptRootObjectWrapper^ rootObject in _jsRootObjectWrappersByFrameId->Values)
                     {
                         delete rootObject;
                     }

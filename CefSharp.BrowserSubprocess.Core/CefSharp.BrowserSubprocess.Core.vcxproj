@@ -188,6 +188,7 @@
     <ClCompile Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.cpp" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="JavascriptBindingSettings.h" />
     <ClInclude Include="JavascriptPromiseHandler.h" />
     <ClInclude Include="JavascriptPromiseResolverCatch.h" />
     <ClInclude Include="JavascriptPromiseResolverThen.h" />
