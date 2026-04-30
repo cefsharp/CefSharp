@@ -30,17 +30,18 @@ namespace CefSharp
             gcroot<ConcurrentDictionary<int, JavascriptBindingSettings^>^> _browserJavascriptBindingSettings;
             gcroot<ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>^> _jsRootObjectWrappersByFrameId;
             bool _focusedNodeChangedEnabled;
-            bool _legacyBindingEnabled;
-
-            // The property names used to call bound objects
-            CefString _jsBindingPropertyName;
-            CefString _jsBindingPropertyNameCamelCase;
 
             // The serialized registered object data waiting to be used.
             gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
 
             gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
-            bool IsJavascriptBindingApiAllowed(JavascriptBindingSettings^ javascriptBindingSettings, CefRefPtr<CefFrame> frame);
+
+            static bool IsJavascriptBindingApiAllowed(JavascriptBindingSettings^ javascriptBindingSettings, CefRefPtr<CefFrame> frame);
+
+            static JavascriptBindingSettings^ JavascriptBindingSettingsFactory(int _)
+            {
+                return gcnew JavascriptBindingSettings();
+            }
 
         public:
             static const CefString kPromiseCreatorScript;
@@ -56,9 +57,6 @@ namespace CefSharp
                 _focusedNodeChangedEnabled = enableFocusedNodeChanged;
                 _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();
                 _registerBoundObjectRegistry = gcnew RegisterBoundObjectRegistry();
-                _legacyBindingEnabled = false;
-                _jsBindingPropertyName = "CefSharp";
-                _jsBindingPropertyNameCamelCase = "cefSharp";
             }
 
             ~CefAppUnmanagedWrapper()
