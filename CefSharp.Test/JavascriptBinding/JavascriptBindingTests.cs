@@ -84,7 +84,73 @@ namespace CefSharp.Test.JavascriptBinding
 
                 var result = await browser.EvaluateScriptAsync("bindingApiObject.isObjectCached('doesntexist') === false");
 
-                Assert.True(result.Success);
+                Assert.True(result.Success, result.Message);
+            }
+        }
+
+        [Fact]
+        public async Task ShouldWorkWhenUsingCustomGlobalObjectNameInMultipleBrowsers()
+        {
+            using var browser1 = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false);
+            using var browser2 = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false);
+            using var browser3 = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false);
+
+            browser1.JavascriptObjectRepository.Settings.JavascriptBindingApiGlobalObjectName = "bindingApiObject1";
+            browser2.JavascriptObjectRepository.Settings.JavascriptBindingApiGlobalObjectName = "bindingApiObject2";
+
+            //To modify the settings we need to defer browser creation slightly
+            browser1.CreateBrowser();
+            browser2.CreateBrowser();
+            browser3.CreateBrowser();
+
+            await browser1.WaitForInitialLoadAsync();
+            await browser2.WaitForInitialLoadAsync();
+            await browser3.WaitForInitialLoadAsync();
+
+            // Assert browser1
+            {
+                var result1 = await browser1.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
+                var result2 = await browser1.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
+                var result3 = await browser1.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+
+                Assert.True(result1.Success, result1.Message);
+                Assert.False((bool)result1.Result);
+
+                Assert.True(result2.Success, result2.Message);
+                Assert.True((bool)result2.Result);
+
+                Assert.True(result3.Success, result3.Message);
+                Assert.True((bool)result3.Result);
+            }
+            // Assert browser2
+            {
+                var result1 = await browser2.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
+                var result2 = await browser2.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
+                var result3 = await browser2.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+
+                Assert.True(result1.Success, result1.Message);
+                Assert.True((bool)result1.Result);
+
+                Assert.True(result2.Success, result2.Message);
+                Assert.False((bool)result2.Result);
+
+                Assert.True(result3.Success, result3.Message);
+                Assert.True((bool)result3.Result);
+            }
+            // Assert browser3
+            {
+                var result1 = await browser3.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
+                var result2 = await browser3.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
+                var result3 = await browser3.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
+
+                Assert.True(result1.Success, result1.Message);
+                Assert.True((bool)result1.Result);
+
+                Assert.True(result2.Success, result2.Message);
+                Assert.True((bool)result2.Result);
+
+                Assert.True(result3.Success, result3.Message);
+                Assert.False((bool)result3.Result);
             }
         }
 
@@ -97,10 +163,10 @@ namespace CefSharp.Test.JavascriptBinding
             var loadResponse = await Browser.LoadUrlAsync(CefExample.BindingApiCustomObjectNameTestUrl);
 
             Assert.True(loadResponse.Success);
-            
+
             var response = await Browser.EvaluateScriptAsync(script);
 
-            Assert.True(response.Success);
+            Assert.True(response.Success, response.Message);
             Assert.False((bool)response.Result);
         }
 
@@ -122,10 +188,10 @@ namespace CefSharp.Test.JavascriptBinding
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
 
-                Assert.True(response1.Success);
+                Assert.True(response1.Success, response1.Message);
                 Assert.True((bool)response1.Result);
 
-                Assert.True(response2.Success);
+                Assert.True(response2.Success, response2.Message);
                 Assert.True((bool)response2.Result);
             }
         }
@@ -152,10 +218,10 @@ namespace CefSharp.Test.JavascriptBinding
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
 
-                Assert.True(response1.Success);
+                Assert.True(response1.Success, response1.Message);
                 Assert.True((bool)response1.Result);
 
-                Assert.True(response2.Success);
+                Assert.True(response2.Success, response2.Message);
                 Assert.True((bool)response2.Result);
             }
         }
@@ -179,10 +245,10 @@ namespace CefSharp.Test.JavascriptBinding
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
 
-                Assert.True(response1.Success);
+                Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
 
-                Assert.True(response2.Success);
+                Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
         }
@@ -208,13 +274,14 @@ namespace CefSharp.Test.JavascriptBinding
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
 
-                Assert.True(response1.Success);
+                Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
 
-                Assert.True(response2.Success);
+                Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
         }
+
         [Theory]
         [InlineData(CefExample.BaseUrl + "/")]
         [InlineData("someorigin", CefExample.BaseUrl + "/")]
@@ -239,10 +306,10 @@ namespace CefSharp.Test.JavascriptBinding
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
 
-                Assert.True(response1.Success);
+                Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
 
-                Assert.True(response2.Success);
+                Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
         }
@@ -265,10 +332,10 @@ namespace CefSharp.Test.JavascriptBinding
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
 
-                Assert.True(response1.Success);
+                Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
 
-                Assert.True(response2.Success);
+                Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
         }
@@ -282,7 +349,7 @@ namespace CefSharp.Test.JavascriptBinding
 
             var result = await Browser.EvaluateScriptAsync(script);
 
-            Assert.True(result.Success);
+            Assert.True(result.Success, result.Message);
 
             using var process = Process.GetProcessById(Assert.IsType<int>(result.Result));
 
@@ -373,7 +440,7 @@ namespace CefSharp.Test.JavascriptBinding
 
                 // Binding API should be present on the allowed origin
                 var response1 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-                Assert.True(response1.Success);
+                Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
 
                 // Navigate to a different origin that is not in the allow list
@@ -382,7 +449,7 @@ namespace CefSharp.Test.JavascriptBinding
 
                 // Binding API should no longer be present on the disallowed origin
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-                Assert.True(response2.Success);
+                Assert.True(response2.Success, response2.Message);
                 Assert.True((bool)response2.Result);
             }
         }
@@ -404,7 +471,7 @@ namespace CefSharp.Test.JavascriptBinding
 
                 // Binding API should be present on the first allowed origin
                 var response1 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-                Assert.True(response1.Success);
+                Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
 
                 // Navigate to a second origin that is also in the allow list
@@ -413,7 +480,7 @@ namespace CefSharp.Test.JavascriptBinding
 
                 // Binding API should still be present on the second allowed origin
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-                Assert.True(response2.Success);
+                Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
         }
