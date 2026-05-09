@@ -218,8 +218,18 @@ namespace CefSharp
                                 }
                                 else
                                 {
+                                    bool missing = false;
                                     String^ currentValue = StringUtils::ToClr(existingValue);
-                                    if (!currentValue->Contains(kvp->Value))
+                                    List<String^>^ existingFeatures = gcnew List<String^>(currentValue->Split(','));
+                                    for each(String ^ feature in kvp->Value->Split(','))
+                                    {
+                                        if (!existingFeatures->Contains(feature))
+                                        {
+                                            missing = true;
+                                            break;
+                                        }
+                                    }
+                                    if (missing)
                                     {
                                         commandLine->RemoveSwitch(name);
                                         commandLine->AppendSwitchWithValue(name, StringUtils::ToNative(currentValue + "," + kvp->Value));
