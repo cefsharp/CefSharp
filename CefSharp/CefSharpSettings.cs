@@ -21,6 +21,7 @@ namespace CefSharp
             WcfTimeout = TimeSpan.FromSeconds(2);
 #endif
             SubprocessExitIfParentProcessClosed = true;
+            MergeFeaturesCommandLineArgs = true;
         }
 
 #if !NETCOREAPP
@@ -81,6 +82,12 @@ namespace CefSharp
         /// false.
         /// </summary>
         public static bool FocusedNodeChangedEnabled { get; set; }
+
+        /// <summary>
+        /// Any enable-features/disable-features command line arguments will be automatically merged with existing values if supplied.
+        /// This currently defaults to true.
+        /// </summary>
+        public static bool MergeFeaturesCommandLineArgs { get; set; }
 
         /// <summary>
         /// CefSharp.WinForms and CefSharp.Wpf.HwndHost ONLY!
