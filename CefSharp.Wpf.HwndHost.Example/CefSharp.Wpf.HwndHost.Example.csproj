@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFrameworks>net472</TargetFrameworks>
         <OutputType>WinExe</OutputType>
-        <Platforms>x86;x64</Platforms>
+        <Platforms>x86;x64;arm64</Platforms>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWPF>true</UseWPF>
         <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
