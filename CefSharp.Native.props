@@ -12,6 +12,17 @@
   Include locales in the Example projects
   -->
   <Choose>
+    <When Condition="'$(Platform)' == 'arm64'">
+      <ItemGroup>
+        <Content Include="@(CefRuntimeWinArm64Locales)">
+          <Link>locales\%(RecursiveDir)%(FileName)%(Extension)</Link>
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <PublishState>Included</PublishState>
+          <Visible>false</Visible>
+          <IncludeInVsix>true</IncludeInVsix>
+        </Content>
+      </ItemGroup>
+    </When>
     <When Condition="'$(Platform)' == 'x64'">
       <ItemGroup>
         <Content Include="@(CefRuntimeWin64Locales)">

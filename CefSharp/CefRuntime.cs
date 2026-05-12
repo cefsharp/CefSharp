@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace CefSharp
 {
@@ -18,10 +19,10 @@ namespace CefSharp
 
         /// <summary>
         /// When using AnyCPU the architecture specific version of CefSharp.Core.Runtime.dll
-        /// needs to be loaded (x64/x86).
+        /// needs to be loaded (x64/x86/arm64).
         /// This method subscribes to the <see cref="AppDomain.AssemblyResolve"/> event
         /// for <see cref="AppDomain.CurrentDomain"/> and loads the CefSharp.Core.Runtime.dll
-        /// based on <see cref="Environment.Is64BitProcess"/>.
+        /// based on the current process architecture.
         /// This method MUST be called before you call Cef.Initialize, create your first ChromiumWebBrowser instance, basically
         /// before anything CefSharp related happens. This method is part of CefSharp.dll which is an AnyCPU library and
         /// doesn't have any references to the CefSharp.Core.Runtime.dll so it's safe to use.
@@ -48,7 +49,7 @@ namespace CefSharp
                 {
                     string assemblyName = args.Name.Split(new[] { ',' }, 2)[0] + ".dll";
                     string archSpecificPath = Path.Combine(basePath,
-                                                           Environment.Is64BitProcess ? "x64" : "x86",
+                                                           RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant(),
                                                            assemblyName);
 
                     return File.Exists(archSpecificPath)
@@ -75,9 +76,9 @@ namespace CefSharp
 
         /// <summary>
         /// When using AnyCPU the architecture specific version of CefSharp.Core.Runtime.dll
-        /// needs to be loaded (x64/x86).
+        /// needs to be loaded (x64/x86/arm64).
         /// This method calls <see cref="Assembly.LoadFile(string)"/> to immediately load CefSharp.Core.Runtime.dll
-        /// based on <see cref="Environment.Is64BitProcess"/>.
+        /// based on the current process architecture.
         /// This method MUST be called before you call Cef.Initialize, create your first ChromiumWebBrowser instance, basically
         /// before anything CefSharp related happens. This method is part of CefSharp.dll which is an AnyCPU library and
         /// doesn't have any references to the CefSharp.Core.Runtime.dll so it's safe to use.
@@ -95,9 +96,8 @@ namespace CefSharp
                 basePath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             }
 
-            var env = Environment.Is64BitProcess ? "x64" : "x86";
             string archSpecificPath = Path.Combine(basePath,
-                                                   env,
+                                                   RuntimeInformation.ProcessArchitecture.ToString().ToLowerInvariant(),
                                                    assemblyName);
 
             if (File.Exists(archSpecificPath))
@@ -106,7 +106,7 @@ namespace CefSharp
             }
             else
             {
-                throw new FileNotFoundException("Unable to load for arch " + env, archSpecificPath);
+                throw new FileNotFoundException("Unable to load for arch " + RuntimeInformation.ProcessArchitecture, archSpecificPath);
             }
         }
     }
