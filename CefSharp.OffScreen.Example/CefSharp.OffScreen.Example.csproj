@@ -2,12 +2,14 @@
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <OutputType>Exe</OutputType>
-        <Platforms>x86;x64</Platforms>
+        <Platforms>x86;x64;arm64</Platforms>
+        <PlatformTarget Condition="'$(Platform)' == 'arm64'">arm64</PlatformTarget>
         <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+        <RuntimeIdentifier Condition="'$(Platform)' == 'arm64'">win-arm64</RuntimeIdentifier>
     </PropertyGroup>
     
     <ItemGroup>
