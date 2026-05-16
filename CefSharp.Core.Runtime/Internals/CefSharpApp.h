@@ -218,22 +218,10 @@ namespace CefSharp
                                 }
                                 else
                                 {
-                                    bool missing = false;
-                                    String^ currentValue = StringUtils::ToClr(existingValue);
-                                    List<String^>^ existingFeatures = gcnew List<String^>(currentValue->Split(','));
-                                    for each(String ^ feature in kvp->Value->Split(','))
-                                    {
-                                        if (!existingFeatures->Contains(feature))
-                                        {
-                                            missing = true;
-                                            break;
-                                        }
-                                    }
-                                    if (missing)
-                                    {
-                                        commandLine->RemoveSwitch(name);
-                                        commandLine->AppendSwitchWithValue(name, StringUtils::ToNative(currentValue + "," + kvp->Value));
-                                    }
+                                    String^ merged = CommandLineArgsMerger::MergeFeatures(StringUtils::ToClr(existingValue), kvp->Value);
+
+                                    commandLine->RemoveSwitch(name);
+                                    commandLine->AppendSwitchWithValue(name, StringUtils::ToNative(merged));
                                 }
                             }
                             else
