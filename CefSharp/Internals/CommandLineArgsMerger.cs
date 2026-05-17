@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CefSharp.Internals
 {
@@ -20,33 +21,25 @@ namespace CefSharp.Internals
         /// <returns> the merged command line features. </returns>
         public static string MergeFeatures(string existing, string incoming)
         {
-            var features = new List<string>();
+            var features = new HashSet<string>();
 
-            if (!string.IsNullOrWhiteSpace(existing))
+            AddFeatures(features, existing);
+            AddFeatures(features, incoming);
+
+            return string.Join(",", features.OrderBy(i => i));
+        }
+
+        private static void AddFeatures(HashSet<string> features, string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
             {
-                foreach (var item in existing.Split(','))
-                {
-                    var trimmed = item.Trim();
-                    if (!features.Contains(trimmed))
-                    {
-                        features.Add(trimmed);
-                    }
-                }
+                return;
             }
 
-            if (!string.IsNullOrWhiteSpace(incoming))
+            foreach (var item in value.Split(','))
             {
-                foreach (var item in incoming.Split(','))
-                {
-                    var trimmed = item.Trim();
-                    if (!features.Contains(trimmed))
-                    {
-                        features.Add(trimmed);
-                    }
-                }
+                features.Add(item.Trim());
             }
-
-            return string.Join(",", features);
         }
     }
 }
