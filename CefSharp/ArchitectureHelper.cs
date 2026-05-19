@@ -1,8 +1,5 @@
 using System;
-using System.Reflection;
-#if NETCOREAPP
 using System.Runtime.InteropServices;
-#endif
 
 namespace CefSharp
 {
@@ -26,27 +23,7 @@ namespace CefSharp
 
         private static string ResolveProcessArchitecture()
         {
-#if NETCOREAPP
             return MapArchitecture(RuntimeInformation.ProcessArchitecture.ToString());
-#else
-            const BindingFlags flags = BindingFlags.Public | BindingFlags.Static;
-            var runtimeInformationType = Type.GetType("System.Runtime.InteropServices.RuntimeInformation, System.Runtime.InteropServices.RuntimeInformation");
-
-            if (runtimeInformationType != null)
-            {
-                var processArchitectureProperty = runtimeInformationType.GetProperty("ProcessArchitecture", flags);
-                if (processArchitectureProperty != null)
-                {
-                    var processArchitecture = processArchitectureProperty.GetValue(null, null);
-                    if (processArchitecture != null)
-                    {
-                        return MapArchitecture(processArchitecture.ToString());
-                    }
-                }
-            }
-
-            return Environment.Is64BitProcess ? X64 : X86;
-#endif
         }
 
         private static string MapArchitecture(string architecture)
