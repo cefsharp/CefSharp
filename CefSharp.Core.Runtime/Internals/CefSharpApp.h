@@ -209,10 +209,30 @@ namespace CefSharp
 
                         if (kvp->Key == "disable-features" || kvp->Key == "enable-features")
                         {
-                            //Temp workaround so we can set the disable-features/enable-features command line argument
-                            // See https://github.com/cefsharp/CefSharp/issues/2408
-                            commandLine->AppendSwitchWithValue(name, value);
+                            if (CefSharpSettings::MergeFeaturesCommandLineArgs)
+                            {
+                                CefString existingValue = commandLine->GetSwitchValue(name);
+                                if (existingValue.empty())
+                                {
+                                    commandLine->AppendSwitchWithValue(name, value);
+                                }
+                                else
+                                {
+                                    String^ merged = CommandLineArgsMerger::MergeFeatures(StringUtils::ToClr(existingValue), kvp->Value);
+
+                                    commandLine->RemoveSwitch(name);
+                                    commandLine->AppendSwitchWithValue(name, StringUtils::ToNative(merged));
+                                }
+                            }
+                            else
+                            {
+                                //Temp workaround so we can set the disable-features/enable-features command line argument
+                                // See https://github.com/cefsharp/CefSharp/issues/2408
+                                commandLine->RemoveSwitch(name);
+                                commandLine->AppendSwitchWithValue(name, value);
+                            }
                         }
+
                         // Right now the command line args handed to the application (global command line) have higher
                         // precedence than command line args provided by the app
                         else if (!commandLine->HasSwitch(name))
