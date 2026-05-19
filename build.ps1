@@ -116,38 +116,83 @@ function BuildSolution
         "/verbosity:normal"
     )
 
-    $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
-    $StartInfo.FileName = "msbuild.exe"
-    $StartInfo.Arguments = $Arguments
+    &msbuild.exe @Arguments
 
-    $StartInfo.EnvironmentVariables.Clear()
-
-    Get-ChildItem -Path env:* | ForEach-Object {
-        $StartInfo.EnvironmentVariables.Add($_.Name, $_.Value)
-    }
-
-    $StartInfo.UseShellExecute = $false
-    $StartInfo.CreateNoWindow = $false
-    $StartInfo.RedirectStandardError = $true
-    $StartInfo.RedirectStandardOutput = $true
-
-    $Process = New-Object System.Diagnostics.Process
-    $Process.StartInfo = $startInfo
-    $Process.Start()
-    
-    $stdout = $Process.StandardOutput.ReadToEnd()
-    $stderr = $Process.StandardError.ReadToEnd()
-    
-    $Process.WaitForExit()
-
-    if($Process.ExitCode -ne 0)
+    if($LASTEXITCODE -ne 0)
     {
-        Write-Host "stdout: $stdout"
-        Write-Host "stderr: $stderr"
         Die "Build failed"
     }
 
     Write-Diagnostic "Compile succeeded targeting $Toolchain using configuration $Configuration for platform $Platform"
+}
+
+function Get-HostArchitecture
+{
+    $processorArchitecture = $env:PROCESSOR_ARCHITECTURE
+
+    if ([string]::IsNullOrWhiteSpace($processorArchitecture))
+    {
+        Die "Unable to determine host processor architecture."
+    }
+
+    switch ($processorArchitecture.ToLowerInvariant())
+    {
+        'amd64'
+        {
+            return 'x64'
+        }
+        'arm64'
+        {
+            return 'arm64'
+        }
+        'x86'
+        {
+            return 'x86'
+        }
+        default
+        {
+            Die "Unsupported host processor architecture '$processorArchitecture'."
+        }
+    }
+}
+
+function Get-VCVarsAllArch
+{
+    param(
+        [Parameter(Position = 0, ValueFromPipeline = $true)]
+        [ValidateSet('x86', 'x64', 'arm64')]
+        [string] $TargetArchitecture
+    )
+
+    $hostArchitecture = Get-HostArchitecture
+
+    if ($hostArchitecture -eq $TargetArchitecture)
+    {
+        return $TargetArchitecture
+    }
+
+    return "$hostArchitecture`_$TargetArchitecture"
+}
+
+function Ensure-BuildEnvironment
+{
+    param(
+        [Parameter(Position = 0, ValueFromPipeline = $true)]
+        [string] $VCVarsAll,
+
+        [Parameter(Position = 1, ValueFromPipeline = $true)]
+        [ValidateSet('x86', 'x64', 'arm64')]
+        [string] $TargetArchitecture
+    )
+
+    $vcVarsAllArch = Get-VCVarsAllArch $TargetArchitecture
+
+    if ($env:CEFSHARP_BUILD_BOOTSTRAP_ARCH -ne $vcVarsAllArch)
+    {
+        Write-Diagnostic "Bootstrapping Visual Studio environment for host-target $vcVarsAllArch"
+        Invoke-BatchFile $VCVarsAll $vcVarsAllArch
+        $env:CEFSHARP_BUILD_BOOTSTRAP_ARCH = $vcVarsAllArch
+    }
 }
 
 function VSX 
@@ -216,24 +261,9 @@ function VSX
         Die "Unable to find $VCVarsAll"
     }
 
-    # Only configure build environment once
-    if($null -eq $env:CEFSHARP_BUILD_IS_BOOTSTRAPPED)
-    {
-        $VCVarsAllArch = $ARCHES[0]
-        if ($VCVarsAllArch -eq "arm64")
-        {
-            #TODO: Add support for compiling from an arm64 host
-            # Detect host and determine if we are native or cross compile
-            # currently only cross compiling arm64 from x64 host
-            $VCVarsAllArch = 'x64_arm64'
-        }
-
-        Invoke-BatchFile $VCVarsAll $VCVarsAllArch
-        $env:CEFSHARP_BUILD_IS_BOOTSTRAPPED = $true
-    }
-
     foreach ($arch in $ARCHES)
     {
+        Ensure-BuildEnvironment $VCVarsAll $arch
         BuildSolution "$Toolchain" 'Release' $arch $VisualStudioVersion     
     }
 
@@ -492,12 +522,16 @@ if($IsNetCoreBuild)
 }
 else
 {
-    $ARCHES.Remove("arm64")
     $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
     $NugetPackagePath = "nuget";
     $NupkgFiles = @('CefSharp.Common.nuspec', 'CefSharp.WinForms.nuspec', 'CefSharp.Wpf.nuspec', 'CefSharp.OffScreen.nuspec')
     $VCXProjPackageConfigFiles = @('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config', 'CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.config');
-    $SupportedArches.AddRange(@("x86", "x64"));
+    $SupportedArches.AddRange(@("x86", "x64", "arm64"));
+}
+
+if(-not $IsNetCoreBuild -and $ARCHES.Contains("arm64") -and $Target -eq "vs2019")
+{
+    Die "NetFramework arm64 builds require VS2022/v143. Use -Target vs2022 when -BuildArches includes arm64."
 }
 
 # Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file

@@ -76,7 +76,7 @@ namespace CefSharp
         /// <summary>
         /// List of CefSharp Arch Specific Dependencies
         /// Those that are arch specific,
-        /// distributed as x86, x64 and ARM64 (coming soon for .Net 5.0 only)
+        /// distributed as x86, x64 and ARM64.
         /// </summary>
         public static string[] CefSharpArchSpecificDependencies =
         {
@@ -135,7 +135,7 @@ namespace CefSharp
 
             if (checkOptional)
             {
-                missingDependencies.AddRange(CheckDependencyList(nativeLibPath, CefOptionalDependencies));
+                missingDependencies.AddRange(CheckDependencyList(nativeLibPath, GetOptionalDependencies()));
             }
 
 #if NETCOREAPP
@@ -170,6 +170,19 @@ namespace CefSharp
             }
 
             return missingDependencies;
+        }
+
+        private static IEnumerable<string> GetOptionalDependencies()
+        {
+            foreach (var dependency in CefOptionalDependencies)
+            {
+                if (ArchitectureHelper.IsArm64Process && string.Equals(dependency, "d3dcompiler_47.dll", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                yield return dependency;
+            }
         }
 
         /// <summary>
