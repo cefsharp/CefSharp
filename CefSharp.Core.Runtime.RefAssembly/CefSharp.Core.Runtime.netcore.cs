@@ -269,6 +269,7 @@ namespace CefSharp.Core
         public virtual bool IsGlobal { get { throw null; } }
         public virtual bool CanSetPreference(string name) { throw null; }
         public virtual void ClearCertificateExceptions(CefSharp.ICompletionCallback callback) { }
+        public virtual void ClearHttpCache(CefSharp.ICompletionCallback callback) { }
         public virtual void ClearHttpAuthCredentials(CefSharp.ICompletionCallback callback) { }
         public virtual bool ClearSchemeHandlerFactories() { throw null; }
         public virtual void CloseAllConnections(CefSharp.ICompletionCallback callback) { }
