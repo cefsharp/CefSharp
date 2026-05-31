@@ -1,13 +1,13 @@
-#requires -Version 5
+﻿#requires -Version 5
 
 param(
     [ValidateSet("vs2022","vs2019", "nupkg-only", "update-build-version")]
     [Parameter(Position = 0)] 
     [string] $Target = "vs2022",
     [Parameter(Position = 1)]
-    [string] $Version = "144.0.250",
+    [string] $Version = "144.0.260",
     [Parameter(Position = 2)]
-    [string] $AssemblyVersion = "144.0.250",
+    [string] $AssemblyVersion = "144.0.260",
     [Parameter(Position = 3)]
     [ValidateSet("NetFramework", "NetCore")]
     [string] $TargetFramework = "NetFramework",

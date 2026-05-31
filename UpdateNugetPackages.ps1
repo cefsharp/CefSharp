@@ -1,9 +1,9 @@
-#requires -Version 5
+﻿#requires -Version 5
 [CmdletBinding()]
 
 param(
 	[Parameter(Position = 1)]
-	[string] $CefVersion = "144.0.25",
+	[string] $CefVersion = "144.0.26",
 	[Parameter(Position = 2)]
 	[string] $CefSharpVersion = ""
 	)
