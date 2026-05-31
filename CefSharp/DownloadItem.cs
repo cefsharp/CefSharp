@@ -32,6 +32,11 @@ namespace CefSharp
         public bool IsCancelled { get; set; }
 
         /// <summary>
+        /// Returns true if the download has been paused.
+        /// </summary>
+        public bool IsPaused { get; set; }
+
+        /// <summary>
         /// Returns a simple speed estimate in bytes/s.
         /// </summary>
         public Int64 CurrentSpeed { get; set; }
