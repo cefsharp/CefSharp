@@ -1492,6 +1492,68 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Asynchronously returns true if a Chrome command is supported and enabled. Only used with Chrome style.
+        /// </summary>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
+        /// <param name="commandId">The command id.</param>
+        /// <returns>
+        /// An asynchronous result that yields the availability of the Chrome command.
+        /// </returns>
+        public static Task<bool> CanExecuteChromeCommandAsync(this IBrowser browser, int commandId)
+        {
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
+            ThrowExceptionIfBrowserHostNull(host);
+
+            return host.CanExecuteChromeCommandAsync(commandId);
+        }
+
+        /// <summary>
+        /// Asynchronously returns true if a Chrome command is supported and enabled. Only used with Chrome style.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="commandId">The command id.</param>
+        /// <returns>
+        /// An asynchronous result that yields the availability of the Chrome command.
+        /// </returns>
+        public static Task<bool> CanExecuteChromeCommandAsync(this IChromiumWebBrowserBase browser, int commandId)
+        {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
+            return browser.BrowserCore.CanExecuteChromeCommandAsync(commandId);
+        }
+
+        /// <summary>
+        /// Execute a Chrome command. Only used with Chrome style.
+        /// </summary>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
+        /// <param name="commandId">The command id.</param>
+        /// <param name="disposition">The command target.</param>
+        public static void ExecuteChromeCommand(this IBrowser browser, int commandId, WindowOpenDisposition disposition)
+        {
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
+            ThrowExceptionIfBrowserHostNull(host);
+
+            host.ExecuteChromeCommand(commandId, disposition);
+        }
+
+        /// <summary>
+        /// Execute a Chrome command. Only used with Chrome style.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="commandId">The command id.</param>
+        /// <param name="disposition">The command target.</param>
+        public static void ExecuteChromeCommand(this IChromiumWebBrowserBase browser, int commandId, WindowOpenDisposition disposition)
+        {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
+            browser.BrowserCore.ExecuteChromeCommand(commandId, disposition);
+        }
+
+        /// <summary>
         /// Shortcut method to get the browser IBrowserHost.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
