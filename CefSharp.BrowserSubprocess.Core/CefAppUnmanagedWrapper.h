@@ -22,6 +22,7 @@ namespace CefSharp
         // This class is the native subprocess level CEF object wrapper.
         private class CefAppUnmanagedWrapper : SubProcessApp, CefRenderProcessHandler
         {
+            friend ref struct CefBrowserWrapperUpdater;
         private:
             gcroot<IRenderProcessHandler^> _handler;
             gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;

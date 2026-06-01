@@ -46,6 +46,9 @@ namespace CefSharp
             {
                 this->!CefBrowserWrapper();
             }
+            bool IsSameBrowser(CefRefPtr<CefBrowser> other) {
+                return this->_cefBrowser->IsSame(other);
+            }
 
             property int BrowserId;
             property bool IsPopup;

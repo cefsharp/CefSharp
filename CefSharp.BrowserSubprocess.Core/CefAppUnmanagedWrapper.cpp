@@ -55,6 +55,24 @@ namespace CefSharp
             return this;
         };
 
+        ref struct CefBrowserWrapperUpdater
+        {
+            CefBrowserWrapper^ _capture;
+            CefAppUnmanagedWrapper& _wrapper;
+            CefBrowserWrapperUpdater(CefBrowserWrapper^ capture, CefAppUnmanagedWrapper& wrapper) :
+                _capture(capture),
+                _wrapper(wrapper) {
+            }
+
+        public:
+            CefBrowserWrapper^ update(int key, CefBrowserWrapper^ oldValue)
+            {
+                _wrapper._onBrowserDestroyed->Invoke(oldValue);
+                delete oldValue;
+                return _capture;
+            }
+        };
+
         // CefRenderProcessHandler
         void CefAppUnmanagedWrapper::OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extraInfo)
         {
@@ -63,7 +81,14 @@ namespace CefSharp
 
             //Multiple CefBrowserWrappers created when opening popups
             auto browserId = browser->GetIdentifier();
-            _browserWrappers->TryAdd(browserId, wrapper);
+
+            // In some cases CEF recreates the browser with identical id instead of making a new one
+            // If this happens it will call OnBrowserCreated a second time before calling OnBrowserDestroyed for the first browser
+            // We need to check if the browser wrapper with given id already exists and if it does destroy it before adding the new one
+            // https://github.com/chromiumembedded/cef/blob/ffa86e361d9c210136b539953663526add56191e/include/cef_render_process_handler.h#L67
+            auto updater = gcnew CefBrowserWrapperUpdater(wrapper, *this);
+            auto updateFunc = gcnew Func<int, CefBrowserWrapper^, CefBrowserWrapper^>(updater, &CefBrowserWrapperUpdater::update);
+            _browserWrappers->AddOrUpdate(browserId, wrapper, updateFunc);
 
             static gcroot<Func<int, JavascriptBindingSettings^>^> factory =
                 gcnew Func<int, JavascriptBindingSettings^>(CefAppUnmanagedWrapper::JavascriptBindingSettingsFactory);
@@ -136,11 +161,20 @@ namespace CefSharp
 
         void CefAppUnmanagedWrapper::OnBrowserDestroyed(CefRefPtr<CefBrowser> browser)
         {
-            CefBrowserWrapper^ wrapper;
-            if (_browserWrappers->TryRemove(browser->GetIdentifier(), wrapper))
-            {
-                _onBrowserDestroyed->Invoke(wrapper);
-                delete wrapper;
+            int browserId = browser->GetIdentifier();
+            CefBrowserWrapper^ currentValue;
+            if (_browserWrappers->TryGetValue(browserId, currentValue)) {
+                // Check if another wrapper hasn't already taken our place
+                if (currentValue->IsSameBrowser(browser)) {
+                    CefBrowserWrapper^ wrapper;
+                    // This is technically a race condition since the entry for browser id might have changed between TryGetValue
+                    // and TryRemove. No clear way to fix this with ConcurrentDictionary
+                    if (_browserWrappers->TryRemove(browserId, wrapper))
+                    {
+                        _onBrowserDestroyed->Invoke(wrapper);
+                        delete wrapper;
+                    }
+                }
             }
 
             // Don't remove javascript settings because cef is unreliable in calling OnBrowserCreated/OnBrowserDestroyed consistently:
