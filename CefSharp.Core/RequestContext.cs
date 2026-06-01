@@ -181,6 +181,12 @@ namespace CefSharp
         }
 
         /// <inheritdoc/>
+        public void ClearHttpCache(ICompletionCallback callback = null)
+        {
+            requestContext.ClearHttpCache(callback);
+        }
+
+        /// <inheritdoc/>
         public void ClearHttpAuthCredentials(ICompletionCallback callback = null)
         {
             requestContext.ClearHttpAuthCredentials(callback);
