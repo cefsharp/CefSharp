@@ -339,6 +339,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="CefIdMappers.cpp" />
     <ClCompile Include="CookieManager.cpp" />
     <ClCompile Include="Internals\CefBrowserHostWrapper.cpp" />
     <ClCompile Include="Internals\CefContextMenuParamsWrapper.cpp" />
@@ -373,6 +374,7 @@
   <ItemGroup>
     <ClInclude Include="BrowserSettings.h" />
     <ClInclude Include="Cef.h" />
+    <ClInclude Include="CefIdMappers.h" />
     <ClInclude Include="Internals\CefDevToolsMessageObserverAdapter.h" />
     <ClInclude Include="Internals\CefMediaAccessCallbackWrapper.h" />
     <ClInclude Include="Internals\CefPermissionPromptCallbackWrapper.h" />
