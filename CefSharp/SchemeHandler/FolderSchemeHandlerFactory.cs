@@ -50,6 +50,8 @@ namespace CefSharp.SchemeHandler
             {
                 throw new DirectoryNotFoundException(this.rootFolder);
             }
+
+            this.rootFolder = this.rootFolder.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
         }
 
         /// <summary>
@@ -102,14 +104,22 @@ namespace CefSharp.SchemeHandler
             }
 
             //Get the absolute path and remove the leading slash
-            var asbolutePath = uri.AbsolutePath.Substring(1);
+            var absolutePath = uri.AbsolutePath.Substring(1);
 
-            if (string.IsNullOrEmpty(asbolutePath))
+            if (string.IsNullOrEmpty(absolutePath))
             {
-                asbolutePath = defaultPage;
+                absolutePath = defaultPage;
             }
 
-            var filePath = Path.GetFullPath(Path.Combine(rootFolder, WebUtility.UrlDecode(asbolutePath)));
+            var decodedPath = WebUtility.UrlDecode(absolutePath);
+
+            // Block null bytes and NTFS Alternate Data Streams (:)
+            if (decodedPath.Contains("\0") || decodedPath.Contains(":"))
+            {
+                return ResourceHandler.ForErrorMessage($"File Not Found - {absolutePath}", HttpStatusCode.NotFound);
+            }
+
+            var filePath = Path.GetFullPath(Path.Combine(rootFolder, decodedPath));
 
             //Check the file requested is within the specified path and that the file exists
             if (filePath.StartsWith(rootFolder, StringComparison.OrdinalIgnoreCase) && File.Exists(filePath))
@@ -120,7 +130,7 @@ namespace CefSharp.SchemeHandler
                 return ResourceHandler.FromStream(stream, mimeType, autoDisposeStream: true);
             }
 
-            return ResourceHandler.ForErrorMessage("File Not Found - " + filePath, HttpStatusCode.NotFound);
+            return ResourceHandler.ForErrorMessage($"File Not Found - {absolutePath}", HttpStatusCode.NotFound);
         }
     }
 }
