@@ -769,5 +769,21 @@ namespace CefSharp
             if (!IsWindows10OrGreater())
                 throw new ApplicationException("Current OS version is less than Windows 10. Applications not manifested for Windows 10 throw this exception, even if the current operating system version is Windows 10. To manifest your applications for Windows 10, see https://learn.microsoft.com/en-us/windows/win32/sysinfo/targeting-your-application-at-windows-8-1.");
         }
+
+        /// <summary>
+        /// Returns the numeric ID value for an IDC <paramref name="name"/> from cef_command_ids.h or -1
+        /// if <paramref name="name"/> is unrecognized by the current CEF/Chromium build.
+        /// </summary>
+        /// <remarks>
+        /// This function provides version-safe mapping of command IDC names to version-specific
+        /// numeric ID values. Numeric ID values are likely to change across
+        /// CEF/Chromium versions but names generally remain the same.
+        /// </remarks>
+        /// <param name="name">String identifier of the Chromium command.</param>
+        /// <returns>version-specific numeric ID value for the command if recognized; otherwise, -1.</returns>
+        public static int GetCefIdForCommandIdName(string name)
+        {
+            return Core.Cef.GetCefIdForCommandIdName(name);
+        }
     }
 }

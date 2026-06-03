@@ -24,7 +24,6 @@ namespace CefSharp
             int _lastDevToolsMessageId = 0;
 
             double GetZoomLevelOnUI();
-            bool CanExecuteChromeCommandOnUI(Object^ commandObject);
 
         internal:
             CefBrowserHostWrapper(const CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost)
@@ -142,8 +141,6 @@ namespace CefSharp
             virtual void SetAudioMuted(bool mute);
 
             virtual bool CanExecuteChromeCommand(int commandId);
-
-            virtual Task<bool>^ CanExecuteChromeCommandAsync(int commandId);
 
             virtual void ExecuteChromeCommand(int commandId, WindowOpenDisposition disposition);
 

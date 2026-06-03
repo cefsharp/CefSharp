@@ -12,12 +12,14 @@
 #include "versionhelpers.h";
 #include <msclr/lock.h>
 #include <msclr/marshal.h>
+#include <msclr/marshal_cppstd.h>
 #include <include/cef_version.h>
 #include <include/cef_origin_whitelist.h>
 #include <include/cef_crash_util.h>
 #include <include/cef_parser.h>
 #include <include/cef_task.h>
 #include <include/internal/cef_types.h>
+#include <include/cef_id_mappers.h>
 
 #include "Internals/CefSharpApp.h"
 #include "Internals/CefTaskScheduler.h"
@@ -972,6 +974,18 @@ namespace CefSharp
             static bool IsWindows10OrGreaterEx()
             {
                 return IsWindows10OrGreater();
+            }
+
+            static int GetCefIdForCommandIdName(String^ name)
+            {
+                if (String::IsNullOrEmpty(name))
+                {
+                    return -1;
+                }
+
+                std::string nativeString = marshal_as<std::string>(name);
+
+                return cef_id_for_command_id_name(nativeString.c_str());
             }
         };
     }

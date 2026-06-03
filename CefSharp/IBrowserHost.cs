@@ -511,14 +511,6 @@ namespace CefSharp
         bool CanExecuteChromeCommand(int commandId);
 
         /// <summary>
-        /// Returns true if a Chrome command is supported and enabled. This method executes CanExecuteChromeCommand on the CEF UI thread
-        /// in an async fashion. Only used with Chrome style.
-        /// </summary>
-        /// <param name="commandId">command id</param>
-        /// <returns> a <see cref="Task{Boolean}"/> that when executed returns the availability of the Chrome command as a boolean.</returns>
-        Task<bool> CanExecuteChromeCommandAsync(int commandId);
-
-        /// <summary>
         /// Execute a Chrome command. Only used with Chrome style.
         /// </summary>
         /// <param name="commandId">command id</param>

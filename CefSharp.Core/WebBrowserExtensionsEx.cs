@@ -265,5 +265,54 @@ namespace CefSharp
 
             return chromiumWebBrowser.BrowserCore.EvaluateScriptAsync<T>(script, timeout);
         }
+
+        /// <summary>
+        /// Asynchronously returns true if a Chrome command is supported and enabled. Only used with Chrome style.
+        /// </summary>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
+        /// <param name="commandId">The command id.</param>
+        /// <returns>
+        /// <see cref="Task{T}"/> that can be awaited to obtain the availability of the Chrome command.
+        /// </returns>
+        public static Task<bool> CanExecuteChromeCommandAsync(this IBrowser browser, int commandId)
+        {
+            WebBrowserExtensions.ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
+            WebBrowserExtensions.ThrowExceptionIfBrowserHostNull(host);
+
+            if (Cef.CurrentlyOnThread(CefThreadIds.TID_UI))
+            {
+                var availability = host.CanExecuteChromeCommand(commandId);
+
+                return Task.FromResult<bool>(availability);
+            }
+
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            Cef.UIThreadTaskFactory.StartNew(delegate
+            {
+                var availability = host.CanExecuteChromeCommand(commandId);
+
+                tcs.TrySetResult(availability);
+            });
+
+            return tcs.Task;
+        }
+
+        /// <summary>
+        /// Asynchronously returns true if a Chrome command is supported and enabled. Only used with Chrome style.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="commandId">The command id.</param>
+        /// <returns>
+        /// <see cref="Task{T}"/> that can be awaited to obtain the availability of the Chrome command.
+        /// </returns>
+        public static Task<bool> CanExecuteChromeCommandAsync(this IChromiumWebBrowserBase browser, int commandId)
+        {
+            WebBrowserExtensions.ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
+            return browser.BrowserCore.CanExecuteChromeCommandAsync(commandId);
+        }
     }
 }
