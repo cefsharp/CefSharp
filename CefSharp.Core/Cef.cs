@@ -775,15 +775,16 @@ namespace CefSharp
         /// if <paramref name="name"/> is unrecognized by the current CEF/Chromium build.
         /// </summary>
         /// <remarks>
-        /// This function provides version-safe mapping of command IDC names to version-specific
+        /// This function wraps the Cef <c>cef_id_for_command_id_name</c> method.
+        /// It provides version-safe mapping of command IDC names to version-specific
         /// numeric ID values. Numeric ID values are likely to change across
         /// CEF/Chromium versions but names generally remain the same.
         /// </remarks>
         /// <param name="name">String identifier of the Chromium command.</param>
         /// <returns>version-specific numeric ID value for the command if recognized; otherwise, -1.</returns>
-        public static int GetCefIdForCommandIdName(string name)
+        public static int MapChromeCommandNameToId(string name)
         {
-            return Core.Cef.GetCefIdForCommandIdName(name);
+            return Core.Cef.MapChromeCommandNameToId(name);
         }
     }
 }

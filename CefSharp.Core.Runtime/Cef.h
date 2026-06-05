@@ -976,7 +976,7 @@ namespace CefSharp
                 return IsWindows10OrGreater();
             }
 
-            static int GetCefIdForCommandIdName(String^ name)
+            static int MapChromeCommandNameToId(String^ name)
             {
                 if (String::IsNullOrEmpty(name))
                 {
