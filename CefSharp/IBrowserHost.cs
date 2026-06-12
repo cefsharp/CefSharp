@@ -503,6 +503,21 @@ namespace CefSharp
         void SetAudioMuted(bool mute);
 
         /// <summary>
+        /// Returns true if a Chrome command is supported and enabled. This method can only be called on the CEF UI thread. Only
+        /// used with Chrome style.
+        /// </summary>
+        /// <param name="commandId">command id</param>
+        /// <returns>availability of the Chrome command.</returns>
+        bool CanExecuteChromeCommand(int commandId);
+
+        /// <summary>
+        /// Execute a Chrome command. Only used with Chrome style.
+        /// </summary>
+        /// <param name="commandId">command id</param>
+        /// <param name="disposition">command target</param>
+        void ExecuteChromeCommand(int commandId, WindowOpenDisposition disposition);
+
+        /// <summary>
         /// Returns true if the browser's audio is muted.
         /// This method can only be called on the CEF UI thread.
         /// </summary>

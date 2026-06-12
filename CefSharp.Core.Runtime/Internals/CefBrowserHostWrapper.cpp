@@ -639,6 +639,25 @@ void CefBrowserHostWrapper::SetAudioMuted(bool mute)
     _browserHost->SetAudioMuted(mute);
 }
 
+bool CefBrowserHostWrapper::CanExecuteChromeCommand(int commandId)
+{
+    ThrowIfDisposed();
+
+    if (CefCurrentlyOn(TID_UI))
+    {
+        return _browserHost->CanExecuteChromeCommand(commandId);
+    }
+
+    throw gcnew InvalidOperationException("This method can only be called directly on the CEF UI Thread. Use CanExecuteChromeCommandAsync or use Cef.UIThreadTaskFactory to marshal the call onto the CEF UI Thread.");
+}
+
+void CefBrowserHostWrapper::ExecuteChromeCommand(int commandId, WindowOpenDisposition disposition)
+{
+    ThrowIfDisposed();
+
+    _browserHost->ExecuteChromeCommand(commandId, (cef_window_open_disposition_t)disposition);
+}
+
 IntPtr CefBrowserHostWrapper::GetOpenerWindowHandle()
 {
     ThrowIfDisposed();
