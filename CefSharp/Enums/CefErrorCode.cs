@@ -29,7 +29,6 @@ namespace CefSharp
         //   600-699 <Obsolete: FTP errors>
         //   700-799 Certificate manager errors
         //   800-899 DNS resolver errors
-        //   900-999 Blob errors
 
         /// <summary>
         /// An asynchronous IO operation is not yet complete.  This usually does not
@@ -186,8 +185,10 @@ namespace CefSharp
         /// </summary>
         BlockedByCsp = -30,
 
-        // NET_ERROR(H2_OR_QUIC_REQUIRED, -31) was removed. It was:
-        // The request was blocked because of no H/2 or QUIC session.
+        /// <summary>
+        /// The request was blocked because of no H/2 or QUIC session.
+        /// </summary>
+        H2OrQuicRequired = -31,
 
         /// <summary>
         /// The request was blocked by CORB or ORB.
@@ -199,17 +200,6 @@ namespace CefSharp
         /// network access.
         /// </summary>
         NetworkAccessRevoked = -33,
-
-        /// <summary>
-        /// The request was blocked by fingerprinting protections.
-        /// </summary>
-        BlockedByFingerprintingProtection = -34,
-
-        /// <summary>
-        /// The request was blocked by the Incognito Mode URL block list configured by
-        /// the domain administrator.
-        /// </summary>
-        BlockedInIncognitoByAdministrator = -35,
 
         /// <summary>
         /// A connection was closed (corresponding to a TCP FIN).
@@ -270,13 +260,14 @@ namespace CefSharp
         SslClientAuthCertNeeded = -110,
 
         /// <summary>
-        /// A tunnel connection through the proxy could not be established. For more info
-        /// see the comment on PROXY_UNABLE_TO_CONNECT_TO_DESTINATION.
+        /// A tunnel connection through the proxy could not be established.
         /// </summary>
         TunnelConnectionFailed = -111,
 
-        // Obsolete:
-        // NET_ERROR(NO_SSL_VERSIONS_ENABLED, -112)
+        /// <summary>
+        /// No SSL protocol versions are enabled.
+        /// </summary>
+        NoSslVersionsEnabled = -112,
 
         /// <summary>
         /// The client and server don't support a common SSL protocol version or
@@ -414,9 +405,15 @@ namespace CefSharp
         /// </summary>
         TemporarilyThrottled = -139,
 
-        // Obsolete, since we now use the catch-all ERR_TUNNEL_CONNECTION_FAILED when a
-        // proxy tried to redirect a request.
-        // NET_ERROR(HTTPS_PROXY_TUNNEL_RESPONSE_REDIRECT, -140)
+        /// <summary>
+        /// A request to create an SSL tunnel connection through the HTTPS proxy
+        /// received a 302 (temporary redirect) response.  The response body might
+        /// include a description of why the request failed.
+        ///
+        /// TODO(crbug.com/40093955): This is deprecated and should not be used by
+        /// new code.
+        /// </summary>
+        HttpsProxyTunnelResponseRedirect = -140,
 
         /// <summary>
         /// We were unable to sign the CertificateVerify data of an SSL client auth
@@ -452,9 +449,15 @@ namespace CefSharp
         /// </summary>
         AddressInUse = -147,
 
-        // Obsolete:
-        // NET_ERROR(SSL_HANDSHAKE_NOT_COMPLETED, -148)
-        // NET_ERROR(SSL_BAD_PEER_PUBLIC_KEY, -149)
+        /// <summary>
+        /// An operation failed because the SSL handshake has not completed.
+        /// </summary>
+        SslHandshakeNotCompleted = -148,
+
+        /// <summary>
+        /// SSL peer's public key is invalid.
+        /// </summary>
+        SslBadPeerPublicKey = -149,
 
         /// <summary>
         /// The certificate didn't match the built-in public key pins for the host name.
@@ -651,37 +654,6 @@ namespace CefSharp
         /// </summary>
         EchFallbackCertificateInvalid = -184,
 
-        // Error -185 was removed (PROXY_TUNNEL_REQUEST_FAILED).
-
-        /// <summary>
-        /// An attempt to proxy a request failed because the proxy wasn't able to
-        /// successfully connect to the destination. This likely indicates an issue with
-        /// the request itself (for instance, the hostname failed to resolve to an IP
-        /// address or the destination server refused the connection). This error code
-        /// is used to indicate that the error is outside the control of the proxy server
-        /// and thus the proxy chain should not be marked as bad. This is in contrast to
-        /// ERR_TUNNEL_CONNECTION_FAILED which is used for general purpose errors
-        /// connecting to the proxy and by the proxy request response handling when a
-        /// proxy delegate doesn't indicate via a different error code whether proxy
-        /// fallback should occur. Note that for IP Protection proxies this error code
-        /// causes the proxy to be marked as bad since the preference is to fail open for
-        /// general purpose errors, but for other proxies this error does not cause the
-        /// proxy to be marked as bad.
-        /// </summary>
-        ProxyUnableToConnectToDestination = -186,
-
-        /// <summary>
-        /// Some implementations of ProxyDelegate query a separate entity to know whether
-        /// it should cancel tunnel prior to:
-        /// - The HTTP CONNECT requests being sent out
-        /// - The HTTP CONNECT response being parsed by //net
-        /// An example is CronetProxyDelegate: Cronet allows developers to decide whether
-        /// the tunnel being established should be canceled.
-        /// </summary>
-        ProxyDelegateCanceledConnectRequest = -187,
-
-        ProxyDelegateCanceledConnectResponse = -188,
-
         // Certificate error codes
         //
         // The values of certificate error codes must be consecutive.
@@ -817,7 +789,11 @@ namespace CefSharp
         /// </summary>
         CertificateTransparencyRequired = -214,
 
-        // Error -215 was removed (CERT_SYMANTEC_LEGACY)
+        /// <summary>
+        /// The certificate chained to a legacy Symantec root that is no longer trusted.
+        /// https://g.co/chrome/symantecpkicerts
+        /// </summary>
+        CertSymantecLegacy = -215,
 
         // -216 was QUIC_CERT_ROOT_NOT_KNOWN which has been renumbered to not be in the
         // certificate error range.
@@ -831,12 +807,6 @@ namespace CefSharp
         // -218 was SSL_OBSOLETE_VERSION which is not longer used. TLS 1.0/1.1 instead
         // cause SSL_VERSION_OR_CIPHER_MISMATCH now.
 
-        /// <summary>
-        /// The certificate is self signed and it's being used for either an RFC1918 IP
-        /// literal URL, or a url ending in .local.
-        /// </summary>
-        CertSelfSignedLocalNetwork = -219,
-
         // Add new certificate error codes here.
         //
         // Update the value of CERT_END whenever you add a new certificate error
@@ -845,7 +815,7 @@ namespace CefSharp
         /// <summary>
         /// The value immediately past the last certificate error code.
         /// </summary>
-        CertEnd = -220,
+        CertEnd = -219,
 
         /// <summary>
         /// The URL is invalid.
@@ -946,14 +916,22 @@ namespace CefSharp
         /// </summary>
         NetworkIoSuspended = -331,
 
-        // Obsolete. This was in earlier SPDY implementations.
-        // NET_ERROR(SYN_REPLY_NOT_RECEIVED, -332)
+        /// <summary>
+        /// FLIP data received without receiving a SYN_REPLY on the stream.
+        /// </summary>
+        SynReplyNotReceived = -332,
 
-        // Obsolete. These were both used for FTP, which is no longer supported.
-        // NET_ERROR(ENCODING_CONVERSION_FAILED, -333)
-        // NET_ERROR(UNRECOGNIZED_FTP_DIRECTORY_LISTING_FORMAT, -334)
+        /// <summary>
+        /// Converting the response to target encoding failed.
+        /// </summary>
+        EncodingConversionFailed = -333,
 
-        // Obsolete. Was only logged in NetLog when an HTTP/2 pushed stream expired.
+        /// <summary>
+        /// The server sent an FTP directory listing in a format we do not understand.
+        /// </summary>
+        UnrecognizedFtpDirectoryListingFormat = -334,
+
+        // Obsolete.  Was only logged in NetLog when an HTTP/2 pushed stream expired.
         // NET_ERROR(INVALID_SPDY_STREAM, -335)
 
         /// <summary>
@@ -1126,11 +1104,6 @@ namespace CefSharp
         /// </summary>
         PacScriptTerminated = -367,
 
-        /// <summary>
-        /// Signals that the request requires the IPP proxy.
-        /// </summary>
-        ProxyRequired = -368,
-
         // Obsolete. Kept here to avoid reuse.
         // Request is throttled because of a Backoff header.
         // See: crbug.com/486891.
@@ -1217,12 +1190,12 @@ namespace CefSharp
         /// The IP address space of the cached remote endpoint is blocked by private
         /// network access check.
         /// </summary>
-        CachedIpAddressSpaceBlockedByLocalNetworkAccessPolicy = -384,
+        CachedIpAddressSpaceBlockedByPrivateNetworkAccessPolicy = -384,
 
         /// <summary>
         /// The connection is blocked by private network access checks.
         /// </summary>
-        BlockedByLocalNetworkAccessChecks = -385,
+        BlockedByPrivateNetworkAccessChecks = -385,
 
         /// <summary>
         /// Content decoding failed due to the zstd window size being too big (over 8MB).
@@ -1235,7 +1208,9 @@ namespace CefSharp
         DictionaryLoadFailed = -387,
 
         /// <summary>
-        /// The header of dictionary compressed stream does not match the expected value.
+        /// The "content-dictionary" response header is unexpected. This is used both
+        /// when there is no "content-dictionary" response header and when the received
+        /// "content-dictionary" response header does not match the expected value.
         /// </summary>
         UnexpectedContentDictionaryHeader = -388,
 
@@ -1361,20 +1336,6 @@ namespace CefSharp
         /// </summary>
         TrustTokenOperationSuccessWithoutSendingRequest = -507,
 
-        /// <summary>
-        /// This is a placeholder value that should never be used within //net.
-        ///
-        /// When Cronet APIs are being backed by HttpEngine (i.e., HttpEngineProvider is
-        /// being used), org.chromium.net.NetworkException#getCronetInternalErrorCode is
-        /// not supported (android.net.http.NetworkException#getCronetInternalErrorCode
-        /// does not exist). In this scenario, getCronetInternalErrorCode will always
-        /// return this error. This is a first step towards the deprecation of
-        /// getCronetInternalErrorCode.
-        ///
-        /// Temporarily terminate, then restart, ITTT to avoid unsupported nesting.
-        /// </summary>
-        HttpEngineProviderInUse = -508,
-
         // *** Code -600 is reserved (was FTP_PASV_COMMAND_FAILED). ***
         // *** Code -601 is reserved (was FTP_FAILED). ***
         // *** Code -602 is reserved (was FTP_SERVICE_UNAVAILABLE). ***
@@ -1472,7 +1433,18 @@ namespace CefSharp
         /// </summary>
         DnsServerRequiresTcp = -801,
 
-        // Error -802 was removed (DNS_SERVER_FAILED)
+        /// <summary>
+        /// DNS server failed.  This error is returned for all of the following
+        /// error conditions:
+        /// 1 - Format error - The name server was unable to interpret the query.
+        /// 2 - Server failure - The name server was unable to process this query
+        ///     due to a problem with the name server.
+        /// 4 - Not Implemented - The name server does not support the requested
+        ///     kind of query.
+        /// 5 - Refused - The name server refuses to perform the specified
+        ///     operation for policy reasons.
+        /// </summary>
+        DnsServerFailed = -802,
 
         /// <summary>
         /// DNS transaction timed out.
@@ -1530,87 +1502,5 @@ namespace CefSharp
         /// requested probe record either had no answer or was invalid.
         /// </summary>
         DnsSecureProbeRecordInvalid = -814,
-
-        /// <summary>
-        /// Returned when DNS cache invalidation is in progress. This is a
-        /// transient error. Callers may want to retry later.
-        /// </summary>
-        DnsCacheInvalidationInProgress = -815,
-
-        /// <summary>
-        /// The DNS server responded with a format error response code.
-        /// </summary>
-        DnsFormatError = -816,
-
-        /// <summary>
-        /// The DNS server responded with a server failure response code.
-        /// </summary>
-        DnsServerFailure = -817,
-
-        /// <summary>
-        /// The DNS server responded that the query type is not implemented.
-        /// </summary>
-        DnsNotImplemented = -818,
-
-        /// <summary>
-        /// The DNS server responded that the request was refused.
-        /// </summary>
-        DnsRefused = -819,
-
-        /// <summary>
-        /// The DNS server responded with an rcode indicating that the request failed,
-        /// but the rcode is not one that we have a specific error code for. In other
-        /// words, the rcode was not one of the following:
-        /// - NOERR
-        /// - FORMERR
-        /// - SERVFAIL
-        /// - NXDOMAIN
-        /// - NOTIMP
-        /// - REFUSED
-        /// </summary>
-        DnsOtherFailure = -820,
-
-        // The following errors are for mapped from a subset of invalid
-        // storage::BlobStatus.
-
-        /// <summary>
-        /// The construction arguments are invalid. This is considered a bad IPC.
-        /// </summary>
-        BlobInvalidConstructionArguments = -900,
-
-        /// <summary>
-        /// We don't have enough memory for the blob.
-        /// </summary>
-        BlobOutOfMemory = -901,
-
-        /// <summary>
-        /// We couldn't create or write to a file. File system error, like a full disk.
-        /// </summary>
-        BlobFileWriteFailed = -902,
-
-        /// <summary>
-        /// The renderer was destroyed while data was in transit.
-        /// </summary>
-        BlobSourceDiedInTransit = -903,
-
-        /// <summary>
-        /// The renderer destructed the blob before it was done transferring, and there
-        /// were no outstanding references (no one is waiting to read) to keep the
-        /// blob alive.
-        /// </summary>
-        BlobDereferencedWhileBuilding = -904,
-
-        /// <summary>
-        /// A blob that we referenced during construction is broken, or a browser-side
-        /// builder tries to build a blob with a blob reference that isn't finished
-        /// constructing.
-        /// </summary>
-        BlobReferencedBlobBroken = -905,
-
-        /// <summary>
-        /// A file that we referenced during construction is not accessible to the
-        /// renderer trying to create the blob.
-        /// </summary>
-        BlobReferencedFileUnavailable = -906,
     };
 }

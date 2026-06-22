@@ -42,7 +42,7 @@ namespace CefSharp
             RequestContextSettings^ _settings;
 
         internal:
-            RequestContext(const CefRefPtr<CefRequestContext>& context)
+            RequestContext(CefRefPtr<CefRequestContext>& context)
             {
                 _requestContext = context.get();
                 _settings = nullptr;
@@ -281,13 +281,6 @@ namespace CefSharp
             /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
             /// completion. This param is optional</param>
             virtual void ClearCertificateExceptions(ICompletionCallback^ callback);
-
-            /// <summary>
-            /// Clears the HTTP cache.
-            /// </summary>
-            /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
-            /// completion. This param is optional</param>
-            virtual void ClearHttpCache(ICompletionCallback^ callback);
 
             /// <summary>
             /// Clears all HTTP authentication credentials that were added as part of handling

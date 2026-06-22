@@ -18,10 +18,9 @@ namespace CefSharp
             JavascriptCallbackWrapper^ wrapper = gcnew JavascriptCallbackWrapper(value, context);
             _callbacks->TryAdd(newId, wrapper);
 
-
             auto result = gcnew JavascriptCallback();
             result->Id = newId;
-            result->BrowserId = context->GetBrowser()->GetIdentifier();
+            result->BrowserId = _browserId;
             result->FrameId = StringUtils::ToClr(context->GetFrame()->GetIdentifier());
             return result;
         }

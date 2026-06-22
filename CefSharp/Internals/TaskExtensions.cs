@@ -20,8 +20,9 @@ namespace CefSharp.Internals
             var timer = new Timer(state =>
             {
                 ((Timer)state).Dispose();
-                if (taskCompletionSource.TrySetCanceled())
+                if (taskCompletionSource.Task.Status != TaskStatus.RanToCompletion)
                 {
+                    taskCompletionSource.TrySetCanceled();
                     if (cancelled != null)
                     {
                         cancelled();

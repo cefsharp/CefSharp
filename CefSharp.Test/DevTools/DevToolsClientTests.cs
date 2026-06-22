@@ -131,7 +131,7 @@ namespace CefSharp.Test.DevTools
             }
         }
 
-        [SkipIfRunOnAppVeyorFact]
+        [Fact]
         public async Task CanGetPageResourceContent()
         {
             using (var browser = new ChromiumWebBrowser("www.google.com", useLegacyRenderHandler: false))

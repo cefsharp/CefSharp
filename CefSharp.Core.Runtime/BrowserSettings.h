@@ -285,8 +285,8 @@ namespace CefSharp
             /// </summary>
             virtual property CefState Databases
             {
-                CefState get() { return (CefState)_browserSettings->databases_deprecated; }
-                void set(CefState value) { _browserSettings->databases_deprecated = (cef_state_t)value; }
+                CefState get() { return (CefState)_browserSettings->databases; }
+                void set(CefState value) { _browserSettings->databases = (cef_state_t)value; }
             }
 
             /// <summary>
@@ -298,24 +298,6 @@ namespace CefSharp
             {
                 CefState get() { return (CefState)_browserSettings->webgl; }
                 void set(CefState value) { _browserSettings->webgl = (cef_state_t)value; }
-            }
-
-            /// <summary>
-            /// Controls whether the Chrome status bubble will be used. Only supported with Chrome style.
-            /// </summary>
-            virtual property CefState ChromeStatusBubble
-            {
-                CefState get() { return (CefState)_browserSettings->chrome_status_bubble; }
-                void set(CefState value) { _browserSettings->chrome_status_bubble = (cef_state_t)value; }
-            }
-
-            /// <summary>
-            /// Controls whether the Chrome zoom bubble will be shown when zooming. Only supported with Chrome style.
-            /// </summary>
-            virtual property CefState ChromeZoomBubble
-            {
-                CefState get() { return (CefState)_browserSettings->chrome_zoom_bubble; }
-                void set(CefState value) { _browserSettings->chrome_zoom_bubble = (cef_state_t)value; }
             }
 
             /// <summary>

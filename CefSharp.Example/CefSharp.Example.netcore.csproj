@@ -7,10 +7,10 @@
     <BaseOutputPath>bin.netcore\</BaseOutputPath>
   </PropertyGroup>
 
-  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>CefSharp.Example</RootNamespace>
     <AssemblyName>CefSharp.Example</AssemblyName>
     <UseWindowsForms>true</UseWindowsForms>
@@ -95,5 +95,5 @@
     </PackageReference>
   </ItemGroup>
 
-  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk.WindowsDesktop" />
 </Project>

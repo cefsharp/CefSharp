@@ -19,7 +19,7 @@ namespace CefSharp
         {
             MCefRefPtr<CefResponse> _response;
         internal:
-            CefResponseWrapper(const CefRefPtr<CefResponse> &response) :
+            CefResponseWrapper(CefRefPtr<CefResponse> &response) :
                 _response(response)
             {
 

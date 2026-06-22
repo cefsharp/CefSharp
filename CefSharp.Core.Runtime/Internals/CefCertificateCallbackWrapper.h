@@ -50,12 +50,29 @@ namespace CefSharp
                 }
                 else
                 {
-                    auto certThumbprint = cert->Thumbprint;
+                    auto certSerial = cert->SerialNumber;
 
                     std::vector<CefRefPtr<CefX509Certificate>>::const_iterator it =
                         _certificateList.begin();
                     for (; it != _certificateList.end(); ++it)
                     {
+
+                        // TODO: Need to make this logic of comparing serial number of the certificate (*it)
+                        // with the selected certificate returned by the user selection (cert).
+                        // Better and more performant way would be to read the serial number from
+                        // (*it) and convert it into System::String, so that it can directly compared
+                        // with certSerial. This is how I tried it but the Encoding class garbled up
+                        // the string when converting it from CefRefPtr<CefBinaryValue> to System::String
+                        // Try to find a better way to do this
+                        //
+                        //auto serialNum((*it)->GetSerialNumber());
+                        //auto byteSize = serialNum->GetSize();
+                        //auto bufferByte = gcnew cli::array<Byte>(byteSize);
+                        //pin_ptr<Byte> src = &bufferByte[0]; // pin pointer to first element in arr
+                        //serialNum->GetData(static_cast<void*>(src), byteSize, 0);
+                        //UTF8Encoding^ encoding = gcnew UTF8Encoding;
+                        //auto serialStr(encoding->GetString(bufferByte));
+
                         auto bytes((*it)->GetDEREncoded());
                         auto byteSize = bytes->GetSize();
 
@@ -64,9 +81,9 @@ namespace CefSharp
 
                         bytes->GetData(static_cast<void*>(src), byteSize, 0);
                         auto newcert = gcnew System::Security::Cryptography::X509Certificates::X509Certificate2(bufferByte);
-                        auto thumbprintStr = newcert->Thumbprint;
+                        auto serialStr = newcert->SerialNumber;
 
-                        if (String::Equals(certThumbprint, thumbprintStr, StringComparison::OrdinalIgnoreCase))
+                        if (certSerial == serialStr)
                         {
                             _callback->Select(*it);
                             break;

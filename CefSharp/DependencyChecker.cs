@@ -35,6 +35,7 @@ namespace CefSharp
             // http://www.magpcss.org/ceforum/viewtopic.php?f=6&t=12580
             // "natives_blob.bin" was removed
             // https://bugs.chromium.org/p/v8/issues/detail?id=7624#c60
+            "snapshot_blob.bin",
             "v8_context_snapshot.bin"
         };
 

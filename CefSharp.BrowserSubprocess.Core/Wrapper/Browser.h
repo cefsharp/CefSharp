@@ -19,7 +19,7 @@ namespace CefSharp
             bool _disposed;
 
         internal:
-            Browser(const CefRefPtr<CefBrowser> &browser)
+            Browser(CefRefPtr<CefBrowser> &browser)
                 : _browser(browser)
             {
             }

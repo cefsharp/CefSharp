@@ -123,16 +123,16 @@ namespace CefSharp.Internals
             return objects.Values.Any(x => x.Name == name);
         }
 
-        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetLegacyBoundObjects(string url)
+        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetLegacyBoundObjects()
         {
-            RaiseResolveObjectEvent(url, LegacyObjects);
+            RaiseResolveObjectEvent(LegacyObjects);
 
             return objects.Values.Where(x => x.RootObject).ToList();
         }
 
         //Ideally this would internal, unfurtunately it's used in C++
         //and it's hard to expose internals
-        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetObjects(string url, List<string> names)
+        List<JavascriptObject> IJavascriptObjectRepositoryInternal.GetObjects(List<string> names)
         {
             //If there are no objects names or the count is 0 then we will raise
             //the resolve event then return all objects that are registered,
@@ -140,7 +140,7 @@ namespace CefSharp.Internals
             var getAllObjects = names == null || names.Count == 0;
             if (getAllObjects)
             {
-                RaiseResolveObjectEvent(url, AllObjects);
+                RaiseResolveObjectEvent(AllObjects);
 
                 return objects.Values.Where(x => x.RootObject).ToList();
             }
@@ -149,7 +149,7 @@ namespace CefSharp.Internals
             {
                 if (!IsBound(name))
                 {
-                    RaiseResolveObjectEvent(url, name);
+                    RaiseResolveObjectEvent(name);
                 }
             }
 
@@ -723,9 +723,9 @@ namespace CefSharp.Internals
             }
         }
 
-        private void RaiseResolveObjectEvent(string url, string name)
+        private void RaiseResolveObjectEvent(string name)
         {
-            ResolveObject?.Invoke(this, new JavascriptBindingEventArgs(this, url, name));
+            ResolveObject?.Invoke(this, new JavascriptBindingEventArgs(this, name));
         }
 
         private static JavascriptMethod CreateJavaScriptMethod(MethodInfo methodInfo, IJavascriptNameConverter nameConverter)

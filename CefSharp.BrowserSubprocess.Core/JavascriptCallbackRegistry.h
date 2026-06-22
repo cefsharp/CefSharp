@@ -20,13 +20,14 @@ namespace CefSharp
             //Is static so ids are unique to this process, which is required until #1984 is implemented
             //and callbacks are disposed of properly between contexts
             static Int64 _lastId;
+            int _browserId;
             ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>^ _callbacks;
 
         internal:
             JavascriptCallbackWrapper^ FindWrapper(int64_t id);
 
         public:
-            JavascriptCallbackRegistry()
+            JavascriptCallbackRegistry(int browserId) : _browserId(browserId)
             {
                 _callbacks = gcnew ConcurrentDictionary<Int64, JavascriptCallbackWrapper^>();
             }

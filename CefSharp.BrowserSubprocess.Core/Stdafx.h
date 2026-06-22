@@ -10,8 +10,6 @@
 #define DECL __declspec(dllimport)
 #endif
 
-#define NOMINMAX
-
 #include <vector>
 
 #include <include/cef_base.h>

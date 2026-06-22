@@ -207,7 +207,7 @@ namespace CefSharp.Test.CookieManager
 
             Browser.Reload();
 
-            await Browser.WaitForRenderIdleAsync();
+            await Browser.WaitForNavigationAsync();
 
             response = await Browser.EvaluateScriptAsync<string>("document.cookie");
 

@@ -32,7 +32,7 @@ namespace CefSharp
             Object^ _syncRoot;
 
         internal:
-            CefFrameWrapper(const CefRefPtr<CefFrame> &frame)
+            CefFrameWrapper::CefFrameWrapper(CefRefPtr<CefFrame> &frame)
                 : _frame(frame), _parentFrame(nullptr),
                 _owningBrowser(nullptr), _syncRoot(gcnew Object())
             {

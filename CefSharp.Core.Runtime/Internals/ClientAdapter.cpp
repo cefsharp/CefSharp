@@ -701,8 +701,6 @@ namespace CefSharp
 
         void ClientAdapter::OnRenderProcessTerminated(CefRefPtr<CefBrowser> browser, TerminationStatus status, int errorCode, const CefString& errorString)
         {
-            _pendingTaskRepository->CancelPendingTasks();
-
             auto handler = _browserControl->RequestHandler;
 
             if (handler != nullptr)
@@ -1313,7 +1311,7 @@ namespace CefSharp
                 //Call GetObjects with the list of names provided (will default to all if the list is empty
                 //Previously we only sent a response if there were bound objects, now we always send
                 //a response so the promise is resolved.
-                auto objs = objectRepository->GetObjects(StringUtils::ToClr(frame->GetURL()), names);
+                auto objs = objectRepository->GetObjects(names);
 
                 auto msg = CefProcessMessage::Create(kJavascriptRootObjectResponse);
                 auto responseArgList = msg->GetArgumentList();
@@ -1384,13 +1382,9 @@ namespace CefSharp
                 //we get here, only continue if we have a valid frame reference
                 if (frame.get() && frame->IsValid())
                 {
-                    auto frameId = StringUtils::ToClr(frame->GetIdentifier());
-
-                    _pendingTaskRepository->CancelPendingTasks(frameId);
-
                     if (frame->IsMain())
                     {
-                        _browserControl->SetCanExecuteJavascriptOnMainFrame(frameId, false);
+                        _browserControl->SetCanExecuteJavascriptOnMainFrame(StringUtils::ToClr(frame->GetIdentifier()), false);
                     }
 
                     auto handler = _browserControl->RenderProcessMessageHandler;
@@ -1481,16 +1475,14 @@ namespace CefSharp
                     return true;
                 }
 
-                auto frameId = StringUtils::ToClr(frame->GetIdentifier());
-
                 auto callbackFactory = browserAdapter->JavascriptCallbackFactory;
 
                 auto success = argList->GetBool(0);
                 auto callbackId = GetInt64(argList, 1);
 
                 auto pendingTask = name == kEvaluateJavascriptResponse ?
-                    _pendingTaskRepository->RemovePendingTask(frameId, callbackId) :
-                    _pendingTaskRepository->RemoveJavascriptCallbackPendingTask(frameId, callbackId);
+                    _pendingTaskRepository->RemovePendingTask(callbackId) :
+                    _pendingTaskRepository->RemoveJavascriptCallbackPendingTask(callbackId);
 
                 if (pendingTask != nullptr)
                 {

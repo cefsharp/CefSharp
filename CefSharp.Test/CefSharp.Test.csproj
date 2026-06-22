@@ -3,7 +3,7 @@
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
         <Platforms>x86;x64</Platforms>
-        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+        <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <UseWPF>true</UseWPF>
@@ -13,11 +13,11 @@
     </PropertyGroup>
     
     <PropertyGroup Condition="'$(PlatformTarget)' == 'x86'">
-        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x86</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win7-x86</RuntimeIdentifier>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(PlatformTarget)' == 'x64'">
-        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win7-x64</RuntimeIdentifier>
     </PropertyGroup>
     
     <ItemGroup>
@@ -36,7 +36,7 @@
     <ItemGroup>
         <PackageReference Include="Appveyor.TestLogger" Version="2.0.0" />
         <PackageReference Include="Bogus" Version="35.4.1" />
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="148.0.9" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="131.3.5" />
         <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -26,21 +26,21 @@ namespace CefSharp
         private:
             gcroot<RegisterBoundObjectRegistry^> _callbackRegistry;
             gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
-            gcroot<JavascriptRootObjectWrapper^> _javascriptRootObjectWrapper;
+            gcroot<CefBrowserWrapper^> _browserWrapper;
 
         public:
-            BindObjectAsyncHandler(RegisterBoundObjectRegistry^ callbackRegistery, Dictionary<String^, JavascriptObject^>^ javascriptObjects, JavascriptRootObjectWrapper^ javascriptRootObjectWrapper)
+            BindObjectAsyncHandler(RegisterBoundObjectRegistry^ callbackRegistery, Dictionary<String^, JavascriptObject^>^ javascriptObjects, CefBrowserWrapper^ browserWrapper)
             {
                 _callbackRegistry = callbackRegistery;
                 _javascriptObjects = javascriptObjects;
-                _javascriptRootObjectWrapper = javascriptRootObjectWrapper;
+                _browserWrapper = browserWrapper;
             }
 
             ~BindObjectAsyncHandler()
             {
                 _callbackRegistry = nullptr;
                 _javascriptObjects = nullptr;
-                _javascriptRootObjectWrapper = nullptr;
+                _browserWrapper = nullptr;
             }
 
             bool Execute(const CefString& name, CefRefPtr<CefV8Value> object, const CefV8ValueList& arguments, CefRefPtr<CefV8Value>& retval, CefString& exception) override
@@ -139,16 +139,27 @@ namespace CefSharp
                                 //https://github.com/cefsharp/CefSharp/issues/3470
                                 if (objectCount > 0 && cachedObjects->Count == objectCount && ignoreCache == false)
                                 {
-                                    if (Object::ReferenceEquals(_javascriptRootObjectWrapper, nullptr))
+                                    if (Object::ReferenceEquals(_browserWrapper, nullptr))
                                     {
-                                        exception = "BindObjectAsyncHandler::Execute - _javascriptRootObjectWrapper null, unable to bind objects";
+                                        exception = "BindObjectAsyncHandler::Execute - Browser wrapper null, unable to bind objects";
 
                                         return true;
                                     }
 
                                     auto browser = context->GetBrowser();
 
-                                    JavascriptRootObjectWrapper^ rootObject = _javascriptRootObjectWrapper;
+                                    auto rootObjectWrappers = _browserWrapper->JavascriptRootObjectWrappers;
+
+                                    JavascriptRootObjectWrapper^ rootObject;
+                                    if (!rootObjectWrappers->TryGetValue(StringUtils::ToClr(frame->GetIdentifier()), rootObject))
+                                    {
+#ifdef NETCOREAPP
+                                        rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier());
+#else
+                                        rootObject = gcnew JavascriptRootObjectWrapper(browser->GetIdentifier(), _browserWrapper->BrowserProcess);
+#endif
+                                        rootObjectWrappers->TryAdd(StringUtils::ToClr(frame->GetIdentifier()), rootObject);
+                                    }
 
                                     //Cached objects only contains a list of objects not already bound
                                     rootObject->Bind(cachedObjects, context->GetGlobal());

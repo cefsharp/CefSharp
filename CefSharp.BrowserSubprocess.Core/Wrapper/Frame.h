@@ -31,7 +31,7 @@ namespace CefSharp
             bool _disposed;
 
         internal:
-            Frame(const CefRefPtr<CefFrame> &frame)
+            Frame(CefRefPtr<CefFrame> &frame)
                 : _frame(frame), _parentFrame(nullptr),
                 _owningBrowser(nullptr), _syncRoot(gcnew Object())
             {

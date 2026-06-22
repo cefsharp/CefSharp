@@ -26,7 +26,7 @@ namespace CefSharp
             double GetZoomLevelOnUI();
 
         internal:
-            CefBrowserHostWrapper(const CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost)
+            CefBrowserHostWrapper(CefRefPtr<CefBrowserHost> &browserHost) : _browserHost(browserHost)
             {
             }
 

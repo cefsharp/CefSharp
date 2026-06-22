@@ -169,13 +169,6 @@ namespace CefSharp
         void ClearCertificateExceptions(ICompletionCallback callback);
 
         /// <summary>
-        /// Clears the HTTP cache.
-        /// </summary>
-        /// <param name="callback">If is non-NULL it will be executed on the CEF UI thread after
-        /// completion. This param is optional</param>
-        void ClearHttpCache(ICompletionCallback callback = null);
-
-        /// <summary>
         /// Clears all HTTP authentication credentials that were added as part of handling
         /// <see cref="IRequestHandler.GetAuthCredentials"/>.
         /// </summary>

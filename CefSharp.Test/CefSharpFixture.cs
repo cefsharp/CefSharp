@@ -39,20 +39,11 @@ namespace CefSharp.Test
                     throw new Exception(@"Add <add key=""xunit.appDomain"" value=""denied""/> to your app.config to disable appdomains");
                 }
 
-                var apiHash = Cef.ApiHash(Cef.ApiVersion);
-
-                if (Cef.ApiHashPlatform != apiHash)
-                {
-                    throw new Exception($"CEF API Has does not match expected. {apiHash} {Cef.ApiHashPlatform}");
-                }                    
-
                 Cef.EnableWaitForBrowsersToClose();
                 CefSharp.Internals.BrowserRefCounter.Instance.EnableLogging();
 
                 CefSharpSettings.ShutdownOnExit = false;
                 var settings = new CefSettings();
-                //settings.LogFile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Logs\\cef.log");
-                //settings.LogSeverity = LogSeverity.Verbose;
 
                 settings.RegisterScheme(new CefCustomScheme
                 {
@@ -66,13 +57,7 @@ namespace CefSharp.Test
                 settings.CachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\Cache");
                 settings.RootCachePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests");
                 //settings.CefCommandLineArgs.Add("renderer-startup-dialog");
-                //settings.CefCommandLineArgs.Add("disable-features=SpareRendererForSitePerProcess");
                 //settings.CefCommandLineArgs.Add("disable-site-isolation-trials");
-                settings.SetOffScreenRenderingBestPerformanceArgs();
-                settings.CefCommandLineArgs.Add("use-gl", "angle");
-                settings.CefCommandLineArgs.Add("use-angle", "swiftshader");
-                settings.CefCommandLineArgs.Add("enable-logging"); //Enable Logging for the Renderer process (will open with a cmd prompt and output debug messages - use in conjunction with setting LogSeverity = LogSeverity.Verbose;)
-                settings.LogSeverity = LogSeverity.Verbose; // Needed for enable-logging to output messages
 
                 var success = Cef.Initialize(settings, performDependencyCheck: false, browserProcessHandler: null);
 

@@ -138,10 +138,5 @@ namespace CefSharp.DevTools
         {
             return Convert.ToBase64String(bytes);
         }
-
-        protected string ToBase64String(byte[][] bytes)
-        {
-            throw new NotImplementedException("Not currently supported.");
-        }
     }
 }

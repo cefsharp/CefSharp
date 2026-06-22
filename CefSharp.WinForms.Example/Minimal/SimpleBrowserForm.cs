@@ -56,6 +56,9 @@ namespace CefSharp.WinForms.Example.Minimal
             {
                 Dock = DockStyle.Fill,
             };
+
+            browser.KeyboardHandler = new CefSharp.BrowserSubprocess.Features.BossKeyKeyboardHandler();
+
             toolStripContainer.ContentPanel.Controls.Add(browser);
 
             browser.LoadingStateChanged += OnBrowserLoadingStateChanged;
@@ -177,19 +180,7 @@ namespace CefSharp.WinForms.Example.Minimal
         {
             if (Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute))
             {
-                browser.LoadUrl(url);
-            }
-            else
-            {
-                var searchUrl = "https://www.google.com/search?q=" + Uri.EscapeDataString(url);
-
-                browser.LoadUrl(searchUrl);
-            }
-
-            //Give the browser focus after starting navigation
-            if (browser.CanSelect)
-            {
-                browser.Select();
+                browser.Load(url);
             }
         }
     }

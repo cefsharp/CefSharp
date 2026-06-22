@@ -13,8 +13,9 @@
     <tags>osr chrome browser chromium-embedded cefsharp</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
-      <group targetFramework="net6.0-windows7.0">
+      <group targetFramework=".NETCoreApp3.1">
         <dependency id="CefSharp.Common.NETCore" version="[$version$]" include="Runtime,Compile,Build,Native" />
+		<dependency id="System.Drawing.Common" version="4.7.3" />
       </group>
     </dependencies>
     <releaseNotes>
@@ -26,9 +27,9 @@
   </metadata>
   <files>
     <!-- pdb and xml files not copied see https://github.com/dotnet/sdk/issues/1458 -->
-	<file src="..\..\CefSharp.OffScreen\bin.netcore\Release\net6.0-windows\ref\CefSharp.OffScreen.dll" target="ref\net6.0-windows7.0"/>
-    <file src="..\..\CefSharp.OffScreen\bin.netcore\Release\net6.0-windows\CefSharp.OffScreen.dll" target="lib\net6.0-windows7.0"/>
-	<file src="..\..\CefSharp.OffScreen\bin.netcore\Release\net6.0-windows\CefSharp.OffScreen.xml" target="lib\net6.0-windows7.0"/>
+	<file src="..\..\CefSharp.OffScreen\bin.netcore\Release\netcoreapp3.1\ref\CefSharp.OffScreen.dll" target="ref\netcoreapp3.1"/>
+    <file src="..\..\CefSharp.OffScreen\bin.netcore\Release\netcoreapp3.1\CefSharp.OffScreen.dll" target="lib\netcoreapp3.1"/>
+	<file src="..\..\CefSharp.OffScreen\bin.netcore\Release\netcoreapp3.1\CefSharp.OffScreen.xml" target="lib\netcoreapp3.1"/>
 
     <file src="Readme.txt" target="" />
 	<file src="..\..\LICENSE" target="LICENSE" />

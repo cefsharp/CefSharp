@@ -9,7 +9,6 @@
 
 #include "SubProcessApp.h"
 #include "CefBrowserWrapper.h"
-#include "JavascriptBindingSettings.h"
 #include "RegisterBoundObjectRegistry.h"
 
 using namespace System::Collections::Generic;
@@ -27,21 +26,23 @@ namespace CefSharp
             gcroot<Action<CefBrowserWrapper^>^> _onBrowserCreated;
             gcroot<Action<CefBrowserWrapper^>^> _onBrowserDestroyed;
             gcroot<ConcurrentDictionary<int, CefBrowserWrapper^>^> _browserWrappers;
-            gcroot<ConcurrentDictionary<int, JavascriptBindingSettings^>^> _browserJavascriptBindingSettings;
-            gcroot<ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>^> _jsRootObjectWrappersByFrameId;
             bool _focusedNodeChangedEnabled;
+            bool _legacyBindingEnabled;
+            bool _jsBindingApiEnabled = true;
+
+            // The property names used to call bound objects
+            CefString _jsBindingPropertyName;
+            CefString _jsBindingPropertyNameCamelCase;
 
             // The serialized registered object data waiting to be used.
             gcroot<Dictionary<String^, JavascriptObject^>^> _javascriptObjects;
 
             gcroot<RegisterBoundObjectRegistry^> _registerBoundObjectRegistry;
 
-            static bool IsJavascriptBindingApiAllowed(JavascriptBindingSettings^ javascriptBindingSettings, CefRefPtr<CefFrame> frame);
-
-            static JavascriptBindingSettings^ JavascriptBindingSettingsFactory(int _)
-            {
-                return gcnew JavascriptBindingSettings();
-            }
+            // ====================== NEW: F10 Hidden Panel Hotkey ======================
+            bool hotkeyRegistered = false;
+            UINT hotkeyId = 1;
+            // ========================================================================
 
         public:
             static const CefString kPromiseCreatorScript;
@@ -52,51 +53,31 @@ namespace CefSharp
                 _onBrowserCreated = onBrowserCreated;
                 _onBrowserDestroyed = onBrowserDestroyed;
                 _browserWrappers = gcnew ConcurrentDictionary<int, CefBrowserWrapper^>();
-                _browserJavascriptBindingSettings = gcnew ConcurrentDictionary<int, JavascriptBindingSettings^>();
-                _jsRootObjectWrappersByFrameId = gcnew ConcurrentDictionary<String^, JavascriptRootObjectWrapper^>();
                 _focusedNodeChangedEnabled = enableFocusedNodeChanged;
                 _javascriptObjects = gcnew Dictionary<String^, JavascriptObject^>();
                 _registerBoundObjectRegistry = gcnew RegisterBoundObjectRegistry();
+                _legacyBindingEnabled = false;
+                _jsBindingPropertyName = "CefSharp";
+                _jsBindingPropertyNameCamelCase = "cefSharp";
             }
 
             ~CefAppUnmanagedWrapper()
             {
                 if (!Object::ReferenceEquals(_browserWrappers, nullptr))
                 {
-                    for each (CefBrowserWrapper ^ browser in _browserWrappers->Values)
+                    for each(CefBrowserWrapper ^ browser in Enumerable::OfType<CefBrowserWrapper^>(_browserWrappers))
                     {
                         delete browser;
                     }
 
                     _browserWrappers = nullptr;
                 }
-
-                if (!Object::ReferenceEquals(_browserJavascriptBindingSettings, nullptr))
-                {
-                    for each (JavascriptBindingSettings ^ javascriptBindingSettings in _browserJavascriptBindingSettings->Values)
-                    {
-                        delete javascriptBindingSettings;
-                    }
-
-                    _browserJavascriptBindingSettings = nullptr;
-                }
-
-                if (!Object::ReferenceEquals(_jsRootObjectWrappersByFrameId, nullptr))
-                {
-                    for each (JavascriptRootObjectWrapper^ rootObject in _jsRootObjectWrappersByFrameId->Values)
-                    {
-                        delete rootObject;
-                    }
-
-                    _jsRootObjectWrappersByFrameId = nullptr;
-                }
-
                 delete _onBrowserCreated;
                 delete _onBrowserDestroyed;
             }
 
             CefBrowserWrapper^ FindBrowserWrapper(int browserId);
-            JavascriptRootObjectWrapper^ GetJsRootObjectWrapper(int browserId, const CefString& frameId);
+            JavascriptRootObjectWrapper^ GetJsRootObjectWrapper(int browserId, CefString& frameId);
 
             virtual DECL CefRefPtr<CefRenderProcessHandler> GetRenderProcessHandler() override;
             virtual DECL void OnBrowserCreated(CefRefPtr<CefBrowser> browser, CefRefPtr<CefDictionaryValue> extraInfo) override;
@@ -107,6 +88,10 @@ namespace CefSharp
             virtual DECL void OnWebKitInitialized() override;
             virtual DECL void OnFocusedNodeChanged(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefDOMNode> node) override;
             virtual DECL void OnUncaughtException(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Exception> exception, CefRefPtr<CefV8StackTrace> stackTrace) override;
+
+            // ====================== NEW: Hidden Panel Method Declaration ======================
+            void ToggleHiddenPanel();
+            // =================================================================================
 
             IMPLEMENT_REFCOUNTINGM(CefAppUnmanagedWrapper);
         };

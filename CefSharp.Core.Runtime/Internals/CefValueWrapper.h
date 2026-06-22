@@ -53,7 +53,7 @@ namespace CefSharp
             }
 
         internal:
-            CefValueWrapper(const CefRefPtr<CefValue> &cefValue) : _cefValue(cefValue)
+            CefValueWrapper(CefRefPtr<CefValue> &cefValue) : _cefValue(cefValue)
             {
             }
 

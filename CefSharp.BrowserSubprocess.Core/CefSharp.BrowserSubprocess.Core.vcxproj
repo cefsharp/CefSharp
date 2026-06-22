@@ -1,6 +1,6 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\cef.sdk.148.0.9\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.148.0.9\build\cef.sdk.props')" />
+  <Import Project="..\packages\cef.sdk.131.3.5\build\cef.sdk.props" Condition="Exists('..\packages\cef.sdk.131.3.5\build\cef.sdk.props')" />
   <Import Project="..\packages\Microsoft.SourceLink.GitHub.1.0.0\build\Microsoft.SourceLink.GitHub.props" Condition="Exists('..\packages\Microsoft.SourceLink.GitHub.1.0.0\build\Microsoft.SourceLink.GitHub.props')" />
   <Import Project="..\packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.props" Condition="Exists('..\packages\Microsoft.SourceLink.Common.1.0.0\build\Microsoft.SourceLink.Common.props')" />
   <Import Project="..\packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.props" Condition="Exists('..\packages\Microsoft.Build.Tasks.Git.1.0.0\build\Microsoft.Build.Tasks.Git.props')" />
@@ -36,24 +36,28 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CLRSupport>true</CLRSupport>
     <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -110,12 +114,12 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <BrowseInformation>true</BrowseInformation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;User32.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion);</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -128,12 +132,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;User32.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;user32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion);</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
@@ -146,12 +150,11 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <BrowseInformation>true</BrowseInformation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;user32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -162,12 +165,11 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;EXPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <LanguageStandard>stdcpp20</LanguageStandard>
-      <CompileAs>CompileAsCpp</CompileAs>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib</AdditionalDependencies>
+      <AdditionalDependencies>libcef.lib;libcef_dll_wrapper.lib;user32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration);$(SolutionDir)packages\$(CefSdkVer)\CEF\$(Platform)\$(Configuration)\VS$(VisualStudioProductVersion)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -188,7 +190,6 @@
     <ClCompile Include="..\CefSharp.Core.Runtime\Internals\CefRefCountManaged.cpp" />
     <ClCompile Include="BrowserSubprocessExecutable.h" />
     <ClInclude Include="Cef.h" />
-    <ClInclude Include="JavascriptBindingSettings.h" />
     <ClInclude Include="JavascriptPromiseHandler.h" />
     <ClInclude Include="JavascriptPromiseResolverCatch.h" />
     <ClInclude Include="JavascriptPromiseResolverThen.h" />

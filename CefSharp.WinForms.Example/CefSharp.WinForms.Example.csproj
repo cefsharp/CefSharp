@@ -9,7 +9,7 @@
         <ApplicationManifest>app.manifest</ApplicationManifest>
         <StartupObject>CefSharp.WinForms.Example.Program</StartupObject>
         <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+        <RuntimeIdentifiers>win7-x86;win7-x64</RuntimeIdentifiers>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,6 +25,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
+        <ProjectReference Include="..\CefSharp.BrowserSubprocess\CefSharp.BrowserSubprocess.csproj" />
         <ProjectReference Include="..\CefSharp.Core.Runtime\CefSharp.Core.Runtime.vcxproj" />
         <ProjectReference Include="..\CefSharp.Core\CefSharp.Core.csproj" />
         <ProjectReference Include="..\CefSharp.Example\CefSharp.Example.csproj" />
@@ -32,7 +33,7 @@
         <ProjectReference Include="..\CefSharp\CefSharp.csproj" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="chromiumembeddedframework.runtime" Version="148.0.9" />
+        <PackageReference Include="chromiumembeddedframework.runtime" Version="131.3.5" />
         <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="8.0.0">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
