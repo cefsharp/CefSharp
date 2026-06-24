@@ -28,20 +28,24 @@ namespace CefSharp
 
         private static string MapArchitecture(string architecture)
         {
-            switch (architecture)
+            var lower = architecture.ToLowerInvariant();
+
+            if (string.Equals(lower, Arm64, StringComparison.Ordinal))
             {
-                case "Arm64":
-                case "arm64":
-                    return Arm64;
-                case "X64":
-                case "x64":
-                    return X64;
-                case "X86":
-                case "x86":
-                    return X86;
-                default:
-                    return Environment.Is64BitProcess ? X64 : X86;
+                return Arm64;
             }
+
+            if (string.Equals(lower, X64, StringComparison.Ordinal))
+            {
+                return X64;
+            }
+
+            if (string.Equals(lower, X86, StringComparison.Ordinal))
+            {
+                return X86;
+            }
+
+            return Environment.Is64BitProcess ? X64 : X86;
         }
     }
 }
