@@ -140,6 +140,10 @@ namespace CefSharp
 
             virtual void SetAudioMuted(bool mute);
 
+            virtual bool CanExecuteChromeCommand(int commandId);
+
+            virtual void ExecuteChromeCommand(int commandId, WindowOpenDisposition disposition);
+
             virtual IntPtr GetOpenerWindowHandle();
 
             virtual void SendExternalBeginFrame();

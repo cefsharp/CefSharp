@@ -88,8 +88,11 @@ If you're new to `CefSharp` and are downloading the source to check it out, plea
 
 | Branch                                                                | CEF Version  | VC++ Version | .Net Version | Status |
 |-----------------------------------------------------------------------|------|-------|---------|-----------------|
-| [master](https://github.com/cefsharp/CefSharp/)                       | 7680 | 2022* | 4.6.2** | Development     |
-| [cefsharp/146](https://github.com/cefsharp/CefSharp/tree/cefsharp/146)| 7680 | 2022* | 4.6.2** | **Release**     |
+| [master](https://github.com/cefsharp/CefSharp/)                       | 7827 | 2022* | 4.6.2** | Development     |
+| [cefsharp/149](https://github.com/cefsharp/CefSharp/tree/cefsharp/149)| 7827 | 2022* | 4.6.2** | **Release**     |
+| [cefsharp/148](https://github.com/cefsharp/CefSharp/tree/cefsharp/148)| 7778 | 2022* | 4.6.2** | Unsupported     |
+| [cefsharp/147](https://github.com/cefsharp/CefSharp/tree/cefsharp/147)| 7727 | 2022* | 4.6.2** | Unsupported     |
+| [cefsharp/146](https://github.com/cefsharp/CefSharp/tree/cefsharp/146)| 7680 | 2022* | 4.6.2** | Unsupported     |
 | [cefsharp/145](https://github.com/cefsharp/CefSharp/tree/cefsharp/145)| 7632 | 2022* | 4.6.2** | Unsupported     |
 | [cefsharp/144](https://github.com/cefsharp/CefSharp/tree/cefsharp/144)| 7559 | 2022* | 4.6.2** | Unsupported     |
 | [cefsharp/143](https://github.com/cefsharp/CefSharp/tree/cefsharp/143)| 7499 | 2022* | 4.6.2** | Unsupported     |

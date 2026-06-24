@@ -1492,6 +1492,35 @@ namespace CefSharp
         }
 
         /// <summary>
+        /// Execute a Chrome command. Only used with Chrome style.
+        /// </summary>
+        /// <param name="browser">The <see cref="IBrowser"/> instance this method extends.</param>
+        /// <param name="commandId">The command id.</param>
+        /// <param name="disposition">The command target.</param>
+        public static void ExecuteChromeCommand(this IBrowser browser, int commandId, WindowOpenDisposition disposition)
+        {
+            ThrowExceptionIfBrowserNull(browser);
+
+            var host = browser.GetHost();
+            ThrowExceptionIfBrowserHostNull(host);
+
+            host.ExecuteChromeCommand(commandId, disposition);
+        }
+
+        /// <summary>
+        /// Execute a Chrome command. Only used with Chrome style.
+        /// </summary>
+        /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
+        /// <param name="commandId">The command id.</param>
+        /// <param name="disposition">The command target.</param>
+        public static void ExecuteChromeCommand(this IChromiumWebBrowserBase browser, int commandId, WindowOpenDisposition disposition)
+        {
+            ThrowExceptionIfChromiumWebBrowserDisposed(browser);
+
+            browser.BrowserCore.ExecuteChromeCommand(commandId, disposition);
+        }
+
+        /// <summary>
         /// Shortcut method to get the browser IBrowserHost.
         /// </summary>
         /// <param name="browser">The ChromiumWebBrowser instance this method extends.</param>
