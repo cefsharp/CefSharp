@@ -135,7 +135,6 @@ namespace CefSharp
 
             if (checkOptional)
             {
-                missingDependencies.AddRange(CheckDependencyList(nativeLibPath, GetOptionalDependencies()));
             }
 
 #if NETCOREAPP
@@ -172,18 +171,6 @@ namespace CefSharp
             return missingDependencies;
         }
 
-        private static IEnumerable<string> GetOptionalDependencies()
-        {
-            foreach (var dependency in CefOptionalDependencies)
-            {
-                if (ArchitectureHelper.IsArm64Process && string.Equals(dependency, "d3dcompiler_47.dll", StringComparison.OrdinalIgnoreCase))
-                {
-                    continue;
-                }
-
-                yield return dependency;
-            }
-        }
 
         /// <summary>
         /// Loop through dependencies and add to the returned missing dependency list if not found.
