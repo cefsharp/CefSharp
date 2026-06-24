@@ -17,6 +17,7 @@
         <dependency id="chromiumembeddedframework.runtime.win-x86" version="[$RedistVersion$]" />
 		<dependency id="chromiumembeddedframework.runtime.win-x64" version="[$RedistVersion$]" />
 		<dependency id="chromiumembeddedframework.runtime.win-arm64" version="[$RedistVersion$]" />
+		<dependency id="System.Runtime.InteropServices.RuntimeInformation" version="4.3.0" />
       </group>
     </dependencies>
   </metadata>
