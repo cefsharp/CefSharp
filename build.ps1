@@ -116,10 +116,35 @@ function BuildSolution
         "/verbosity:normal"
     )
 
-    &msbuild.exe @Arguments
+    $StartInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $StartInfo.FileName = "msbuild.exe"
+    $StartInfo.Arguments = $Arguments
 
-    if($LASTEXITCODE -ne 0)
+    $StartInfo.EnvironmentVariables.Clear()
+
+    Get-ChildItem -Path env:* | ForEach-Object {
+        $StartInfo.EnvironmentVariables.Add($_.Name, $_.Value)
+    }
+
+    $StartInfo.UseShellExecute = $false
+    $StartInfo.CreateNoWindow = $false
+    $StartInfo.RedirectStandardError = $true
+    $StartInfo.RedirectStandardOutput = $true
+
+    $Process = New-Object System.Diagnostics.Process
+    $Process.StartInfo = $startInfo
+
+    $Process.Start()
+
+    $stdout = $Process.StandardOutput.ReadToEnd()
+    $stderr = $Process.StandardError.ReadToEnd()
+
+    $Process.WaitForExit()
+
+    if($Process.ExitCode -ne 0)
     {
+        Write-Host "stdout: $stdout"
+        Write-Host "stderr: $stderr"
         Die "Build failed"
     }
 
