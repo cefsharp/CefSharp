@@ -11,7 +11,7 @@ namespace CefSharp
     /// (cef_download_interrupt_reason_t in include/internal/cef_types.h)
     /// and the Chromium source code (download/public/common/download_interrupt_reason_values.h).
     /// </summary>
-    public enum CefDownloadInterruptReason
+    public enum DownloadInterruptReason
     {
         /// <summary>
         /// No error occurred.

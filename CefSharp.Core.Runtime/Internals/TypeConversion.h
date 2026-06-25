@@ -60,7 +60,7 @@ namespace CefSharp
                     item->IsCancelled = downloadItem->IsCanceled();
                     item->IsPaused = downloadItem->IsPaused();
                     item->IsInterrupted = downloadItem->IsInterrupted();
-                    item->InterruptReason = (CefDownloadInterruptReason)downloadItem->GetInterruptReason();
+                    item->InterruptReason = (DownloadInterruptReason)downloadItem->GetInterruptReason();
                     item->CurrentSpeed = downloadItem->GetCurrentSpeed();
                     item->PercentComplete = downloadItem->GetPercentComplete();
                     item->TotalBytes = downloadItem->GetTotalBytes();

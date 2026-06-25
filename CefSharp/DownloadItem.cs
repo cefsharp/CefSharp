@@ -44,7 +44,7 @@ namespace CefSharp
         /// <summary>
         /// Returns the most recent interrupt reason.
         /// </summary>
-        public CefDownloadInterruptReason InterruptReason { get; set; }
+        public DownloadInterruptReason InterruptReason { get; set; }
 
         /// <summary>
         /// Returns a simple speed estimate in bytes/s.
