@@ -27,7 +27,7 @@ namespace CefSharp
         public bool IsComplete { get; set; }
 
         /// <summary>
-        /// Returns true if the download has been canceled or interrupted.
+        /// Returns true if the download has been canceled.
         /// </summary>
         public bool IsCancelled { get; set; }
 
@@ -35,6 +35,16 @@ namespace CefSharp
         /// Returns true if the download has been paused.
         /// </summary>
         public bool IsPaused { get; set; }
+
+        /// <summary>
+        /// Returns true if the download has been interrupted.
+        /// </summary>
+        public bool IsInterrupted { get; set; }
+
+        /// <summary>
+        /// Returns the most recent interrupt reason.
+        /// </summary>
+        public CefDownloadInterruptReason InterruptReason { get; set; }
 
         /// <summary>
         /// Returns a simple speed estimate in bytes/s.
