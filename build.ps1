@@ -492,12 +492,11 @@ if($IsNetCoreBuild)
 }
 else
 {
-    $ARCHES.Remove("arm64")
     $CefSln = Join-Path $WorkingDir 'CefSharp3.sln'
     $NugetPackagePath = "nuget";
     $NupkgFiles = @('CefSharp.Common.nuspec', 'CefSharp.WinForms.nuspec', 'CefSharp.Wpf.nuspec', 'CefSharp.OffScreen.nuspec')
     $VCXProjPackageConfigFiles = @('CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config', 'CefSharp.BrowserSubprocess.Core\packages.CefSharp.BrowserSubprocess.Core.config');
-    $SupportedArches.AddRange(@("x86", "x64"));
+    $SupportedArches.AddRange(@("x86", "x64", "arm64"));
 }
 
 # Extract the current CEF Redist version from the CefSharp.Core.Runtime\packages.CefSharp.Core.Runtime.config file

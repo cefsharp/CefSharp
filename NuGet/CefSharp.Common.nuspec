@@ -16,6 +16,8 @@
       <group targetFramework=".NETFramework4.6.2">
         <dependency id="chromiumembeddedframework.runtime.win-x86" version="[$RedistVersion$]" />
 		<dependency id="chromiumembeddedframework.runtime.win-x64" version="[$RedistVersion$]" />
+		<dependency id="chromiumembeddedframework.runtime.win-arm64" version="[$RedistVersion$]" />
+		<dependency id="System.Runtime.InteropServices.RuntimeInformation" version="4.3.0" />
       </group>
     </dependencies>
   </metadata>
@@ -38,6 +40,10 @@
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.dll" target="CefSharp\x64"/>
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.xml" target="CefSharp\x64"/>
     <file src="..\CefSharp.Core.Runtime\bin\x64\Release\CefSharp.Core.Runtime.pdb" target="CefSharp\x64"/>
+
+    <file src="..\CefSharp.Core.Runtime\bin\arm64\Release\CefSharp.Core.Runtime.dll" target="CefSharp\arm64"/>
+    <file src="..\CefSharp.Core.Runtime\bin\arm64\Release\CefSharp.Core.Runtime.xml" target="CefSharp\arm64"/>
+    <file src="..\CefSharp.Core.Runtime\bin\arm64\Release\CefSharp.Core.Runtime.pdb" target="CefSharp\arm64"/>
     
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\x86"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x86\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x86"/>
@@ -48,6 +54,11 @@
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\x64"/>
     <file src="..\CefSharp.BrowserSubprocess\bin\x64\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\x64"/>
+
+    <file src="..\CefSharp.BrowserSubprocess\bin\arm64\Release\CefSharp.BrowserSubprocess.Core.dll" target="CefSharp\arm64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\arm64\Release\CefSharp.BrowserSubprocess.Core.pdb" target="CefSharp\arm64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\arm64\Release\CefSharp.BrowserSubprocess.exe" target="CefSharp\arm64"/>
+    <file src="..\CefSharp.BrowserSubprocess\bin\arm64\Release\CefSharp.BrowserSubprocess.pdb" target="CefSharp\arm64"/>
 
     <file src="CefSharp.Common.props" target="buildTransitive" />
     <file src="CefSharp.Common.targets" target="buildTransitive" />

@@ -76,7 +76,7 @@ namespace CefSharp
         /// <summary>
         /// List of CefSharp Arch Specific Dependencies
         /// Those that are arch specific,
-        /// distributed as x86, x64 and ARM64 (coming soon for .Net 5.0 only)
+        /// distributed as x86, x64 and ARM64.
         /// </summary>
         public static string[] CefSharpArchSpecificDependencies =
         {
