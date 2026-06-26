@@ -472,6 +472,7 @@
       <CefRedistArm64TargetDir Condition="'$(CefRedistArm64TargetDir)' == ''">$(TargetDir)$(CefSharpTargetDir)</CefRedistArm64TargetDir>
       <CefRedist32TargetDir Condition="'$(_CefSharpPlatformTarget)' == 'AnyCPU'">$(CefRedist32TargetDir)x86\</CefRedist32TargetDir>
       <CefRedist64TargetDir Condition="'$(_CefSharpPlatformTarget)' == 'AnyCPU'">$(CefRedist64TargetDir)x64\</CefRedist64TargetDir>
+	  <CefRedistArm64TargetDir Condition="'$(_CefSharpPlatformTarget)' == 'AnyCPU'">$(CefRedistArm64TargetDir)arm64\</CefRedistArm64TargetDir>
     </PropertyGroup>
     <ItemGroup>
       <_CefSharpCommonManagedDll Include="$(MSBuildThisFileDirectory)..\lib\net462\CefSharp.dll" />
