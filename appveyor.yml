@@ -19,16 +19,6 @@ artifacts:
   - path: NuGet\**\*.nupkg
     name: nupkgfiles
 
-# Publish to myget.org feed
-deploy:
-  provider: NuGet
-  server: https://www.myget.org/F/cefsharp/api/v2/package
-  api_key:
-    secure: V8du2PPvMPok3Ya701jt5v2XWQgOZf52/H5wDHXBpKvXYkIIe8sonhVUy2TmEkqt
-  skip_symbols: true
-  symbol_server: https://www.myget.org/F/cefsharp/api/v2/package
-  artifact: nupkgfiles
-
 #Skip builing if we only modify text files
 skip_commits:
   files:
