@@ -7,7 +7,7 @@ namespace CefSharp
     /// runtime provides less default browser functionality but adds additional
     /// client callbacks and support for windowless (off-screen) rendering. For
     /// additional comparative details on runtime types see
-    /// https://bitbucket.org/chromiumembedded/cef/wiki/Architecture.md#markdown-header-cef3
+    /// https://chromiumembedded.github.io/cef/architecture#cef3
     ///
     /// Each runtime is composed of a bootstrap component and a style component.
     /// The style component is individually

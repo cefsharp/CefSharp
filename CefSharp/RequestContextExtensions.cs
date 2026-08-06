@@ -219,7 +219,7 @@ namespace CefSharp
 
             if (!ProxySchemes.Contains(scheme.ToLower()))
             {
-                throw new ArgumentException("Invalid Scheme, see https://bitbucket.org/chromiumembedded/cef/wiki/GeneralUsage.md#markdown-header-proxy-resolution for a list of valid schemes.", "scheme");
+                throw new ArgumentException("Invalid Scheme, see https://chromiumembedded.github.io/cef/general_usage#proxy-resolution for a list of valid schemes.", "scheme");
             }
 
             if (string.IsNullOrWhiteSpace(host))

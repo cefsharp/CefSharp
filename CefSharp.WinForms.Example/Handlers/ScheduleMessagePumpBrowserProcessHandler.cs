@@ -17,7 +17,7 @@ namespace CefSharp.WinForms.Example.Handlers
     /// that it needs to perform work.
     /// See the following link for the CEF reference implementation that containes a more complex example that maybe
     /// required in some circumstances.
-    /// https://bitbucket.org/chromiumembedded/cef/commits/1ff26aa02a656b3bc9f0712591c92849c5909e04?at=2785
+    /// https://github.com/chromiumembedded/cef/commit/1ff26aa02a656b3bc9f0712591c92849c5909e04
     /// </summary>
     public class ScheduleMessagePumpBrowserProcessHandler : BrowserProcessHandler
     {
