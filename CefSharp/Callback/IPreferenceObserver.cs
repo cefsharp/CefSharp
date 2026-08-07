@@ -17,6 +17,7 @@ namespace CefSharp.Callback
         /// Called when a preference has changed. The new value can be retrieved using
         /// <see cref="IRequestContext.GetPreference"/>.
         /// </summary>
+        /// <param name="name">preference key</param>
         void OnPreferenceChanged(string name);
     }
 }

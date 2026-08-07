@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.Callback;
 using CefSharp.Enums;
 
 namespace CefSharp
@@ -172,6 +173,12 @@ namespace CefSharp
         public bool SetPreference(string name, object value, out string error)
         {
             return requestContext.SetPreference(name, value, out error);
+        }
+
+        /// <inheritdoc/>
+        public IRegistration AddPreferenceObserver(string name, IPreferenceObserver observer)
+        {
+            return requestContext.AddPreferenceObserver(name, observer);
         }
 
         /// <inheritdoc/>
