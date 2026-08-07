@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CefSharp.Callback;
 using CefSharp.Enums;
 
 namespace CefSharp
@@ -157,6 +158,23 @@ namespace CefSharp
         /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
         /// application thread will be the CEF UI thread.</remarks>
         bool SetPreference(string name, object value, out string error);
+
+        /// <summary>
+        /// Add an observer for preference changes. <paramref name="name"/> is the name of the
+        /// preference to observe. If <paramref name="name"/> is empty then all preferences will
+        /// be observed. Observing all preferences has performance consequences and
+        /// is not recommended outside of testing scenarios. The observer will remain
+        /// registered until the returned Registration object is destroyed. This
+        /// method must be called on the browser process UI thread.
+        /// </summary>
+        /// <param name="name">preference key</param>
+        /// <param name="observer">preference observer</param>
+        /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+        /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+        /// executed on the CEF UI thread, so can be called directly.
+        /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+        /// application thread will be the CEF UI thread.</remarks>
+        IRegistration AddPreferenceObserver(string name, IPreferenceObserver observer);
 
         /// <summary>
         /// Clears all certificate exceptions that were added as part of handling
