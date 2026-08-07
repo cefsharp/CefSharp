@@ -61,7 +61,7 @@ namespace CefSharp.Example
             //http://peter.sh/experiments/chromium-command-line-switches/
             //NOTE: Not all relevant in relation to `CefSharp`, use for reference purposes only.
             //CEF specific command line args
-            //https://bitbucket.org/chromiumembedded/cef/src/master/libcef/common/cef_switches.cc?fileviewer=file-view-default
+            //https://github.com/chromiumembedded/cef/blob/master/libcef/common/cef_switches.cc
 
             //**IMPORTANT**: For enabled/disabled command line arguments like disable-gpu specifying a value of "0" like
             //settings.CefCommandLineArgs.Add("disable-gpu", "0"); will have no effect as the second argument is ignored.
@@ -104,7 +104,7 @@ namespace CefSharp.Example
             // `--disable-gpu --disable-gpu-compositing --enable-begin-frame-scheduling`
             // (you'll loose WebGL support but gain increased FPS and reduced CPU usage).
             // http://magpcss.org/ceforum/viewtopic.php?f=6&t=13271#p27075
-            //https://bitbucket.org/chromiumembedded/cef/commits/e3c1d8632eb43c1c2793d71639f3f5695696a5e8
+            //https://github.com/chromiumembedded/cef/commit/e3c1d8632eb43c1c2793d71639f3f5695696a5e8
 
             //NOTE: The following function will set all three params
             //settings.SetOffScreenRenderingBestPerformanceArgs();

@@ -56,7 +56,7 @@ namespace CefSharp
 
                 //NOTE:  If ScreenInfo is returned as null,  the screen_info available and rect structs would remain default (0,0,0,0).  If so, the underlying CEF library would use 
                 // GetViewRect to populate values in the window.screen object (javascript).
-                //https://bitbucket.org/chromiumembedded/cef/src/47e6d4bf84444eb6cb4d4509231a8c9ee878a584/include/cef_render_handler.h?at=2357#cef_render_handler.h-90
+                //https://github.com/chromiumembedded/cef/blob/47e6d4bf84444eb6cb4d4509231a8c9ee878a584/include/cef_render_handler.h#L90
                 if (screenInfo.HasValue == false)
                 {
                     return false;

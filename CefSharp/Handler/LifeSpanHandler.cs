@@ -167,7 +167,7 @@ namespace CefSharp.Handler
         /// WinForms - To host the popup (browser) in a TAB/Custom Window see https://github.com/cefsharp/CefSharp/wiki/General-Usage#winforms---hosting-popup-using-tab-control for an easy method.
         /// WPF - For an example of hosting the popup (browser) in a custom window see https://github.com/cefsharp/CefSharp/wiki/General-Usage#wpf---hosting-popup-in-new-window-experimental
         /// Same can be applied for hosting the popup in a TAB.
-        /// This method is still EXPERIMENTAL and will likely require upstream bug fixes in CEF (https://bitbucket.org/chromiumembedded/cef).
+        /// This method is still EXPERIMENTAL and will likely require upstream bug fixes in CEF (https://github.com/chromiumembedded/cef).
         /// </remarks>
         protected virtual bool OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame, string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture, IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings, ref bool noJavascriptAccess, out IWebBrowser newBrowser)
         {

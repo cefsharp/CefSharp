@@ -14,7 +14,7 @@ namespace CefSharp.Wpf.HwndHost.Handler
     /// integreate CEF into the WPF message loop (Dispatcher).
     /// Currently it's a very basic implementation.
     /// See the following link for the CEF reference implementation.
-    /// https://bitbucket.org/chromiumembedded/cef/commits/1ff26aa02a656b3bc9f0712591c92849c5909e04?at=2785
+    /// https://github.com/chromiumembedded/cef/commit/1ff26aa02a656b3bc9f0712591c92849c5909e04
     /// </summary>
     public class IntegratedMessageLoopBrowserProcessHandler
         : BrowserProcessHandler

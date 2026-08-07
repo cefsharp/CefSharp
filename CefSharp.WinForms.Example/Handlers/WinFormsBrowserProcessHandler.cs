@@ -14,7 +14,7 @@ namespace CefSharp.WinForms.Example.Handlers
     /// The timer fires roughly <see cref="BrowserProcessHandler.SixtyTimesPerSecond"/>
     /// times per second calling  Cef.DoMessageLoopWork on the WinForms UI Thread.
     /// See the following link for the CEF reference implementation.
-    /// https://bitbucket.org/chromiumembedded/cef/commits/1ff26aa02a656b3bc9f0712591c92849c5909e04?at=2785
+    /// https://github.com/chromiumembedded/cef/commit/1ff26aa02a656b3bc9f0712591c92849c5909e04
     /// </summary>
     public class WinFormsBrowserProcessHandler : BrowserProcessHandler
     {

@@ -228,7 +228,7 @@ namespace CefSharp
 
         void IResourceHandler.Cancel()
         {
-            // Prior to Prior to https://bitbucket.org/chromiumembedded/cef/commits/90301bdb7fd0b32137c221f38e8785b3a8ad8aa4
+            // Prior to https://github.com/chromiumembedded/cef/commit/90301bdb7fd0b32137c221f38e8785b3a8ad8aa4
             // This method was unexpectedly being called during Read (from a different thread),
             // changes to the threading model were made and I haven't confirmed if this is still
             // the case.
