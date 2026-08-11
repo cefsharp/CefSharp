@@ -3,7 +3,7 @@
 
 param(
 	[Parameter(Position = 1)]
-	[string] $CefVersion = "151.3.14",
+	[string] $CefVersion = "151.3.16",
 	[Parameter(Position = 2)]
 	[string] $CefSharpVersion = ""
 	)
