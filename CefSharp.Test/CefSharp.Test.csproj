@@ -2,8 +2,9 @@
     <PropertyGroup>
         <TargetFramework>net472</TargetFramework>
         <OutputType>Library</OutputType>
-        <Platforms>x86;x64</Platforms>
-        <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+        <Platforms>x86;x64;arm64</Platforms>
+        <PlatformTarget Condition="'$(Platform)' == 'arm64'">arm64</PlatformTarget>
+        <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
         <UseWindowsForms>true</UseWindowsForms>
         <UseWPF>true</UseWPF>
@@ -18,6 +19,10 @@
 
     <PropertyGroup Condition="'$(PlatformTarget)' == 'x64'">
         <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-x64</RuntimeIdentifier>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(PlatformTarget)' == 'arm64'">
+        <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == ''">win-arm64</RuntimeIdentifier>
     </PropertyGroup>
     
     <ItemGroup>
