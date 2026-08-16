@@ -325,6 +325,9 @@
     <ClInclude Include="Internals\CefTaskDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\PreferenceObserverAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Internals\CefFrameWrapper.h">

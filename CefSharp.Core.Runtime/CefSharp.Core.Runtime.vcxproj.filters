@@ -319,6 +319,9 @@
     <ClInclude Include="Internals\CefTaskDelegate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Internals\PreferenceObserverAdapter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Internals\CefPermissionPromptCallbackWrapper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
