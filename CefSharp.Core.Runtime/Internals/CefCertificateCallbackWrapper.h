@@ -19,11 +19,19 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefSelectClientCertificateCallback> _callback;
-            const CefRequestHandler::X509CertificateList& _certificateList;
+            // Owned copy of the certificates Chromium offered, not a reference to the caller's.
+            // ClientAdapter::OnSelectClientCertificate builds that list as a stack local, so a
+            // reference to it dangles the moment the handler returns. CEF permits calling Select
+            // "either in this method or at a later time", so a wrapper that outlives the handler
+            // has to own the list it selects from, or a deferred Select reads freed memory.
+            // A ref class cannot hold a std::vector by value, hence the pointer. Copying the
+            // vector copies the reference-counted CefX509Certificate pointers, and those
+            // references are what keep the certificates themselves alive.
+            CefRequestHandler::X509CertificateList* _certificateList;
 
         public:
             CefCertificateCallbackWrapper(CefRefPtr<CefSelectClientCertificateCallback>& callback, const CefRequestHandler::X509CertificateList& certificates)
-                : _callback(callback), _certificateList(certificates)
+                : _callback(callback), _certificateList(new CefRequestHandler::X509CertificateList(certificates))
             {
 
             }
@@ -31,6 +39,9 @@ namespace CefSharp
             !CefCertificateCallbackWrapper()
             {
                 _callback = nullptr;
+
+                delete _certificateList;
+                _certificateList = nullptr;
             }
 
             ~CefCertificateCallbackWrapper()
@@ -53,8 +64,8 @@ namespace CefSharp
                     auto certThumbprint = cert->Thumbprint;
 
                     std::vector<CefRefPtr<CefX509Certificate>>::const_iterator it =
-                        _certificateList.begin();
-                    for (; it != _certificateList.end(); ++it)
+                        _certificateList->begin();
+                    for (; it != _certificateList->end(); ++it)
                     {
                         auto bytes((*it)->GetDEREncoded());
                         auto byteSize = bytes->GetSize();
