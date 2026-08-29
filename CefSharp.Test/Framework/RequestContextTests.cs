@@ -122,10 +122,12 @@ namespace CefSharp.Test.Framework
             object actual = null;
             var changeTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
+            IRegistration registration = null;
+
             await CefThread.ExecuteOnUiThread(() =>
             {
                 ctx.SetPreference(preferenceName, true, out _);
-                ctx.AddPreferenceObserver(preferenceName, new TestPreferenceObserver((name) =>
+                registration = ctx.AddPreferenceObserver(preferenceName, new TestPreferenceObserver((name) =>
                 {
                     if (name == preferenceName)
                     {
@@ -138,9 +140,16 @@ namespace CefSharp.Test.Framework
                 ctx.SetPreference(preferenceName, false, out _);
             });
 
-            await changeTcs.Task;
+            try
+            {
+                await changeTcs.Task;
 
-            Assert.Equal(false, (bool)actual);
+                Assert.False((bool)actual);
+            }
+            finally
+            {
+                await CefThread.ExecuteOnUiThread(() => registration?.Dispose());
+            }
         }
 
         private class TestPreferenceObserver : IPreferenceObserver
