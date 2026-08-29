@@ -19,14 +19,14 @@ namespace CefSharp
         {
         private:
             MCefRefPtr<CefSelectClientCertificateCallback> _callback;
-            // Owned copy of the certificates Chromium offered, not a reference to the caller's.
-            // ClientAdapter::OnSelectClientCertificate builds that list as a stack local, so a
-            // reference to it dangles the moment the handler returns. CEF permits calling Select
-            // "either in this method or at a later time", so a wrapper that outlives the handler
-            // has to own the list it selects from, or a deferred Select reads freed memory.
-            // A ref class cannot hold a std::vector by value, hence the pointer. Copying the
-            // vector copies the reference-counted CefX509Certificate pointers, and those
-            // references are what keep the certificates themselves alive.
+            // Owned copy of the certificates Chromium offered, not a reference to the caller's list.
+            // That list belongs to CEF for the duration of ClientAdapter::OnSelectClientCertificate,
+            // and this wrapper deliberately outlives that call - CEF allows Select to be called
+            // "either in this method or at a later time" - so a reference would dangle the moment
+            // the handler returns and a deferred Select would read freed memory.
+            // A ref class cannot hold a std::vector by value, hence the pointer. Copying the vector
+            // copies the reference-counted CefX509Certificate pointers, and those references are
+            // what keep the certificates themselves alive.
             CefRequestHandler::X509CertificateList* _certificateList;
 
         public:
