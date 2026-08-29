@@ -16,6 +16,7 @@
 
 using namespace System::Runtime::InteropServices;
 using namespace System::Threading::Tasks;
+using namespace CefSharp::Callback;
 
 namespace CefSharp
 {
@@ -253,6 +254,23 @@ namespace CefSharp
             /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
             /// application thread will be the CEF UI thread.</remarks>
             virtual bool CanSetPreference(String^ name);
+
+            /// <summary>
+            /// Add an observer for preference changes. <paramref name="name"/> is the name of the
+            /// preference to observe. If <paramref name="name"/> is empty then all preferences will
+            /// be observed. Observing all preferences has performance consequences and
+            /// is not recommended outside of testing scenarios. The observer will remain
+            /// registered until the returned Registration object is destroyed. This
+            /// method must be called on the browser process UI thread.
+            /// </summary>
+            /// <param name="name">preference key</param>
+            /// <param name="observer">preference observer</param>
+            /// <remarks>Use Cef.UIThreadTaskFactory to execute this method if required,
+            /// <see cref="IBrowserProcessHandler.OnContextInitialized"/> and ChromiumWebBrowser.IsBrowserInitializedChanged are both
+            /// executed on the CEF UI thread, so can be called directly.
+            /// When CefSettings.MultiThreadedMessageLoop == false (the default is true) then the main
+            /// application thread will be the CEF UI thread.</remarks>
+            virtual IRegistration^ AddPreferenceObserver(String^ name, IPreferenceObserver^ observer);
 
             /// <summary>
             /// Set the value associated with preference name. If value is null the
