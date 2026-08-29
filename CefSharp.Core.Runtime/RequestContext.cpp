@@ -11,9 +11,12 @@
 #include "Internals\CefSchemeHandlerFactoryAdapter.h"
 #include "Internals\CefCompletionCallbackAdapter.h"
 #include "Internals\CefResolveCallbackAdapter.h"
+#include "Internals\PreferenceObserverAdapter.h"
 #include "Internals\TypeConversion.h"
+#include "Internals\CefRegistrationWrapper.h"
 
 using namespace System::Runtime::InteropServices;
+using namespace CefSharp::Callback;
 
 namespace CefSharp
 {
@@ -115,6 +118,17 @@ namespace CefSharp
             error = StringUtils::ToClr(cefError);
 
             return success;
+        }
+
+        IRegistration^ RequestContext::AddPreferenceObserver(String^ name, IPreferenceObserver^ observer)
+        {
+            ThrowIfDisposed();
+
+            ThrowIfExecutedOnNonCefUiThread();
+
+            auto registration = _requestContext->AddPreferenceObserver(StringUtils::ToNative(name), new PreferenceObserverAdapter(observer));
+
+            return gcnew CefRegistrationWrapper(registration);
         }
 
         void RequestContext::ClearCertificateExceptions(ICompletionCallback^ callback)

@@ -5,6 +5,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using CefSharp.Callback;
 using CefSharp.Enums;
 using CefSharp.Example;
 using CefSharp.Internals;
@@ -100,6 +101,63 @@ namespace CefSharp.Test.Framework
             });
 
             Assert.Equal(ContentSettingValues.Allow, (ContentSettingValues)actual);
+        }
+
+        [Fact]
+        public async Task CanObservePreferenceChange()
+        {
+            var tcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            var ctx = RequestContext.Configure()
+                .WithCachePath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "CefSharp\\Tests\\TempCache5"))
+                .OnInitialize((ctx) =>
+                {
+                    tcs.SetResult(true);
+                })
+                .Create();
+
+            await tcs.Task;
+
+            const string preferenceName = "autofill.enabled";
+            object actual = null;
+            var changeTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            await CefThread.ExecuteOnUiThread(() =>
+            {
+                ctx.SetPreference(preferenceName, true, out _);
+                ctx.AddPreferenceObserver(preferenceName, new TestPreferenceObserver((name) =>
+                {
+                    if (name == preferenceName)
+                    {
+                        actual = ctx.GetPreference(name);
+
+                        changeTcs.TrySetResult(true);
+                    }
+                }));
+
+                ctx.SetPreference(preferenceName, false, out _);
+            });
+
+            await changeTcs.Task;
+
+            Assert.Equal(false, (bool)actual);
+        }
+
+        private class TestPreferenceObserver : IPreferenceObserver
+        {
+            private readonly Action<string> onChanged;
+
+            public TestPreferenceObserver(Action<string> _onChanged)
+            {
+                onChanged = _onChanged;
+            }
+
+            public void OnPreferenceChanged(string name)
+            {
+                onChanged?.Invoke(name);
+            }
+
+            public void Dispose() { }
         }
     }
 }
