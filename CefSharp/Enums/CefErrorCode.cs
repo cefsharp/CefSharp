@@ -212,6 +212,21 @@ namespace CefSharp
         BlockedInIncognitoByAdministrator = -35,
 
         /// <summary>
+        /// The request was blocked because the local network permission is missing.
+        /// Note that this is different from BlockedByLocalNetworkAccessChecks
+        /// which is specifically for a CORS error code.
+        /// </summary>
+        LocalNetworkPermissionMissing = -36,
+
+        /// <summary>
+        /// The request was blocked because ECH is strictly required, but:
+        ///  - The client could not obtain a valid ECH configuration.
+        ///  - The server rejected the ECH, and the client failed to establish a new ECH
+        ///    connection after retrying with retry_configs.
+        /// </summary>
+        StrictEchRequired = -37,
+
+        /// <summary>
         /// A connection was closed (corresponding to a TCP FIN).
         /// </summary>
         ConnectionClosed = -100,
@@ -682,6 +697,12 @@ namespace CefSharp
 
         ProxyDelegateCanceledConnectResponse = -188,
 
+        /// <summary>
+        /// The control message was too large for the transport. (for example a UDP
+        /// message control data exceeds size threshold).
+        /// </summary>
+        ControlMsgTooBig = -189,
+
         // Certificate error codes
         //
         // The values of certificate error codes must be consecutive.
@@ -1126,10 +1147,9 @@ namespace CefSharp
         /// </summary>
         PacScriptTerminated = -367,
 
-        /// <summary>
-        /// Signals that the request requires the IPP proxy.
-        /// </summary>
-        ProxyRequired = -368,
+        // Obsolete. Support for CNAME record detection was never fully implemented and
+        // is no longer needed since the IP Protection feature didn't launch.
+        // NET_ERROR(PROXY_REQUIRED, -368)
 
         // Obsolete. Kept here to avoid reuse.
         // Request is throttled because of a Backoff header.
@@ -1319,6 +1339,11 @@ namespace CefSharp
         /// The disk cache is unable to open or create this entry.
         /// </summary>
         CacheOpenOrCreateFailure = -413,
+
+        /// <summary>
+        /// Zstd compression of a cache entry body failed.
+        /// </summary>
+        CacheCompressionFailure = -414,
 
         /// <summary>
         /// The server's response was insecure (e.g. there was a cert error).
@@ -1569,6 +1594,12 @@ namespace CefSharp
         /// - REFUSED
         /// </summary>
         DnsOtherFailure = -820,
+
+        /// <summary>
+        /// Declined to call DNS for a direct_only request of a hostname whose traffic
+        /// would be routed through a proxy.
+        /// </summary>
+        DnsDirectOnly = -821,
 
         // The following errors are for mapped from a subset of invalid
         // storage::BlobStatus.
