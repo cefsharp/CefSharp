@@ -118,6 +118,7 @@
     <CefSharpTargetDir Condition="'$(CefSharpTargetDir)' != '' AND !HasTrailingSlash('$(CefSharpTargetDir)')">$(CefSharpTargetDir)\</CefSharpTargetDir>
     <CefSharpTargetDirAnyCpu32>$(CefSharpTargetDir)x86\</CefSharpTargetDirAnyCpu32>
     <CefSharpTargetDirAnyCpu64>$(CefSharpTargetDir)x64\</CefSharpTargetDirAnyCpu64>
+    <CefSharpTargetDirAnyCpuArm64>$(CefSharpTargetDir)arm64\</CefSharpTargetDirAnyCpuArm64>
     <!--
     For Sdk Projects the PlatformTarget is unreliable (https://github.com/dotnet/sdk/issues/1560)
     When our targets file is imported $(PlatformTarget) will be x86 when the Platform is infact AnyCPU.
@@ -232,6 +233,12 @@
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>
+            <None Include="@(CefRedistArm64)">
+              <Link>$(CefSharpTargetDirAnyCpuArm64)%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+              <PublishState>Included</PublishState>
+              <Visible>false</Visible>
+            </None>
             <None Include="@(CefSharpCommonBinaries32)">
               <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -240,6 +247,12 @@
             </None>
             <None Include="@(CefSharpCommonBinaries64)">
               <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+              <PublishState>Included</PublishState>
+              <Visible>false</Visible>
+            </None>
+            <None Include="@(CefSharpCommonBinariesArm64)">
+              <Link>$(CefSharpTargetDirAnyCpuArm64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -260,6 +273,12 @@
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
             </None>     
+            <None Include="@(CefSharpCommonManagedDll)">
+              <Link>$(CefSharpTargetDirAnyCpuArm64)%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+              <PublishState>Included</PublishState>
+              <Visible>false</Visible>
+            </None>
           </ItemGroup>
         </When>
         <!-- x86 and Win32-->
@@ -335,6 +354,13 @@
               <Visible>false</Visible>
 			  <IncludeInVsix>true</IncludeInVsix>
             </Content>
+            <Content Include="@(CefRedistArm64)">
+              <Link>$(CefSharpTargetDirAnyCpuArm64)%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+              <PublishState>Included</PublishState>
+              <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
+            </Content>
             <Content Include="@(CefSharpCommonBinaries32)">
               <Link>$(CefSharpTargetDirAnyCpu32)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -344,6 +370,13 @@
             </Content>
             <Content Include="@(CefSharpCommonBinaries64)">
               <Link>$(CefSharpTargetDirAnyCpu64)%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+              <PublishState>Included</PublishState>
+              <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
+            </Content>
+            <Content Include="@(CefSharpCommonBinariesArm64)">
+              <Link>$(CefSharpTargetDirAnyCpuArm64)%(RecursiveDir)%(FileName)%(Extension)</Link>
               <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
               <PublishState>Included</PublishState>
               <Visible>false</Visible>
@@ -367,6 +400,13 @@
               <Visible>false</Visible>
 			  <IncludeInVsix>true</IncludeInVsix>
             </Content>     
+            <Content Include="@(CefSharpCommonManagedDll)">
+              <Link>$(CefSharpTargetDirAnyCpuArm64)%(RecursiveDir)%(FileName)%(Extension)</Link>
+              <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+              <PublishState>Included</PublishState>
+              <Visible>false</Visible>
+			  <IncludeInVsix>true</IncludeInVsix>
+            </Content>
           </ItemGroup>
         </When>
         <!-- x86 and Win32-->
