@@ -28,7 +28,7 @@ namespace CefSharp
         /// doesn't have any references to the CefSharp.Core.Runtime.dll so it's safe to use.
         /// </summary>
         /// <param name="basePath">
-        /// The path containing the x64/x86 folders which contain the CefSharp/CEF resources.
+        /// The path containing the x64/x86/arm64 folders which contain the CefSharp/CEF resources.
         /// If null then AppDomain.CurrentDomain.SetupInformation.ApplicationBase will be used as the path.
         /// (</param>
         public static void SubscribeAnyCpuAssemblyResolver(string basePath = null)
@@ -84,7 +84,7 @@ namespace CefSharp
         /// doesn't have any references to the CefSharp.Core.Runtime.dll so it's safe to use.
         /// </summary>
         /// <param name="basePath">
-        /// The path containing the x64/x86 folders which contain the CefSharp/CEF resources.
+        /// The path containing the x64/x86/arm64 folders which contain the CefSharp/CEF resources.
         /// If null then AppDomain.CurrentDomain.SetupInformation.ApplicationBase will be used as the path.
         /// (</param>
         public static void LoadCefSharpCoreRuntimeAnyCpu(string basePath = null)
