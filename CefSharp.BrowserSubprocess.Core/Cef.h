@@ -27,7 +27,7 @@ namespace CefSharp
             /// <param name="javascriptCode">JavaScript code</param>
             static void RegisterExtension(String^ name, String^ javascriptCode)
             {
-                CefRegisterExtension(StringUtils::ToNative(name), StringUtils::ToNative(javascriptCode), nullptr);
+                //CefRegisterExtension(StringUtils::ToNative(name), StringUtils::ToNative(javascriptCode), nullptr);
             }
         };
     }
