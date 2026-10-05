@@ -77,7 +77,12 @@ namespace CefSharp
         /// </summary>
         /// <param name="postDataElement">post data</param>
         /// <param name="charSet">character set</param>
-        /// <returns>encoded string</returns>
+        /// <summary>
+        /// Decodes the byte content of a post data element into a string using the specified character set or the default encoding.
+        /// </summary>
+        /// <param name="postDataElement">The post data element containing the bytes to decode.</param>
+        /// <param name="charSet">Optional character set name to use for decoding. If invalid or not provided, the default encoding is used.</param>
+        /// <returns>The decoded string, or null if the byte content is null or empty.</returns>
         public static string GetBody(this IPostDataElement postDataElement, string charSet = null)
         {
             var bytes = postDataElement.Bytes;
