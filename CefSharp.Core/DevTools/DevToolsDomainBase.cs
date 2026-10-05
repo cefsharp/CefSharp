@@ -89,17 +89,6 @@ namespace CefSharp.DevTools
         }
 
         //TODO: Create a generic function that converts enum array to string
-        protected IEnumerable<string> EnumToString(ContentEncoding[] values)
-        {
-            foreach (var val in values)
-            {
-                var memInfo = val.GetType().GetMember(val.ToString());
-                var dataMemberAttribute = (EnumMemberAttribute)Attribute.GetCustomAttribute(memInfo[0], typeof(EnumMemberAttribute), false);
-
-                yield return dataMemberAttribute.Value;
-            }
-        }
-
         protected IEnumerable<string> EnumToString(Browser.PermissionType[] values)
         {
             foreach (var val in values)
