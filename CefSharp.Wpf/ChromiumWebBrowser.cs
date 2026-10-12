@@ -13,6 +13,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using CefSharp.Enums;
 using CefSharp.Internals;
@@ -944,16 +946,29 @@ namespace CefSharp.Wpf
             currentDragData = dragData.Clone();
             currentDragData.ResetFileContents();
 
-            // TODO: The following code block *should* handle images, but GetFileContents is
-            // not yet implemented.
-            //if (dragData.IsFile)
-            //{
-            //    var bmi = new BitmapImage();
-            //    bmi.BeginInit();
-            //    bmi.StreamSource = dragData.GetFileContents();
-            //    bmi.EndInit();
-            //    dataObject.SetImage(bmi);
-            //}
+            if (dragData.HasImage)
+            {
+                IImage dragImage = dragData.Image;
+                int width, height;
+                byte[] pixels = dragImage.GetAsBitmap(1f, ColorType.Rgba8888, AlphaType.PreMultiplied, out width, out height);
+                int stride = ((width * 32 + 31) & ~31) / 8;
+                var bitmap = BitmapSource.Create(width, height, 96.0, 96.0, PixelFormats.Pbgra32, null, pixels, stride);
+                bitmap.Freeze();
+                dataObject.SetImage(bitmap);
+            }
+            else
+            {
+                // TODO: The following code block *should* handle images, but GetFileContents is
+                // not yet implemented.
+                //if (dragData.IsFile)
+                //{
+                //    var bmi = new BitmapImage();
+                //    bmi.BeginInit();
+                //    bmi.StreamSource = dragData.GetFileContents();
+                //    bmi.EndInit();
+                //    dataObject.SetImage(bmi);
+                //}
+            }
 
             UiThreadRunAsync(delegate
             {
