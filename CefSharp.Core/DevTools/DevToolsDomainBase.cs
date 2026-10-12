@@ -31,19 +31,6 @@ namespace CefSharp.DevTools
         /// <summary>
         /// Enum to string
         /// </summary>
-        /// <param name="values">array of type <see cref="CefSharp.DevTools.Network.ContentEncoding"/></param>
-        /// <returns>enumerable string</returns>
-        protected IEnumerable<string> EnumToString(CefSharp.DevTools.Network.ContentEncoding[] values)
-        {
-            foreach (var val in values)
-            {
-                yield return Internals.Json.JsonEnumConverterFactory.ConvertEnumToString(val);
-            }
-        }
-
-        /// <summary>
-        /// Enum to string
-        /// </summary>
         /// <param name="values">array of type <see cref="CefSharp.DevTools.Emulation.DisabledImageType"/></param>
         /// <returns>enumerable string</returns>
         protected IEnumerable<string> EnumToString(CefSharp.DevTools.Emulation.DisabledImageType[] values)
