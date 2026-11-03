@@ -16,21 +16,19 @@ namespace CefSharp
             {
             private:
                 MCefRefPtr<CefV8Context> _context;
-                MCefRefPtr<CefV8Value> _resolve;
-                MCefRefPtr<CefV8Value> _reject;
+                MCefRefPtr<CefV8Value> _promise;
 
             public:
-                JavascriptAsyncMethodCallback(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> resolve, CefRefPtr<CefV8Value> reject)
-                    :_context(context), _resolve(resolve.get()), _reject(reject.get())
+                JavascriptAsyncMethodCallback(CefRefPtr<CefV8Context> context, CefRefPtr<CefV8Value> promise)
+                    :_context(context), _promise(promise.get())
                 {
 
                 }
 
                 !JavascriptAsyncMethodCallback()
                 {
-                    _resolve = nullptr;
-                    _reject = nullptr;
                     _context = nullptr;
+                    _promise = nullptr;
                 }
 
                 ~JavascriptAsyncMethodCallback()
