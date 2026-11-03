@@ -1,4 +1,4 @@
-version: 156.0.150-CI{build}
+version: 156.0.150-RCI{build}
 
 clone_depth: 10
 
