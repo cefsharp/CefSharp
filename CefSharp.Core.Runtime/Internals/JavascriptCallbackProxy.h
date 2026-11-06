@@ -48,10 +48,16 @@ namespace CefSharp
                 if (browser != nullptr && !browser->IsDisposed)
                 {
                     auto browserWrapper = static_cast<CefBrowserWrapper^>(browser)->Browser;
-                    auto frame = browserWrapper->GetFrameByIdentifier(StringUtils::ToNative(_callback->FrameId));
-                    if (frame.get() && frame->IsValid())
+                    // The browser can be disposed on another thread after the IsDisposed check above,
+                    // which releases the underlying CefBrowser. This runs on the finalizer thread,
+                    // where a NullReferenceException would terminate the process.
+                    if (browserWrapper.get())
                     {
-                        frame->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
+                        auto frame = browserWrapper->GetFrameByIdentifier(StringUtils::ToNative(_callback->FrameId));
+                        if (frame.get() && frame->IsValid())
+                        {
+                            frame->SendProcessMessage(CefProcessId::PID_RENDERER, CreateDestroyMessage());
+                        }
                     }
                 }
                 _disposed = true;
