@@ -28,6 +28,8 @@ namespace CefSharp.Test.OffScreen
         [Fact]
         public async Task ShouldWork()
         {
+            Cef.WaitForBrowsersToClose(1000);
+
             var startCount = BrowserRefCounter.Instance.Count;
 
             using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl, useLegacyRenderHandler: false))
