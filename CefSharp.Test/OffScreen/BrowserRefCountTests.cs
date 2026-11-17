@@ -3,6 +3,7 @@
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
 using System.Threading.Tasks;
+using CefSharp.Example;
 using CefSharp.Internals;
 using CefSharp.OffScreen;
 using CefSharp.Web;
@@ -29,7 +30,7 @@ namespace CefSharp.Test.OffScreen
         {
             var startCount = BrowserRefCounter.Instance.Count;
 
-            using (var browser = new ChromiumWebBrowser("https://google.com", useLegacyRenderHandler: false))
+            using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl, useLegacyRenderHandler: false))
             {
                 var response = await browser.WaitForInitialLoadAsync();
 
