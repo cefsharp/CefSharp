@@ -1680,16 +1680,18 @@ namespace CefSharp.Wpf
         /// <param name="newValue">new value</param>
         protected virtual void OnTooltipTextChanged(string oldValue, string newValue)
         {
-            var timer = tooltipTimer;
-            if (timer == null)
-            {
-                return;
-            }
-
             // There are cases where oldValue is null and newValue is string.Empty
             // and vice versa, simply ignore when string.IsNullOrEmpty for both.
             if (string.IsNullOrEmpty(oldValue) && string.IsNullOrEmpty(newValue))
             {
+                return;
+            }
+
+            var timer = tooltipTimer;
+            if (timer == null)
+            {
+                OpenOrCloseToolTip(newValue);
+
                 return;
             }
 
@@ -2151,14 +2153,18 @@ namespace CefSharp.Wpf
         /// <param name="routedEventArgs">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            // TODO: Consider making the delay here configurable.
-            tooltipTimer = new DispatcherTimer(
-                TimeSpan.FromSeconds(0.5),
-                DispatcherPriority.Render,
-                OnTooltipTimerTick,
-                Dispatcher
-                );
-            tooltipTimer.IsEnabled = false;
+            var initialShowDelay = ToolTipService.GetInitialShowDelay(this);
+
+            if (initialShowDelay > 0)
+            {
+                tooltipTimer = new DispatcherTimer(
+                    TimeSpan.FromMilliseconds(initialShowDelay),
+                    DispatcherPriority.Render,
+                    OnTooltipTimerTick,
+                    Dispatcher
+                    );
+                tooltipTimer.IsEnabled = false;
+            }
 
             //Initial value for screen location
             browserScreenLocation = GetBrowserScreenLocation();
