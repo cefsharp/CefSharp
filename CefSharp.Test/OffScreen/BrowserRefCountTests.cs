@@ -2,9 +2,11 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
-using System.Threading;
+using System.Threading.Tasks;
+using CefSharp.Example;
 using CefSharp.Internals;
 using CefSharp.OffScreen;
+using CefSharp.Web;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -24,35 +26,26 @@ namespace CefSharp.Test.OffScreen
         }
     
         [Fact]
-        public void ShouldWork()
+        public async Task ShouldWork()
         {
-            var currentCount = BrowserRefCounter.Instance.Count;
+            Cef.WaitForBrowsersToClose(1000);
 
-            var manualResetEvent = new ManualResetEvent(false);
+            var startCount = BrowserRefCounter.Instance.Count;
 
-            var browser = new ChromiumWebBrowser("https://google.com", useLegacyRenderHandler: false);
-
-            browser.LoadingStateChanged += (sender, e) =>
+            using (var browser = new ChromiumWebBrowser(CefExample.HelloWorldUrl, useLegacyRenderHandler: false))
             {
-                if (!e.IsLoading)
-                {
-                    manualResetEvent.Set();
-                }
-            };
+                var response = await browser.WaitForInitialLoadAsync();
 
-            manualResetEvent.WaitOne();
-
-            //TODO: Refactor this so reference is injected into browser
-            Assert.Equal(currentCount + 1, BrowserRefCounter.Instance.Count);
-
-            browser.Dispose();
+                Assert.True(response.Success);
+                Assert.Equal(startCount + 1, BrowserRefCounter.Instance.Count);
+            }
 
             Cef.WaitForBrowsersToClose(10000);
 
             output.WriteLine("BrowserRefCounter Log");
             output.WriteLine(BrowserRefCounter.Instance.GetLog());
 
-            Assert.Equal(0, BrowserRefCounter.Instance.Count);
+            Assert.Equal(startCount, BrowserRefCounter.Instance.Count);
         }
     }
 }
