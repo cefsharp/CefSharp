@@ -88,6 +88,7 @@ namespace CefSharp
             void MethodInvocationComplete(MethodInvocationResult^ result);
             IBrowser^ GetBrowserWrapper(int browserId);
             bool IsMainBrowser(bool isPopup, int browserId);
+            void PopulatePopupExtraInfo(CefRefPtr<CefDictionaryValue>& extraInfo, IJavascriptObjectRepository^ objectRepository);
 
             // CefClient
             virtual DECL CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() override { return this; }
