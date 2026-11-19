@@ -65,7 +65,6 @@ namespace CefSharp.Test.JavascriptBinding
                 () => Browser.EvaluateScriptAsync("CefSharp.BindObjectAsync();"));
 
             Assert.NotNull(evt);
-
             Assert.Equal(JavascriptObjectRepository.AllObjects, evt.Arguments.ObjectName);
         }
 
@@ -74,16 +73,10 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
             {
-                var settings = browser.JavascriptObjectRepository.Settings;
-                settings.JavascriptBindingApiGlobalObjectName = "bindingApiObject";
-
-                //To modify the settings we need to defer browser creation slightly
+                browser.JavascriptObjectRepository.Settings.JavascriptBindingApiGlobalObjectName = "bindingApiObject";
                 browser.CreateBrowser();
-
                 await browser.WaitForInitialLoadAsync();
-
                 var result = await browser.EvaluateScriptAsync("bindingApiObject.isObjectCached('doesntexist') === false");
-
                 Assert.True(result.Success, result.Message);
             }
         }
@@ -97,75 +90,32 @@ namespace CefSharp.Test.JavascriptBinding
 
             browser1.JavascriptObjectRepository.Settings.JavascriptBindingApiGlobalObjectName = "bindingApiObject1";
             browser2.JavascriptObjectRepository.Settings.JavascriptBindingApiGlobalObjectName = "bindingApiObject2";
-
-            //To modify the settings we need to defer browser creation slightly
             browser1.CreateBrowser();
             browser2.CreateBrowser();
             browser3.CreateBrowser();
-
             await browser1.WaitForInitialLoadAsync();
             await browser2.WaitForInitialLoadAsync();
             await browser3.WaitForInitialLoadAsync();
 
-            // Assert browser1
-            {
-                var result1 = await browser1.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
-                var result2 = await browser1.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
-                var result3 = await browser1.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
-
-                Assert.True(result1.Success, result1.Message);
-                Assert.False((bool)result1.Result);
-
-                Assert.True(result2.Success, result2.Message);
-                Assert.True((bool)result2.Result);
-
-                Assert.True(result3.Success, result3.Message);
-                Assert.True((bool)result3.Result);
-            }
-            // Assert browser2
-            {
-                var result1 = await browser2.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
-                var result2 = await browser2.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
-                var result3 = await browser2.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
-
-                Assert.True(result1.Success, result1.Message);
-                Assert.True((bool)result1.Result);
-
-                Assert.True(result2.Success, result2.Message);
-                Assert.False((bool)result2.Result);
-
-                Assert.True(result3.Success, result3.Message);
-                Assert.True((bool)result3.Result);
-            }
-            // Assert browser3
-            {
-                var result1 = await browser3.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'");
-                var result2 = await browser3.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'");
-                var result3 = await browser3.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
-
-                Assert.True(result1.Success, result1.Message);
-                Assert.True((bool)result1.Result);
-
-                Assert.True(result2.Success, result2.Message);
-                Assert.True((bool)result2.Result);
-
-                Assert.True(result3.Success, result3.Message);
-                Assert.False((bool)result3.Result);
-            }
+            Assert.False((bool)(await browser1.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'")).Result);
+            Assert.True((bool)(await browser1.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'")).Result);
+            Assert.True((bool)(await browser1.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'")).Result);
+            Assert.True((bool)(await browser2.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'")).Result);
+            Assert.False((bool)(await browser2.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'")).Result);
+            Assert.True((bool)(await browser2.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'")).Result);
+            Assert.True((bool)(await browser3.EvaluateScriptAsync("typeof window.bindingApiObject1 === 'undefined'")).Result);
+            Assert.True((bool)(await browser3.EvaluateScriptAsync("typeof window.bindingApiObject2 === 'undefined'")).Result);
+            Assert.False((bool)(await browser3.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'")).Result);
         }
 
         [Theory]
-        //We'll execute twice using the different cased (camelcase naming and standard)
         [InlineData("CefSharp.IsObjectCached('doesntexist')")]
         [InlineData("cefSharp.isObjectCached('doesntexist')")]
         public async Task ShouldFailWhenIsObjectCachedCalledWithInvalidObjectName(string script)
         {
             var loadResponse = await Browser.LoadUrlAsync(CefExample.BindingApiCustomObjectNameTestUrl);
-
             Assert.True(loadResponse.Success);
-
             var response = await Browser.EvaluateScriptAsync(script);
-
             Assert.True(response.Success, response.Message);
             Assert.False((bool)response.Result);
         }
@@ -175,22 +125,14 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
             {
-                var settings = browser.JavascriptObjectRepository.Settings;
-                settings.JavascriptBindingApiEnabled = false;
-
-                //To modify the settings we need to defer browser creation slightly
+                browser.JavascriptObjectRepository.Settings.JavascriptBindingApiEnabled = false;
                 browser.CreateBrowser();
-
                 var loadResponse = await browser.WaitForInitialLoadAsync();
-
                 Assert.True(loadResponse.Success);
-
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-
                 Assert.True(response1.Success, response1.Message);
                 Assert.True((bool)response1.Result);
-
                 Assert.True(response2.Success, response2.Message);
                 Assert.True((bool)response2.Result);
             }
@@ -207,20 +149,13 @@ namespace CefSharp.Test.JavascriptBinding
                 var settings = browser.JavascriptObjectRepository.Settings;
                 settings.JavascriptBindingApiEnabled = true;
                 settings.JavascriptBindingApiAllowOrigins = origins;
-
-                //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
-
                 var loadResponse = await browser.WaitForInitialLoadAsync();
-
                 Assert.True(loadResponse.Success);
-
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-
                 Assert.True(response1.Success, response1.Message);
                 Assert.True((bool)response1.Result);
-
                 Assert.True(response2.Success, response2.Message);
                 Assert.True((bool)response2.Result);
             }
@@ -234,20 +169,13 @@ namespace CefSharp.Test.JavascriptBinding
                 var settings = browser.JavascriptObjectRepository.Settings;
                 settings.JavascriptBindingApiEnabled = true;
                 settings.JavascriptBindingApiAllowOrigins = new string[0];
-
-                //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
-
                 var loadResponse = await browser.WaitForInitialLoadAsync();
-
                 Assert.True(loadResponse.Success);
-
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-
                 Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
-
                 Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
@@ -263,20 +191,13 @@ namespace CefSharp.Test.JavascriptBinding
                 var settings = browser.JavascriptObjectRepository.Settings;
                 settings.JavascriptBindingApiEnabled = true;
                 settings.JavascriptBindingApiAllowOrigins = new string[] { configuredOrigin };
-
-                //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
-
                 var loadResponse = await browser.WaitForInitialLoadAsync();
-
                 Assert.True(loadResponse.Success);
-
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-
                 Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
-
                 Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
@@ -295,20 +216,13 @@ namespace CefSharp.Test.JavascriptBinding
                 var settings = browser.JavascriptObjectRepository.Settings;
                 settings.JavascriptBindingApiEnabled = true;
                 settings.JavascriptBindingApiAllowOrigins = origins;
-
-                //To modify the settings we need to defer browser creation slightly
                 browser.CreateBrowser();
-
                 var loadResponse = await browser.WaitForInitialLoadAsync();
-
                 Assert.True(loadResponse.Success);
-
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-
                 Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
-
                 Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
@@ -319,22 +233,14 @@ namespace CefSharp.Test.JavascriptBinding
         {
             using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
             {
-                var settings = browser.JavascriptObjectRepository.Settings;
-                settings.JavascriptBindingApiEnabled = true;
-
-                //To modify the settings we need to defer browser creation slightly
+                browser.JavascriptObjectRepository.Settings.JavascriptBindingApiEnabled = true;
                 browser.CreateBrowser();
-
                 var loadResponse = await browser.WaitForInitialLoadAsync();
-
                 Assert.True(loadResponse.Success);
-
                 var response1 = await browser.EvaluateScriptAsync("typeof window.cefSharp === 'undefined'");
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-
                 Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
-
                 Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
             }
@@ -346,13 +252,9 @@ namespace CefSharp.Test.JavascriptBinding
         public async Task ShouldReturnRenderProcessId(string script)
         {
             AssertInitialLoadComplete();
-
             var result = await Browser.EvaluateScriptAsync(script);
-
             Assert.True(result.Success, result.Message);
-
             using var process = Process.GetProcessById(Assert.IsType<int>(result.Result));
-
             Assert.Equal("CefSharp.BrowserSubprocess", process.ProcessName);
         }
 
@@ -365,20 +267,16 @@ namespace CefSharp.Test.JavascriptBinding
                     await CefSharp.BindObjectAsync('bound');
                     return await bound.echo('test');
                 })();";
-
             var boundObj = new BindingTestObject();
-
 #if NETCOREAPP
             Browser.JavascriptObjectRepository.Register("bound", boundObj);
 #else
             Browser.JavascriptObjectRepository.Register("bound", boundObj, true);
 #endif
-
             await Browser.LoadUrlAsync("https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/url");
             await Browser.EvaluateScriptAsync<string>(script);
             await Browser.LoadUrlAsync("https://www.google.com");
             await Browser.EvaluateScriptAsync<string>(script);
-
             Assert.Equal(2, boundObj.EchoMethodCallCount);
         }
 
@@ -386,14 +284,11 @@ namespace CefSharp.Test.JavascriptBinding
         public async Task ShouldFireResolveObject()
         {
             AssertInitialLoadComplete();
-
             var objRepository = Browser.JavascriptObjectRepository;
-
             var evt = await Assert.RaisesAsync<JavascriptBindingEventArgs>(
                 a => objRepository.ResolveObject += a,
                 a => objRepository.ResolveObject -= a,
                 () => Browser.EvaluateScriptAsync("(async function() { await CefSharp.BindObjectAsync('first'); })();"));
-
             Assert.NotNull(evt);
             Assert.Equal("first", evt.Arguments.ObjectName);
             Assert.Equal("https://cefsharp.example/HelloWorld.html", evt.Arguments.Url);
@@ -403,22 +298,17 @@ namespace CefSharp.Test.JavascriptBinding
         public async Task ShouldFireResolveObjectForUnregisteredObject()
         {
             AssertInitialLoadComplete();
-
             var objRepository = Browser.JavascriptObjectRepository;
-
             var boundObj = new BindingTestObject();
-
 #if NETCOREAPP
             objRepository.Register("first", boundObj);
 #else
             objRepository.Register("first", boundObj, true);
 #endif
-
             var evt = await Assert.RaisesAsync<JavascriptBindingEventArgs>(
                 a => objRepository.ResolveObject += a,
                 a => objRepository.ResolveObject -= a,
                 () => Browser.EvaluateScriptAsync("(async function() { await CefSharp.BindObjectAsync('first', 'second'); })();"));
-
             Assert.NotNull(evt);
             Assert.Equal("second", evt.Arguments.ObjectName);
         }
@@ -431,23 +321,14 @@ namespace CefSharp.Test.JavascriptBinding
                 var settings = browser.JavascriptObjectRepository.Settings;
                 settings.JavascriptBindingApiEnabled = true;
                 settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl };
-
                 browser.CreateBrowser();
-
                 var loadResponse = await browser.WaitForInitialLoadAsync();
-
                 Assert.True(loadResponse.Success);
-
-                // Binding API should be present on the allowed origin
                 var response1 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
                 Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
-
-                // Navigate to a different origin that is not in the allow list
                 var crossOriginLoad = await browser.LoadUrlAsync("https://www.google.com");
                 Assert.True(crossOriginLoad.Success);
-
-                // Binding API should no longer be present on the disallowed origin
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
                 Assert.True(response2.Success, response2.Message);
                 Assert.True((bool)response2.Result);
@@ -462,23 +343,14 @@ namespace CefSharp.Test.JavascriptBinding
                 var settings = browser.JavascriptObjectRepository.Settings;
                 settings.JavascriptBindingApiEnabled = true;
                 settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl, "https://www.google.com" };
-
                 browser.CreateBrowser();
-
                 var loadResponse = await browser.WaitForInitialLoadAsync();
-
                 Assert.True(loadResponse.Success);
-
-                // Binding API should be present on the first allowed origin
                 var response1 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
                 Assert.True(response1.Success, response1.Message);
                 Assert.False((bool)response1.Result);
-
-                // Navigate to a second origin that is also in the allow list
                 var crossOriginLoad = await browser.LoadUrlAsync("https://www.google.com");
                 Assert.True(crossOriginLoad.Success);
-
-                // Binding API should still be present on the second allowed origin
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
                 Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
@@ -501,8 +373,15 @@ namespace CefSharp.Test.JavascriptBinding
                 var loadResponse = await browser.WaitForInitialLoadAsync();
                 Assert.True(loadResponse.Success);
 
-                var popupScriptResponse = await browser.EvaluateScriptAsync("window.open('https://cefsharp.com/HelloWorld.html', '_blank')");
-                Assert.True(popupScriptResponse.Success, popupScriptResponse.Message);
+                // Create a real link and send mouse input so Chromium treats the popup as user initiated.
+                var setContent = await browser.SetMainFrameDocumentContentAsync(
+                    "<html><body style='margin:0'><a href='https://cefsharp.com/HelloWorld.html' target='_blank' " +
+                    "style='display:block;width:200px;height:40px'>Open popup</a></body></html>");
+                Assert.True(setContent);
+
+                var host = browser.GetBrowserHost();
+                host.SendMouseClickEvent(10, 10, MouseButtonType.Left, false, 1, CefEventFlags.None);
+                host.SendMouseClickEvent(10, 10, MouseButtonType.Left, true, 1, CefEventFlags.None);
 
                 var popupTask = popupCreated.Task;
                 var completedTask = await Task.WhenAny(popupTask, Task.Delay(10000));
@@ -544,10 +423,8 @@ namespace CefSharp.Test.JavascriptBinding
                 popup.JavascriptObjectRepository.Settings.JavascriptBindingApiEnabled = true;
                 popup.JavascriptObjectRepository.Settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl };
                 popup.SetAsPopup();
-
                 newBrowser = popup;
                 popupCreated.TrySetResult(popup);
-
                 return false;
             }
         }
