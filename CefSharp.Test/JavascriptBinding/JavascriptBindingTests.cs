@@ -2,6 +2,7 @@
 //
 // Use of this source code is governed by a BSD-style license that can be found in the LICENSE file.
 
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using CefSharp.Event;
@@ -482,6 +483,68 @@ namespace CefSharp.Test.JavascriptBinding
                 var response2 = await browser.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
                 Assert.True(response2.Success, response2.Message);
                 Assert.False((bool)response2.Result);
+            }
+        }
+
+        [Fact]
+        public async Task ShouldEnforceAllowOriginsForPopup()
+        {
+            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
+            {
+                var settings = browser.JavascriptObjectRepository.Settings;
+                settings.JavascriptBindingApiEnabled = true;
+                settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl };
+
+                var popupCreated = new TaskCompletionSource<IChromiumWebBrowserBase>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+                browser.LifeSpanHandler = new PopupLifeSpanHandler(popupCreated);
+
+                browser.CreateBrowser();
+
+                var loadResponse = await browser.WaitForInitialLoadAsync();
+                Assert.True(loadResponse.Success);
+
+                var requestContext = browser.GetBrowserHost().GetRequestContext();
+                var popupScript = "window.open('https://example.com/popup-test', '_blank')";
+
+                var popupScriptResponse = await browser.EvaluateScriptAsync(popupScript);
+                Assert.True(popupScriptResponse.Success, popupScriptResponse.Message);
+
+                var popup = await popupCreated.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+                await popup.WaitForInitialLoadAsync();
+
+                var bindingResponse = await popup.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+                Assert.True(bindingResponse.Success, bindingResponse.Message);
+
+                Assert.True((bool)bindingResponse.Result,
+                    "The binding API must not be exposed to a popup whose origin is outside JavascriptBindingApiAllowOrigins.");
+
+                popup.Dispose();
+            }
+        }
+
+        private sealed class PopupLifeSpanHandler : CefSharp.Handler.LifeSpanHandler
+        {
+            private readonly TaskCompletionSource<IChromiumWebBrowserBase> popupCreated;
+
+            public PopupLifeSpanHandler(TaskCompletionSource<IChromiumWebBrowserBase> popupCreated)
+            {
+                this.popupCreated = popupCreated;
+            }
+
+            protected override bool OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame,
+                string targetUrl, string targetFrameName, WindowOpenDisposition targetDisposition, bool userGesture,
+                IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings,
+                ref bool noJavascriptAccess, out IWebBrowser newBrowser)
+            {
+                var popup = new ChromiumWebBrowser(targetUrl, automaticallyCreateBrowser: false);
+                popup.SetAsPopup();
+
+                newBrowser = popup;
+                popupCreated.TrySetResult(popup);
+
+                return false;
             }
         }
     }
