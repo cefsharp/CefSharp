@@ -360,47 +360,52 @@ namespace CefSharp.Test.JavascriptBinding
         [Fact]
         public async Task ShouldEnforceAllowOriginsForPopup()
         {
-            using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, automaticallyCreateBrowser: false))
+            using (var requestContext = new RequestContext())
             {
-                var settings = browser.JavascriptObjectRepository.Settings;
-                settings.JavascriptBindingApiEnabled = true;
-                settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl };
+                // Serve the popup from a local test scheme handler to avoid external network dependencies.
+                requestContext.RegisterSchemeHandlerFactory("https", CefExample.ExampleDomain, new CefSharpSchemeHandlerFactory());
+                requestContext.RegisterSchemeHandlerFactory("https", "cefsharp.com", new CefSharpSchemeHandlerFactory());
 
-                var popupCreated = new TaskCompletionSource<ChromiumWebBrowser>(TaskCreationOptions.RunContinuationsAsynchronously);
-                browser.LifeSpanHandler = new PopupLifeSpanHandler(popupCreated);
-                browser.CreateBrowser();
-
-                var loadResponse = await browser.WaitForInitialLoadAsync();
-                Assert.True(loadResponse.Success);
-
-                // Create a real link and send mouse input so Chromium treats the popup as user initiated.
-                var setContent = await browser.SetMainFrameDocumentContentAsync(
-                    "<html><body style='margin:0'><a href='https://cefsharp.com/HelloWorld.html' target='_blank' " +
-                    "style='display:block;width:200px;height:40px'>Open popup</a></body></html>");
-                Assert.True(setContent);
-
-                var host = browser.GetBrowserHost();
-                host.SendMouseClickEvent(10, 10, MouseButtonType.Left, false, 1, CefEventFlags.None);
-                host.SendMouseClickEvent(10, 10, MouseButtonType.Left, true, 1, CefEventFlags.None);
-
-                var popupTask = popupCreated.Task;
-                var completedTask = await Task.WhenAny(popupTask, Task.Delay(10000));
-                Assert.Same(popupTask, completedTask);
-
-                var popup = await popupTask;
-                try
+                using (var browser = new ChromiumWebBrowser(CefExample.BindingApiCustomObjectNameTestUrl, requestContext: requestContext, automaticallyCreateBrowser: false))
                 {
-                    var popupLoadResponse = await popup.WaitForInitialLoadAsync();
-                    Assert.True(popupLoadResponse.Success);
+                    browser.JavascriptObjectRepository.Settings.JavascriptBindingApiEnabled = true;
+                    browser.JavascriptObjectRepository.Settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl };
 
-                    var bindingResponse = await popup.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
-                    Assert.True(bindingResponse.Success, bindingResponse.Message);
-                    Assert.True((bool)bindingResponse.Result,
-                        "The binding API must not be exposed to a popup whose origin is outside JavascriptBindingApiAllowOrigins.");
-                }
-                finally
-                {
-                    popup.Dispose();
+                    var popupCreated = new TaskCompletionSource<ChromiumWebBrowser>(TaskCreationOptions.RunContinuationsAsynchronously);
+                    browser.LifeSpanHandler = new PopupLifeSpanHandler(popupCreated, requestContext);
+                    browser.CreateBrowser();
+
+                    var loadResponse = await browser.WaitForInitialLoadAsync();
+                    Assert.True(loadResponse.Success);
+
+                    var setContent = await browser.SetMainFrameDocumentContentAsync(
+                        "<html><body style='margin:0'><a href='https://cefsharp.com/HelloWorld.html' target='_blank' " +
+                        "style='display:block;width:200px;height:40px'>Open popup</a></body></html>");
+                    Assert.True(setContent);
+
+                    var host = browser.GetBrowserHost();
+                    host.SendMouseClickEvent(10, 10, MouseButtonType.Left, false, 1, CefEventFlags.None);
+                    host.SendMouseClickEvent(10, 10, MouseButtonType.Left, true, 1, CefEventFlags.None);
+
+                    var popupTask = popupCreated.Task;
+                    var completedTask = await Task.WhenAny(popupTask, Task.Delay(10000));
+                    Assert.Same(popupTask, completedTask);
+
+                    var popup = await popupTask;
+                    try
+                    {
+                        var popupLoadResponse = await popup.WaitForInitialLoadAsync();
+                        Assert.True(popupLoadResponse.Success, "Popup load failed: " + popupLoadResponse.ErrorCode);
+
+                        var bindingResponse = await popup.EvaluateScriptAsync("typeof window.CefSharp === 'undefined'");
+                        Assert.True(bindingResponse.Success, bindingResponse.Message);
+                        Assert.True((bool)bindingResponse.Result,
+                            "The binding API must not be exposed to a popup whose origin is outside JavascriptBindingApiAllowOrigins.");
+                    }
+                    finally
+                    {
+                        popup.Dispose();
+                    }
                 }
             }
         }
@@ -408,10 +413,12 @@ namespace CefSharp.Test.JavascriptBinding
         private sealed class PopupLifeSpanHandler : CefSharp.Handler.LifeSpanHandler
         {
             private readonly TaskCompletionSource<ChromiumWebBrowser> popupCreated;
+            private readonly IRequestContext requestContext;
 
-            public PopupLifeSpanHandler(TaskCompletionSource<ChromiumWebBrowser> popupCreated)
+            public PopupLifeSpanHandler(TaskCompletionSource<ChromiumWebBrowser> popupCreated, IRequestContext requestContext)
             {
                 this.popupCreated = popupCreated;
+                this.requestContext = requestContext;
             }
 
             protected override bool OnBeforePopup(IWebBrowser chromiumWebBrowser, IBrowser browser, IFrame frame,
@@ -419,7 +426,7 @@ namespace CefSharp.Test.JavascriptBinding
                 IPopupFeatures popupFeatures, IWindowInfo windowInfo, IBrowserSettings browserSettings,
                 ref bool noJavascriptAccess, out IWebBrowser newBrowser)
             {
-                var popup = new ChromiumWebBrowser(targetUrl, automaticallyCreateBrowser: false);
+                var popup = new ChromiumWebBrowser(targetUrl, requestContext: requestContext, automaticallyCreateBrowser: false);
                 popup.JavascriptObjectRepository.Settings.JavascriptBindingApiEnabled = true;
                 popup.JavascriptObjectRepository.Settings.JavascriptBindingApiAllowOrigins = new string[] { CefExample.BaseUrl };
                 popup.SetAsPopup();
