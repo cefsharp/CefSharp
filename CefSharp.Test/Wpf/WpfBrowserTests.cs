@@ -5,8 +5,11 @@
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using CefSharp;
+using CefSharp.Enums;
 using CefSharp.Example;
 using CefSharp.Wpf;
+using Moq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -92,6 +95,41 @@ namespace CefSharp.Test.Wpf
             {
                 browser.Copy();
             });
+        }
+
+        [WpfFact]
+        public void ShouldRaiseCopyingEventAndHonorCancellationWhenStartingDrag()
+        {
+            using (var browser = new TestChromiumWebBrowser())
+            {
+                var dragData = new Mock<IDragData>();
+                dragData.SetupGet(x => x.FragmentText).Returns("dragged text");
+                dragData.SetupGet(x => x.FragmentHtml).Returns("<b>dragged text</b>");
+
+                var eventRaised = false;
+                DataObject.AddCopyingHandler(browser, (sender, e) =>
+                {
+                    eventRaised = true;
+                    Assert.Same(browser, sender);
+                    Assert.True(e.IsDragDrop);
+                    Assert.Equal("dragged text", e.DataObject.GetData(DataFormats.UnicodeText));
+                    e.CancelCommand();
+                });
+
+                var handled = browser.StartDraggingForTest(dragData.Object);
+
+                Assert.True(eventRaised);
+                Assert.False(handled);
+                dragData.Verify(x => x.Clone(), Times.Never());
+            }
+        }
+
+        private sealed class TestChromiumWebBrowser : ChromiumWebBrowser
+        {
+            public bool StartDraggingForTest(IDragData dragData)
+            {
+                return StartDragging(dragData, DragOperationsMask.Copy, 0, 0);
+            }
         }
     }
 }
