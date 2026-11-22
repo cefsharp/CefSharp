@@ -39,6 +39,8 @@
 using namespace CefSharp::Internals::Messaging;
 using namespace CefSharp::Internals::Serialization;
 using namespace System::Security::Cryptography::X509Certificates;
+using namespace CefSharp;
+using namespace CefSharp::JavascriptBinding;
 
 namespace CefSharp
 {
@@ -148,6 +150,51 @@ namespace CefSharp
             }
         }
 
+        void ClientAdapter::PopulatePopupExtraInfo(CefRefPtr<CefDictionaryValue>& extraInfo, IJavascriptObjectRepository^ objectRepository)
+        {
+            if (!extraInfo.get())
+            {
+                extraInfo = CefDictionaryValue::Create();
+            }
+
+            auto objectRepositorySettings = objectRepository->Settings;
+
+            // Legacy binding not enabled for popups
+            extraInfo->SetBool("LegacyBindingEnabled", false);
+
+            if (!String::IsNullOrEmpty(objectRepositorySettings->JavascriptBindingApiGlobalObjectName))
+            {
+                auto globalObjName = objectRepositorySettings->JavascriptBindingApiGlobalObjectName;
+
+                if (StringCheck::IsFirstCharacterLowercase(globalObjName))
+                {
+                    extraInfo->SetString("JsBindingPropertyNameCamelCase", StringUtils::ToNative(globalObjName));
+                }
+                else
+                {
+                    extraInfo->SetString("JsBindingPropertyName", StringUtils::ToNative(globalObjName));
+                }
+            }
+
+            extraInfo->SetBool("JavascriptBindingApiEnabled", objectRepositorySettings->JavascriptBindingApiEnabled);
+
+            auto hasJavascriptBindingApiAllowOrigins = objectRepositorySettings->HasJavascriptBindingApiAllowOrigins();
+
+            extraInfo->SetBool("JavascriptBindingApiHasAllowOrigins", hasJavascriptBindingApiAllowOrigins);
+
+            if (hasJavascriptBindingApiAllowOrigins)
+            {
+                auto allowOriginList = CefListValue::Create();
+
+                for (int i = 0; i < objectRepositorySettings->JavascriptBindingApiAllowOrigins->Length; i++)
+                {
+                    allowOriginList->SetString(i, StringUtils::ToNative(objectRepositorySettings->JavascriptBindingApiAllowOrigins[i]));
+                }
+
+                extraInfo->SetList("JavascriptBindingApiAllowOrigins", allowOriginList);
+            }
+        }
+
         bool ClientAdapter::OnBeforePopup(CefRefPtr<CefBrowser> browser, CefRefPtr<CefFrame> frame, int popup_id, const CefString& target_url,
             const CefString& target_frame_name, CefLifeSpanHandler::WindowOpenDisposition target_disposition, bool user_gesture,
             const CefPopupFeatures& popupFeatures, CefWindowInfo& windowInfo,
@@ -157,6 +204,8 @@ namespace CefSharp
 
             if (handler == nullptr)
             {
+                // No handler: use parent's binding settings
+                PopulatePopupExtraInfo(extraInfo, _browserControl->JavascriptObjectRepository);
                 return false;
             }
 
@@ -176,6 +225,9 @@ namespace CefSharp
                 (CefSharp::WindowOpenDisposition)target_disposition,
                 user_gesture, %popupFeaturesWrapper,
                 %windowInfoWrapper, %browserSettingsWrapper, *no_javascript_access, newBrowser);
+
+            // Determine which object repository to use for popup's binding settings
+            IJavascriptObjectRepository^ objectRepository = _browserControl->JavascriptObjectRepository;
 
             if (newBrowser != nullptr)
             {
@@ -206,9 +258,13 @@ namespace CefSharp
                     if (browserAdapter != nullptr)
                     {
                         client = browserAdapter->GetClientAdapter().get();
+                        objectRepository = newBrowser->JavascriptObjectRepository;
                     }
                 }
             }
+
+            // Set extraInfo using the determined object repository (once per path)
+            PopulatePopupExtraInfo(extraInfo, objectRepository);
 
             return result;
         }
