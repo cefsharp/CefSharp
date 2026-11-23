@@ -130,6 +130,8 @@ namespace CefSharp.Test.Wpf
             using (var browser = new TestChromiumWebBrowser())
             {
                 var dragData = new Mock<IDragData>();
+                dragData.SetupGet(x => x.FragmentText).Returns("dragged text");
+                dragData.SetupGet(x => x.FragmentHtml).Returns("<b>dragged text</b>");
                 var clonedDragData = new Mock<IDragData>();
                 dragData.Setup(x => x.Clone()).Returns(clonedDragData.Object);
 
