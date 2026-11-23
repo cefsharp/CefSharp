@@ -948,6 +948,9 @@ namespace CefSharp.Wpf
                 return false;
             }
 
+            // Clone dragData before returning from the CEF callback, as the wrapper is disposed afterward.
+            var clonedDragData = dragData.Clone();
+
             // TODO: The following code block *should* handle images, but GetFileContents is
             // not yet implemented.
             //if (dragData.IsFile)
@@ -963,8 +966,8 @@ namespace CefSharp.Wpf
             {
                 if (browser != null)
                 {
-                    // Clone dragData for use in OnDragEnter event handler
-                    currentDragData = dragData.Clone();
+                    // Use the clone in OnDragEnter event handler
+                    currentDragData = clonedDragData;
                     currentDragData.ResetFileContents();
 
                     // DoDragDrop will fire DragEnter event

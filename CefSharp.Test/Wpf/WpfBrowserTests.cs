@@ -124,6 +124,22 @@ namespace CefSharp.Test.Wpf
             }
         }
 
+        [WpfFact]
+        public void ShouldCloneDragDataWhenStartingDrag()
+        {
+            using (var browser = new TestChromiumWebBrowser())
+            {
+                var dragData = new Mock<IDragData>();
+                var clonedDragData = new Mock<IDragData>();
+                dragData.Setup(x => x.Clone()).Returns(clonedDragData.Object);
+
+                var handled = browser.StartDraggingForTest(dragData.Object);
+
+                Assert.True(handled);
+                dragData.Verify(x => x.Clone(), Times.Once());
+            }
+        }
+
         private sealed class TestChromiumWebBrowser : ChromiumWebBrowser
         {
             public bool StartDraggingForTest(IDragData dragData)
