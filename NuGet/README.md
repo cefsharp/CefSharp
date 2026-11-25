@@ -101,7 +101,7 @@ See the full [.NET Framework quick start](https://github.com/cefsharp/CefSharp/w
 
 ## Deployment and troubleshooting
 
-Install the Visual C++ 2019 Redistributable, or package the required Visual C++ runtime DLLs with the application. The architecture (`x86` or `x64`) must match the application.
+Install the Visual C++ 2022 Redistributable, or package the required Visual C++ runtime DLLs with the application. The architecture (`x86`, `x64`, or `arm64`) must match the application.
 
 The output directory must contain the CEF files, the CefSharp common binaries, and the selected UI implementation library. Refer to the [output files description](https://github.com/cefsharp/CefSharp/wiki/Output-files-description-table-%28Redistribution%29) for the complete list.
 
