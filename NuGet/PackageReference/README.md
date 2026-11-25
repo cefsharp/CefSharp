@@ -125,7 +125,7 @@ See the [JavaScript integration guide](https://github.com/cefsharp/CefSharp/wiki
 
 ### Publish
 
-```bash
+```powershell
 dotnet publish -c Release -f net6.0-windows -r win-x86
 dotnet publish -c Release -f net6.0-windows -r win-x64
 dotnet publish -c Release -f net6.0-windows -r win-arm64
