@@ -8,6 +8,7 @@
     <projectUrl>https://github.com/cefsharp/CefSharp</projectUrl>
     <repository type="git" url="https://github.com/cefsharp/CefSharp.git" branch="$Branch$" commit="$CommitSha$" />
     <license type="file">LICENSE</license>
+    <readme>README.md</readme>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component (WPF control).</description>
     <tags>wpf chrome browser chromium-embedded cefsharp</tags>
@@ -30,6 +31,7 @@
     <file src="..\CefSharp.Wpf\bin\Release\net462\CefSharp.Wpf.pdb" target="lib\net462" />
 
     <file src="Readme.txt" target="" />
+    <file src="README.md" target="" />
 	<file src="..\LICENSE" target="LICENSE" />
 
     <file src="..\CefSharp.Wpf\**\*.cs" target="src\CefSharp.Wpf" />

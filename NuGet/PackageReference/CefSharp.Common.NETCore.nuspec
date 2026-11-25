@@ -8,6 +8,7 @@
     <projectUrl>https://github.com/cefsharp/CefSharp</projectUrl>
 	<repository type="git" url="https://github.com/cefsharp/CefSharp.git" branch="$Branch$" commit="$CommitSha$" />
     <license type="file">LICENSE</license>
+    <readme>README.md</readme>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component ('Core' and common 'Element' components, needed by both WPF, WinForms and OffScreen implementations).</description>
     <tags>chrome browser chromium-embedded</tags>
@@ -19,6 +20,7 @@
     </dependencies>
   </metadata>
   <files>
+	<file src="README.md" target="" />
 	<file src="..\..\LICENSE" target="LICENSE" />
 	<file src="CefSharp.Common.NETCore.targets" target="buildTransitive\" />
 	
