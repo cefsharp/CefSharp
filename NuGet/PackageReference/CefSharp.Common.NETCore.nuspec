@@ -10,6 +10,7 @@
     <license type="file">LICENSE</license>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The CefSharp Chromium-based browser component ('Core' and common 'Element' components, needed by both WPF, WinForms and OffScreen implementations).</description>
+    <readme src="README.md" />
     <tags>chrome browser chromium-embedded</tags>
     <copyright>Copyright © The CefSharp Authors</copyright>
     <dependencies>
