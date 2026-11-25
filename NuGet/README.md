@@ -10,7 +10,7 @@ For .NET Framework 4.6.x, 4.7.x, and 4.8 applications, install one of the implem
 - `CefSharp.Wpf`
 - `CefSharp.OffScreen`
 
-Starting with CefSharp 115, .NET Framework 4.6.2 is the minimum supported version.
+.NET Framework 4.6.2 is the minimum supported version.
 
 ### Configure the platform target
 
