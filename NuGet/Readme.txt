@@ -13,17 +13,17 @@ Post Installation:
   - Check your output `\bin` directory to make sure the appropriate references have been copied.
   
 Deployment:
-  - Make sure a minimum of `Visual C++ 2019` is installed (`x86` or x64` depending on your build) or package the runtime dlls with your application, see the FAQ for details.
+  - Make sure a minimum of `Visual C++ 2022` is installed (`x86`, `x64` or `arm64` depending on your build) or package the runtime dlls with your application, see the FAQ for details.
   
 What's New:
   See https://github.com/cefsharp/CefSharp/releases
-  IMPORTANT NOTE - Visual C++ 2019 or greater is required
+  IMPORTANT NOTE - Visual C++ 2022 or greater is required
   IMPORTANT NOTE - .NET Framework 4.6.2 or greater is required.
   IMPORTANT NOTE - Chromium support for Windows 7/8/8.1 ends with version 109, starting with version 110 a minimum of Windows 10 is required.
 
 Basic Troubleshooting:
   - Minimum of .Net 4.6.2
-  - Minimum of `Visual C++ 2019 Redist` is installed (either `x86` or `x64` depending on your application).
+  - Minimum of `Visual C++ 2022 Redist` is installed (`x86`, `x64` or `arm64` depending on your application).
   - Please ensure your binaries directory contains these required dependencies:
     * libcef.dll (Chromium Embedded Framework Core library)
     * icudtl.dat (Unicode Support data)
