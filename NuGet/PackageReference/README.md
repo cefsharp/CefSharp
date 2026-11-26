@@ -132,7 +132,22 @@ dotnet publish -c Release -f net6.0-windows -r win-x64
 dotnet publish -c Release -f net6.0-windows -r win-arm64
 ```
 
-For self-contained single-file publishing (`SelfContained=true` and `PublishSingleFile=true`), the browser subprocess must be self-hosted by the main application executable. See [issue #3407](https://github.com/cefsharp/CefSharp/issues/3407).
+For self-contained single-file publishing (`SelfContained=true` and `PublishSingleFile=true`), the browser subprocess must be self-hosted. The main application executable handles the subprocess startup in its `Main` method, and CefSharp launches additional instances of that same executable instead of `CefSharp.BrowserSubprocess.exe`:
+
+```csharp
+var exitCode = CefSharp.BrowserSubprocess.SelfHost.Main(args);
+if (exitCode >= 0)
+{
+    return exitCode;
+}
+
+var settings = new CefSettings
+{
+    BrowserSubprocessPath = System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName
+};
+```
+
+See [issue #3407](https://github.com/cefsharp/CefSharp/issues/3407) and the [self-hosted subprocess guide](https://github.com/cefsharp/CefSharp/wiki/SelfHost-BrowserSubProcess).
 
 See the full [.NET quick start](https://github.com/cefsharp/CefSharp/wiki/Quick-Start-For-MS-.Net-5.0-or-greater).
 
