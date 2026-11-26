@@ -64,8 +64,6 @@ using CefSharp.WinForms;
 
 var browser = new ChromiumWebBrowser("https://www.google.com");
 parent.Controls.Add(browser);
-
-browser.LoadUrl("https://github.com");
 ```
 
 #### OffScreen
@@ -75,7 +73,6 @@ using CefSharp;
 using CefSharp.OffScreen;
 
 var browser = new ChromiumWebBrowser("https://www.google.com");
-browser.LoadUrl("https://github.com");
 ```
 
 ### Execute JavaScript
@@ -83,10 +80,14 @@ browser.LoadUrl("https://github.com");
 ```csharp
 using CefSharp;
 
-var response = await browser.EvaluateScriptAsync("1 + 1");
-if (response.Success)
+var loadResponse = await browser.WaitForInitialLoadAsync();
+if (loadResponse.Success)
 {
-    var result = response.Result;
+    var response = await browser.EvaluateScriptAsync("1 + 1");
+    if (response.Success)
+    {
+        var result = response.Result;
+    }
 }
 ```
 
