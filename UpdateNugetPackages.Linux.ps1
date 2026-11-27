@@ -73,7 +73,7 @@ $configFiles = @(
     'CefSharp.BrowserSubprocess.Core/packages.CefSharp.BrowserSubprocess.Core.netcore.config'
 )
 foreach ($file in $configFiles) {
-    Set-RegexUpdate $file '(<package\b(?=[^>]*\bid="cef\.sdk")[^>]*\bversion=")[^"]+("[\s\S]*?/?>)' ('$1' + $CefVersion + '$2')
+    Set-RegexUpdate $file '(<package\b(?=[^>]*\bid="cef\.sdk")[^>]*\bversion=")[^"]+("[\s\S]*?/?>)' ('${1}' + $CefVersion + '${2}')
 }
 
 $projectFiles = @(
@@ -83,7 +83,7 @@ $projectFiles = @(
     'CefSharp.BrowserSubprocess.Core/CefSharp.BrowserSubprocess.Core.netcore.vcxproj'
 )
 foreach ($file in $projectFiles) {
-    Set-RegexUpdate $file '(<Import\b[^>]*\bProject="[^"]*packages\\cef\.sdk\.)[^"]+("[^>]*?/?>)' ('$1' + $CefVersion + '$2')
+    Set-RegexUpdate $file '(packages\\cef\.sdk\.)[^"\\]+' ('${1}' + $CefVersion) 2
     Remove-EnsureNuGetBuildImportsTarget $file
 }
 
@@ -102,20 +102,19 @@ $csprojFiles = @(
     'CefSharp.Wpf.HwndHost.Example/CefSharp.Wpf.HwndHost.Example.csproj'
 )
 foreach ($file in $csprojFiles) {
-    Set-RegexUpdate $file '(<PackageReference\b(?=[^>]*\bInclude="chromiumembeddedframework\.runtime")[^>]*\bVersion=")[^"]+("[^>]*/?>)' ('$1' + $CefVersion + '$2')
+    Set-RegexUpdate $file '(<PackageReference\b(?=[^>]*\bInclude="chromiumembeddedframework\.runtime")[^>]*\bVersion=")[^"]+("[^>]*/?>)' ('${1}' + $CefVersion + '${2}')
 }
 
 # Match the version defaults previously updated by UpdateNugetPackages.ps1.
-Set-RegexUpdate 'build.ps1' '(?m)(^\s*\[string\]\s+\$Version\s*=\s*")[^"]+("\s*,?\s*$)' ('$1' + $CefSharpVersion + '$2')
-Set-RegexUpdate 'build.ps1' '(?m)(^\s*\[string\]\s+\$AssemblyVersion\s*=\s*")[^"]+("\s*,?\s*$)' ('$1' + $CefSharpVersion + '$2')
+Set-RegexUpdate 'UpdateNugetPackages.ps1' '(?m)(^\s*\[string\]\s+\$CefVersion\s*=\s*")[^"]+("\s*,?\s*$)' ('${1}' + $CefVersion + '${2}')
+Set-RegexUpdate 'build.ps1' '(?m)(^\s*\[string\]\s+\$Version\s*=\s*")[^"]+("\s*,?\s*$)' ('${1}' + $CefSharpVersion + '${2}')
+Set-RegexUpdate 'build.ps1' '(?m)(^\s*\[string\]\s+\$AssemblyVersion\s*=\s*")[^"]+("\s*,?\s*$)' ('${1}' + $CefSharpVersion + '${2}')
 
 # Reproduce the metadata/version updates normally performed by build.ps1's
 # update-build-version target, without invoking its Windows-only build setup.
 $assemblyVersion = $CefSharpVersion
-$year = (Get-Date).ToString('yyyy')
-Set-RegexUpdate 'CefSharp/Properties/AssemblyInfo.cs' '(public const string AssemblyVersion = ")[^"]+(")' ('$1' + $assemblyVersion + '$2')
-Set-RegexUpdate 'CefSharp/Properties/AssemblyInfo.cs' '(public const string AssemblyFileVersion = ")[^"]+(")' ('$1' + $assemblyVersion + '.0$2')
-Set-RegexUpdate 'CefSharp/Properties/AssemblyInfo.cs' '(public const string AssemblyCopyright = "Copyright © )[^"]+( The CefSharp Authors")' ('$1' + $year + '$2')
+Set-RegexUpdate 'CefSharp/Properties/AssemblyInfo.cs' '(public const string AssemblyVersion = ")[^"]+(")' ('${1}' + $assemblyVersion + '${2}')
+Set-RegexUpdate 'CefSharp/Properties/AssemblyInfo.cs' '(public const string AssemblyFileVersion = ")[^"]+(")' ('${1}' + $assemblyVersion + '.0${2}')
 
 foreach ($file in @(
     'CefSharp.BrowserSubprocess/app.manifest',
@@ -123,33 +122,32 @@ foreach ($file in @(
     'CefSharp.WinForms.Example/app.manifest',
     'CefSharp.Wpf.Example/app.manifest'
 )) {
-    Set-RegexUpdate $file '(assemblyIdentity version=")[^"]+(")' ('$1' + $assemblyVersion + '.0$2')
+    Set-RegexUpdate $file '(assemblyIdentity version=")[^"]+(")' ('${1}' + $assemblyVersion + '.0${2}')
 }
 
 foreach ($file in @(
     'NuGet/CefSharp.Common.app.config.x64.transform',
     'NuGet/CefSharp.Common.app.config.x86.transform'
 )) {
-    Set-RegexUpdate $file '(codeBase version=")[^"]+(")' ('$1' + $assemblyVersion + '.0$2')
+    Set-RegexUpdate $file '(codeBase version=")[^"]+(")' ('${1}' + $assemblyVersion + '.0${2}')
 }
 
 foreach ($file in @(
     'CefSharp.BrowserSubprocess.Core/Resource.rc',
     'CefSharp.Core.Runtime/Resource.rc'
 )) {
-    Set-RegexUpdate $file '(?m)(^VERSION\s+)[^\r\n]+' ('$1' + ($assemblyVersion -replace '\.', ','))
-    Set-RegexUpdate $file '(Version", ")[^"]*(")' ('$1' + $assemblyVersion + '$2')
-    Set-RegexUpdate $file '(Copyright © )[^\r\n]*( The CefSharp Authors)' ('$1' + $year + '$2')
+    Set-RegexUpdate $file '(?m)(^\s*(?:FILE|PRODUCT)?VERSION\s+)[^\r\n]+' ('${1}' + ($assemblyVersion -replace '\.', ',')) 2
+    Set-RegexUpdate $file '(Version", ")[^"]*(")' ('${1}' + $assemblyVersion + '${2}')
 }
 
-Set-RegexUpdate 'CefSharp.shfbproj' '(<HelpFileVersion>)[^<]*(</HelpFileVersion>)' ('$1' + $assemblyVersion + '$2')
-Set-RegexUpdate 'CefSharp.shfbproj' '(<HeaderText>Version )[^<]*(</HeaderText>)' ('$1' + $assemblyVersion + '$2')
-Set-RegexUpdate 'appveyor.yml' '(?m)(^version:\s*)[^\r\n]*-CI\{build\}' ('$1' + $assemblyVersion + '-CI{build}')
+Set-RegexUpdate 'CefSharp.shfbproj' '(<HelpFileVersion>)[^<]*(</HelpFileVersion>)' ('${1}' + $assemblyVersion + '${2}')
+Set-RegexUpdate 'CefSharp.shfbproj' '(<HeaderText>Version )[^<]*(</HeaderText>)' ('${1}' + $assemblyVersion + '${2}')
+Set-RegexUpdate 'appveyor.yml' '(?m)(^version:\s*)[^\r\n]*-CI\{build\}' ('${1}' + $assemblyVersion + '-CI{build}')
 
 # These package versions are embedded in the targets file in both attributes
 # (Version and VersionOverride); update them from the new cef.sdk version.
-Set-RegexUpdate 'NuGet/PackageReference/CefSharp.Common.NETCore.targets' '(" Version=")[^"]*(")' ('$1' + $CefVersion + '$2')
-Set-RegexUpdate 'NuGet/PackageReference/CefSharp.Common.NETCore.targets' '(" VersionOverride=")[^"]*(")' ('$1' + $CefVersion + '$2')
+Set-RegexUpdate 'NuGet/PackageReference/CefSharp.Common.NETCore.targets' '(" Version=")[^"]*(")' ('${1}' + $CefVersion + '${2}')
+Set-RegexUpdate 'NuGet/PackageReference/CefSharp.Common.NETCore.targets' '(" VersionOverride=")[^"]*(")' ('${1}' + $CefVersion + '${2}')
 
 # Validate every changed XML/MSBuild file before writing anything.
 foreach ($path in $Updates.Keys) {
