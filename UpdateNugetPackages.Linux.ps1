@@ -13,10 +13,6 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-if (-not $IsLinux) {
-    throw 'UpdateNugetPackages.Linux.ps1 must be run with PowerShell 7 on Linux.'
-}
-
 $parsedCefVersion = $null
 if (-not [Version]::TryParse($CefVersion, [ref] $parsedCefVersion)) {
     throw "CefVersion must be a valid numeric version: $CefVersion"
