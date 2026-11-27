@@ -1,4 +1,5 @@
 #requires -Version 7.0
+# Non-interactive, cross-platform CEF upgrade script for coding agents.
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
     [Parameter(Mandatory = $true, Position = 0)]
