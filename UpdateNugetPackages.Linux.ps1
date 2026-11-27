@@ -17,9 +17,21 @@ if (-not $IsLinux) {
     throw 'UpdateNugetPackages.Linux.ps1 must be run with PowerShell 7 on Linux.'
 }
 
+$parsedCefVersion = $null
+if (-not [Version]::TryParse($CefVersion, [ref] $parsedCefVersion)) {
+    throw "CefVersion must be a valid numeric version: $CefVersion"
+}
+$CefVersion = $parsedCefVersion.ToString()
+
 if ([string]::IsNullOrWhiteSpace($CefSharpVersion)) {
     $CefSharpVersion = $CefVersion + '0'
 }
+
+$parsedCefSharpVersion = $null
+if (-not [Version]::TryParse($CefSharpVersion, [ref] $parsedCefSharpVersion)) {
+    throw "CefSharpVersion must be a valid numeric version: $CefSharpVersion"
+}
+$CefSharpVersion = $parsedCefSharpVersion.ToString()
 
 $WorkingDir = $PSScriptRoot
 $Updates = [System.Collections.Generic.Dictionary[string,string]]::new([System.StringComparer]::Ordinal)
@@ -112,9 +124,17 @@ Set-RegexUpdate 'build.ps1' '(?m)(^\s*\[string\]\s+\$AssemblyVersion\s*=\s*")[^"
 
 # Reproduce the metadata/version updates normally performed by build.ps1's
 # update-build-version target, without invoking its Windows-only build setup.
-$assemblyVersion = $CefSharpVersion
+$assemblyVersion = $parsedCefSharpVersion.ToString()
+$assemblyFileBuild = if ($parsedCefSharpVersion.Build -ge 0) { $parsedCefSharpVersion.Build } else { 0 }
+$assemblyFileRevision = if ($parsedCefSharpVersion.Revision -ge 0) { $parsedCefSharpVersion.Revision } else { 0 }
+$assemblyFileVersion = [Version]::new(
+    $parsedCefSharpVersion.Major,
+    $parsedCefSharpVersion.Minor,
+    $assemblyFileBuild,
+    $assemblyFileRevision
+).ToString()
 Set-RegexUpdate 'CefSharp/Properties/AssemblyInfo.cs' '(public const string AssemblyVersion = ")[^"]+(")' ('${1}' + $assemblyVersion + '${2}')
-Set-RegexUpdate 'CefSharp/Properties/AssemblyInfo.cs' '(public const string AssemblyFileVersion = ")[^"]+(")' ('${1}' + $assemblyVersion + '.0${2}')
+Set-RegexUpdate 'CefSharp/Properties/AssemblyInfo.cs' '(public const string AssemblyFileVersion = ")[^"]+(")' ('${1}' + $assemblyFileVersion + '${2}')
 
 foreach ($file in @(
     'CefSharp.BrowserSubprocess/app.manifest',
@@ -122,14 +142,14 @@ foreach ($file in @(
     'CefSharp.WinForms.Example/app.manifest',
     'CefSharp.Wpf.Example/app.manifest'
 )) {
-    Set-RegexUpdate $file '(assemblyIdentity version=")[^"]+(")' ('${1}' + $assemblyVersion + '.0${2}')
+    Set-RegexUpdate $file '(assemblyIdentity version=")[^"]+(")' ('${1}' + $assemblyFileVersion + '${2}')
 }
 
 foreach ($file in @(
     'NuGet/CefSharp.Common.app.config.x64.transform',
     'NuGet/CefSharp.Common.app.config.x86.transform'
 )) {
-    Set-RegexUpdate $file '(codeBase version=")[^"]+(")' ('${1}' + $assemblyVersion + '.0${2}')
+    Set-RegexUpdate $file '(codeBase version=")[^"]+(")' ('${1}' + $assemblyFileVersion + '${2}')
 }
 
 foreach ($file in @(
