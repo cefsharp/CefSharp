@@ -940,9 +940,16 @@ namespace CefSharp.Wpf
             dataObject.SetText(dragData.FragmentText, TextDataFormat.UnicodeText);
             dataObject.SetText(dragData.FragmentHtml, TextDataFormat.Html);
 
-            //Clone dragData for use in OnDragEnter event handler
-            currentDragData = dragData.Clone();
-            currentDragData.ResetFileContents();
+            var copyingEventArgs = new DataObjectCopyingEventArgs(dataObject, isDragDrop: true);
+            UiThreadRunSync(() => RaiseEvent(copyingEventArgs));
+
+            if (copyingEventArgs.CommandCancelled)
+            {
+                return false;
+            }
+
+            // Clone dragData before returning from the CEF callback, as the wrapper is disposed afterward.
+            var clonedDragData = dragData.Clone();
 
             // TODO: The following code block *should* handle images, but GetFileContents is
             // not yet implemented.
@@ -959,6 +966,10 @@ namespace CefSharp.Wpf
             {
                 if (browser != null)
                 {
+                    // Use the clone in OnDragEnter event handler
+                    currentDragData = clonedDragData;
+                    currentDragData.ResetFileContents();
+
                     // DoDragDrop will fire DragEnter event
                     var result = DragDrop.DoDragDrop(this, dataObject, allowedOps.GetDragEffects());
                     var dragOperationMask = GetDragOperationsMask(result, currentDragDropEffects);
